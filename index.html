@@ -253,6 +253,28 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
 .warn{margin:14px 0 0;font-size:12.5px;color:var(--muted);line-height:1.7}
 .code-box{width:100%;min-height:90px;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:10px 12px;font-size:11px;font-family:ui-monospace,Menlo,monospace;word-break:break-all;resize:vertical}
 .app-foot{text-align:center;font-size:11px;color:var(--muted);letter-spacing:.1em;margin:4px 0 0}
+.lv-row{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:11px;letter-spacing:.06em}
+.lv-badge{font-family:var(--f-num);font-style:italic;font-weight:600;font-size:17px;line-height:1}
+.lv-bar{flex:1;height:4px;border-radius:9px;background:color-mix(in srgb,var(--hero-ink) 18%,transparent);overflow:hidden}
+.lv-bar i{display:block;height:100%;width:0;background:var(--hero-ink);opacity:.75;border-radius:9px;transition:width .6s ease}
+.lv-next{opacity:.8;white-space:nowrap}
+.attire{display:block;font-size:10.5px;opacity:.65;margin-top:2px;letter-spacing:.04em}
+.sub-head{margin:18px 2px 10px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.sub-head h3{font-family:var(--f-serif);font-size:15px;margin:0}
+.sub-head p{margin:0;font-size:11.5px;color:var(--muted)}
+.win .val{font-size:10px;color:var(--brass);font-weight:700;margin-top:-4px;letter-spacing:.04em}
+.win .new-tag{position:absolute;left:8px;top:7px;font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--on-btn);background:var(--brass);padding:1px 6px;border-radius:6px}
+.teaser{margin:12px 0 0;padding:12px 14px;border:1px dashed var(--line);border-radius:14px;font-size:12.5px;color:var(--muted);text-align:center;line-height:1.7}
+.teaser b{color:var(--ink)}
+.tree-lv{display:flex;align-items:center;gap:10px;margin-top:8px}
+.tree-lv b{font-size:22px;line-height:1}
+.tree-lv .bar{flex:1;height:5px;background:var(--line);border-radius:9px;overflow:hidden}
+.tree-lv .bar i{display:block;height:100%;width:0;background:var(--brass);border-radius:9px;transition:width .6s ease}
+.tree-lv span:last-child{font-size:12px;color:var(--muted);white-space:nowrap}
+.big-lv{font-family:var(--f-num);font-style:italic;font-weight:600;font-size:68px;line-height:1;color:var(--brass);margin:4px 0 6px}
+.unlock-list{display:grid;gap:8px;margin-top:16px}
+.unlock-list div{background:var(--surface-2);border-radius:12px;padding:10px 14px;font-size:13.5px;line-height:1.7}
+.unlock-list small{display:block;color:var(--brass);font-size:10.5px;font-weight:700;letter-spacing:.14em}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 @media (max-width:360px){.hero-greet{font-size:20px}.hero-msg{font-size:15px}.bt-wrap{width:78px}.stat .num{font-size:26px}}
 </style>
@@ -271,9 +293,10 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
         <div class="butler-row">
           <div class="bt-wrap bt-slot" aria-hidden="true"></div>
           <div class="bubble">
-            <span class="who">執事 しば田</span>
+            <span class="who" id="butlerTitle">執事 しば田</span>
             <p class="hero-msg show" id="heroMsg">本日もお越しくださり、光栄でございます。</p>
             <button class="more" type="button" id="nextMsg">ほかのお言葉を →</button>
+            <span class="attire" id="attire"></span>
           </div>
         </div>
         <div class="hero-stats">
@@ -281,6 +304,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
           <div class="stat"><span class="num" id="statDays">0</span><span class="lbl">今月がんばった日</span></div>
           <div class="stat"><span class="num" id="statVisits">0</span><span class="lbl">今月お越しの日</span></div>
         </div>
+        <div class="lv-row"><span class="lv-badge" id="lvBadge">Lv.1</span><span class="lv-bar"><i id="lvBar"></i></span><span class="lv-next" id="lvNext"></span></div>
       </header>
 
       <div class="card install" id="installCard" hidden>
@@ -303,6 +327,8 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
       <div>
         <div class="sec-head"><h2>本日できたこと</h2><p>押すたびに葉が一枚ふえます</p></div>
         <div class="wins" id="wins" style="margin-top:12px"></div>
+        <div id="chWrap" hidden><div class="sub-head"><h3>レベルで増えた項目</h3><p>★は葉が多めに増えます</p></div><div class="wins" id="winsCh"></div></div>
+        <p class="teaser" id="winTeaser" hidden></p>
         <p class="today-sum" id="todaySum" style="margin-top:12px"></p>
       </div>
 
@@ -320,6 +346,8 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
           <p class="eyebrow">YOUR TREE</p>
           <p class="tree-stage" id="treeStage">種</p>
           <p class="tree-count"><span class="num" id="treeLeaves">0</span> 枚の葉 ・ <span id="treeDays">0</span>日ぶんのがんばり</p>
+          <div class="tree-lv"><b class="num" id="treeLv">Lv.1</b><span class="bar"><i id="treeLvBar"></i></span><span id="treeLvNext"></span></div>
+          <p class="tree-count" id="rankLine"></p>
           <p class="promise">何日お休みになっても、この木は枯れません。<br>お戻りになれば、そこからまた育ちます。</p>
           <div class="legend" id="legend"></div>
         </div>
@@ -327,6 +355,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
       <div>
         <div class="sec-head"><h2>授与された称号</h2><p id="badgeCount"></p></div>
         <div class="badges" id="badges" style="margin-top:12px"></div>
+        <p class="teaser" id="badgeTeaser" hidden></p>
       </div>
     </section>
 
@@ -383,7 +412,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
         <button class="btn soft wide" type="button" id="openInstall">ホーム画面への追加方法</button>
         <div class="danger-zone" id="resetZone"></div>
       </div>
-      <p class="app-foot">ひだまり ・ ver 1.0</p>
+      <p class="app-foot">ひだまり ・ ver 1.1</p>
     </section>
   </main>
 </div>
@@ -411,31 +440,49 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
 (function(){
 "use strict";
 /* ================= 執事しば田（オリジナルキャラクター） ================= */
-const BUTLER='<svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg"><g class="bt-body">'+
+const TIES=[['#9C3B32','臙脂'],['#1F4E5F','深い青緑'],['#3E5C3A','深緑'],['#5B3A6E','葡萄色'],['#8A6A3A','焦げ茶']];
+const FLOWERS=[null,['#F4EEDF','白い花'],['#D98C45','橙の花'],['#C9A15B','金の花']];
+const ACC={2:'胸ポケットのチーフ',3:'懐中時計',4:'片眼鏡',5:'金の襟章',6:'金縁の燕尾服',7:'胸の勲章',8:'金の飾り緒',9:'白銀の手袋',10:'金の蝶ネクタイ'};
+function titleOf(lv){return lv<3?'見習い執事':lv<5?'執事':lv<7?'上級執事':lv<9?'執事長':lv<10?'筆頭執事':'伝説の執事';}
+function attire(){const h=hash('attire'+today());return{tie:TIES[h%TIES.length],face:(h>>>4)%3,flower:FLOWERS[(h>>>7)%FLOWERS.length]};}
+function butlerSVG(){
+  const lv=levelInfo().lv,a=attire(),sc=[.84,.84,.88,.92,.96][lv]||1,gold='#C9A15B';
+  const tie=lv>=10?gold:a.tie[0],trim=lv>=6?' stroke="#C9A15B" stroke-width="1"':'';
+  const eyes=a.face===1?
+    '<path d="M41.5 46 Q46 41 50.5 46 M69.5 46 Q74 41 78.5 46" stroke="#231A15" stroke-width="2.2" fill="none" stroke-linecap="round"/>':
+    '<g class="bt-eye"><circle cx="46" cy="45" r="4.2" fill="#231A15"/><circle cx="47.4" cy="43.6" r="1.3" fill="#fff"/></g><g class="bt-eye"><circle cx="74" cy="45" r="4.2" fill="#231A15"/><circle cx="75.4" cy="43.6" r="1.3" fill="#fff"/></g>';
+  return '<svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg"><g transform="translate(60 146) scale('+sc+') translate(-60 -146)"><g class="bt-body">'+
   '<ellipse cx="60" cy="146" rx="34" ry="4" fill="rgba(0,0,0,.18)"/>'+
   '<g class="bt-tail"><path d="M86 98 C104 94 110 76 100 68 C92 62 82 70 88 78 C92 84 98 80 97 75" stroke="#D98C45" stroke-width="11" stroke-linecap="round" fill="none"/><path d="M97 75 C98 80 92 84 88 78" stroke="#F6EBD9" stroke-width="5" stroke-linecap="round" fill="none"/></g>'+
-  '<path d="M30 104 Q22 138 40 144 L60 130 L80 144 Q98 138 90 104 Z" fill="#1A2530"/>'+
+  '<path d="M30 104 Q22 138 40 144 L60 130 L80 144 Q98 138 90 104 Z" fill="#1A2530"'+trim+'/>'+
   '<ellipse cx="60" cy="104" rx="33" ry="36" fill="#1F2C38"/>'+
   '<path d="M46 74 L60 122 L74 74 Z" fill="#F3EEE3"/>'+
-  '<path d="M46 74 L56 108 L42 86 Z M74 74 L64 108 L78 86 Z" fill="#16202A"/>'+
+  '<path d="M46 74 L56 108 L42 86 Z M74 74 L64 108 L78 86 Z" fill="#16202A"'+trim+'/>'+
   '<circle cx="60" cy="100" r="1.6" fill="#1A2530"/><circle cx="60" cy="110" r="1.6" fill="#1A2530"/>'+
-  '<path d="M78 88 l8 -1 l-1 6 z" fill="#C9A15B"/>'+
-  '<path d="M51 78 L60 82 L51 87 Z M69 78 L60 82 L69 87 Z" fill="#9C3B32"/><circle cx="60" cy="82.5" r="2.4" fill="#7E2E27"/>'+
+  (lv>=2?'<path d="M78 88 l8 -1 l-1 6 z" fill="'+gold+'"/>':'')+
+  (lv>=3?'<path d="M64 115 Q72 121 80 113" stroke="'+gold+'" stroke-width="1.3" fill="none"/><circle cx="80.5" cy="112.5" r="2.4" fill="'+gold+'"/>':'')+
+  (lv>=5?'<circle cx="71.5" cy="92" r="1.9" fill="'+gold+'"/>':'')+
+  (lv>=7?'<path d="M38 85 l1.8 3.6 4 .6 -2.9 2.8 .7 4 -3.6-1.9 -3.6 1.9 .7-4 -2.9-2.8 4-.6z" fill="'+gold+'"/>':'')+
+  (lv>=8?'<path d="M88 94 Q80 110 66 112 M90 99 Q82 115 68 117" stroke="'+gold+'" stroke-width="1.2" fill="none"/>':'')+
+  (a.flower?'<circle cx="48" cy="86" r="2.8" fill="'+a.flower[0]+'"/><circle cx="48" cy="86" r="1.1" fill="#8A6A3A"/>':'')+
+  '<path d="M51 78 L60 82 L51 87 Z M69 78 L60 82 L69 87 Z" fill="'+tie+'"/><circle cx="60" cy="82.5" r="2.4" fill="'+tie+'"/><circle cx="60" cy="82.5" r="2.4" fill="rgba(0,0,0,.18)"/>'+
   '<path d="M28 92 Q34 108 56 104 L56 112 Q34 118 26 104 Z" fill="#243340"/>'+
-  '<ellipse cx="60" cy="107" rx="8" ry="7" fill="#FBFAF6"/><path d="M55 104 h9 M55 108 h9" stroke="#D9D4C8" stroke-width="1"/>'+
+  '<ellipse cx="60" cy="107" rx="8" ry="7" fill="'+(lv>=9?'#E4E8EE':'#FBFAF6')+'"/><path d="M55 104 h9 M55 108 h9" stroke="#D9D4C8" stroke-width="1"/>'+
   '<path d="M29 36 L31 5 L53 22 Z M91 36 L89 5 L67 22 Z" fill="#D98C45"/>'+
   '<path d="M34 29 L35 12 L47 22 Z M86 29 L85 12 L73 22 Z" fill="#E9B48A"/>'+
   '<ellipse cx="60" cy="46" rx="33" ry="28" fill="#D98C45"/>'+
   '<path d="M29 50 Q33 75 60 77 Q87 75 91 50 Q78 60 60 58 Q42 60 29 50 Z" fill="#F6EBD9"/>'+
   '<ellipse cx="60" cy="61" rx="14" ry="10" fill="#F6EBD9"/>'+
   '<ellipse cx="46" cy="35" rx="4" ry="2.4" fill="#F6EBD9"/><ellipse cx="74" cy="35" rx="4" ry="2.4" fill="#F6EBD9"/>'+
-  '<g class="bt-eye"><circle cx="46" cy="45" r="4.2" fill="#231A15"/><circle cx="47.4" cy="43.6" r="1.3" fill="#fff"/></g>'+
-  '<g class="bt-eye"><circle cx="74" cy="45" r="4.2" fill="#231A15"/><circle cx="75.4" cy="43.6" r="1.3" fill="#fff"/></g>'+
+  eyes+
   '<ellipse cx="37" cy="55" rx="4.5" ry="2.6" fill="#E9A27A" opacity=".45"/><ellipse cx="83" cy="55" rx="4.5" ry="2.6" fill="#E9A27A" opacity=".45"/>'+
   '<ellipse cx="60" cy="55.5" rx="4.4" ry="3.2" fill="#231A15"/>'+
   '<path d="M60 58.5 v3.2 M60 61.7 Q56.5 65.5 53 62.5 M60 61.7 Q63.5 65.5 67 62.5" stroke="#231A15" stroke-width="1.5" stroke-linecap="round" fill="none"/>'+
-  '</g></svg>';
-function placeButler(root){(root||document).querySelectorAll('.bt-slot').forEach(el=>{if(!el.firstChild)el.innerHTML=BUTLER;});}
+  (a.face===2?'<ellipse cx="60" cy="65.2" rx="2.4" ry="2" fill="#D9786A"/>':'')+
+  (lv>=4?'<circle cx="74" cy="45.5" r="8.5" fill="rgba(255,255,255,.08)" stroke="'+gold+'" stroke-width="1.8"/><path d="M82.3 48 Q90 62 83 76" stroke="'+gold+'" stroke-width="1" fill="none"/>':'')+
+  '</g></g></svg>';
+}
+function placeButler(root){const k=levelInfo().lv+'|'+today();(root||document).querySelectorAll('.bt-slot').forEach(el=>{if(el.dataset.k!==k){el.innerHTML=butlerSVG();el.dataset.k=k;}});}
 function bow(){document.querySelectorAll('.bt-slot').forEach(el=>{el.classList.remove('bow');void el.offsetWidth;el.classList.add('bow');});}
 
 /* ================= データ ================= */
@@ -462,7 +509,26 @@ const KINDS=[
   {k:'self',t:'自分をほめた',c:'#D2A866'}
 ];
 const EXTRA={stairs:{t:'階段を使った',c:'#8DAA70'},scale:{t:'体重計に乗った',c:'#8FB3BF'},mission:{t:'小さな一歩',c:'#D9B96E'},care:{t:'自分をいたわった',c:'#BFA07A'}};
-const COLOR=k=>(KINDS.find(x=>x.k===k)||EXTRA[k]||{c:'#8DAA70'}).c;
+const CH=[
+  {k:'snack',t:'間食をがまんした',c:'#B98B5E',lv:2,v:1,i:'<circle cx="12" cy="12" r="8"/><circle cx="9" cy="10" r=".9"/><circle cx="14.5" cy="9.5" r=".9"/><circle cx="13" cy="14.5" r=".9"/><path d="M5 19L19 5"/>'},
+  {k:'bath',t:'湯船につかった',c:'#7FA7B5',lv:2,v:1,i:'<path d="M3 12h18v2a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path d="M6 12V6.5a2 2 0 0 1 4 0"/><path d="M7 19l-1 2M17 19l1 2"/>'},
+  {k:'cook',t:'自炊した',c:'#A07850',lv:3,v:1,i:'<circle cx="10" cy="13.5" r="6"/><path d="M16 13.5h6"/><path d="M8 5.5c0-1 1-1 1-2.5M12 5.5c0-1 1-1 1-2.5"/>'},
+  {k:'walk20',t:'20分以上歩いた',c:'#5E9677',lv:3,v:2,i:'<circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M10 3h4"/>'},
+  {k:'nosugar',t:'甘い飲み物をやめた',c:'#8FA3A8',lv:4,v:1,i:'<path d="M6.5 7h11l-1.2 12.5a1.5 1.5 0 0 1-1.5 1.5H9.2a1.5 1.5 0 0 1-1.5-1.5z"/><path d="M13 7l2-4"/><path d="M4 21L20 4"/>'},
+  {k:'sleep7',t:'7時間眠れた',c:'#4B5C86',lv:4,v:2,i:'<path d="M16 15.5A6.5 6.5 0 1 1 8.5 6a5 5 0 0 0 7.5 9.5z"/><path d="M15 3.5h4l-4 4h4"/>'},
+  {k:'gym30',t:'30分以上鍛えた',c:'#A5623E',lv:5,v:2,i:'<path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"/><circle cx="12" cy="14.5" r="6"/>'},
+  {k:'late',t:'夜9時以降は食べなかった',c:'#3F5270',lv:5,v:2,i:'<circle cx="12" cy="12" r="8.5"/><path d="M12 12H7.5M12 12V6.5"/>'},
+  {k:'core',t:'体幹トレーニング',c:'#7E7AA8',lv:6,v:1,i:'<circle cx="5" cy="9" r="1.8"/><path d="M7 10.5l12 3M9 11v5M19 13.5l1 3"/>'},
+  {k:'steps',t:'8000歩あるいた',c:'#4F8A6A',lv:6,v:2,i:'<path d="M3.5 19l4.5-6 4 3 4.5-7 4 4"/>'},
+  {k:'newsport',t:'新しい運動に挑戦',c:'#C49A4A',lv:7,v:2,i:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>'},
+  {k:'move60',t:'1時間しっかり動いた',c:'#B5533C',lv:7,v:3,i:'<path d="M12 21c-4 0-6.5-2.7-6.5-6 0-4 3.5-6 4-10 3 2 4 4 4 6 1-1 1.5-2 1.5-3 2 1.5 3.5 4 3.5 7 0 3.3-2.5 6-6.5 6z"/>'},
+  {k:'meal',t:'3食バランスよく食べた',c:'#6B9A58',lv:8,v:2,i:'<circle cx="13.5" cy="12" r="7"/><circle cx="13.5" cy="12" r="3.5"/><path d="M4 4v16M2.5 4v4a1.5 1.5 0 0 0 3 0V4"/>'},
+  {k:'invite',t:'誰かを運動に誘った',c:'#9A6F8A',lv:8,v:2,i:'<circle cx="8.5" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3 20a5.5 5.5 0 0 1 11 0M13.5 20a4 4 0 0 1 7.5-2"/>'}
+];
+const COLOR=k=>(KINDS.find(x=>x.k===k)||CH.find(x=>x.k===k)||EXTRA[k]||{c:'#8DAA70'}).c;
+const VALUE=k=>(CH.find(x=>x.k===k)||{v:1}).v;
+const LV=[0,5,15,30,50,80,120,170,230,300];
+function levelInfo(){const t=totalWins(S);let lv=1;LV.forEach((n,i)=>{if(t>=n)lv=i+1;});const cur=LV[lv-1],next=LV[lv];return{lv,total:t,cur,next,left:next==null?0:next-t,pct:next==null?1:(t-cur)/(next-cur)};}
 
 const STYLES={
   gentle:{name:'そっと寄り添う',sample:'「本日もお越しくださり、光栄でございます」'},
@@ -493,18 +559,34 @@ const RECOVER_LEAD={
   trainer:'数字を確認されたのは良いことです。ここからの過ごし方で、十分に取り戻せます。'
 };
 const BADGES=[
-  {id:'first',m:'初',t:'はじめの一葉',d:'はじめて「できた」を押した',ok:s=>totalWins(s)>=1},
-  {id:'leaf10',m:'十',t:'十枚の葉',d:'できたことが10回に',ok:s=>totalWins(s)>=10},
-  {id:'days7',m:'七',t:'七日の努力',d:'がんばった日が累計7日（連続でなくて結構）',ok:s=>winDays(s)>=7},
-  {id:'return',m:'帰',t:'お帰りなさいませ賞',d:'3日以上あいても、また来てくださった',ok:s=>s.returns>=1},
-  {id:'recover',m:'復',t:'食べすぎても戻ってきた賞',d:'体重が増えた日も、きちんと向き合った',ok:s=>s.recoveries>=1},
-  {id:'sos',m:'鈴',t:'執事を呼べた賞',d:'落ち込んだとき、呼び鈴を鳴らせた',ok:s=>s.sosUsed>=1},
-  {id:'scale5',m:'量',t:'体重計と和解',d:'体重を5回記録した',ok:s=>s.weights.length>=5},
-  {id:'leaf50',m:'花',t:'花咲く木',d:'できたことが50回に',ok:s=>totalWins(s)>=50},
-  {id:'restart3',m:'三',t:'三度目の再出発',d:'3回戻ってきた。やめない方の証',ok:s=>s.returns>=3},
-  {id:'early',m:'朝',t:'早朝の紳士淑女',d:'朝7時前に開いた',ok:s=>!!s.early},
-  {id:'night',m:'夜',t:'夜更けのご来訪',d:'夜22時すぎに開いた',ok:s=>!!s.night},
-  {id:'leaf100',m:'樹',t:'ひだまりの大樹',d:'できたことが100回に',ok:s=>totalWins(s)>=100}
+  {id:'first',lv:1,m:'初',t:'はじめの一葉',d:'はじめて「できた」を押した',ok:s=>totalWins(s)>=1},
+  {id:'leaf10',lv:1,m:'十',t:'十枚の葉',d:'葉が10枚に',ok:s=>totalWins(s)>=10},
+  {id:'days7',lv:1,m:'七',t:'七日の努力',d:'がんばった日が累計7日（連続でなくて結構）',ok:s=>winDays(s)>=7},
+  {id:'return',lv:1,m:'帰',t:'お帰りなさいませ賞',d:'3日以上あいても、また来てくださった',ok:s=>s.returns>=1},
+  {id:'recover',lv:1,m:'復',t:'食べすぎても戻ってきた賞',d:'体重が増えた日も、きちんと向き合った',ok:s=>s.recoveries>=1},
+  {id:'sos',lv:1,m:'鈴',t:'執事を呼べた賞',d:'落ち込んだとき、呼び鈴を鳴らせた',ok:s=>s.sosUsed>=1},
+  {id:'scale5',lv:1,m:'量',t:'体重計と和解',d:'体重を5回記録した',ok:s=>s.weights.length>=5},
+  {id:'early',lv:1,m:'朝',t:'早朝の紳士淑女',d:'朝7時前に開いた',ok:s=>!!s.early},
+  {id:'night',lv:1,m:'夜',t:'夜更けのご来訪',d:'夜22時すぎに開いた',ok:s=>!!s.night},
+  {id:'water20',lv:2,m:'水',t:'水の達人',d:'「お水を飲んだ」が20回',ok:s=>kc(s,'water')>=20},
+  {id:'letter',lv:2,m:'文',t:'未来からの手紙',d:'未来のご自分へ手紙を書いた',ok:s=>!!(s.letter&&s.letter.trim())},
+  {id:'veg20',lv:3,m:'菜',t:'野菜の友',d:'「野菜を食べた」が20回',ok:s=>kc(s,'veg')>=20},
+  {id:'days14',lv:3,m:'週',t:'二週の努力',d:'がんばった日が累計14日',ok:s=>winDays(s)>=14},
+  {id:'challenge10',lv:4,m:'挑',t:'挑戦者',d:'レベルで増えた項目を合計10回',ok:s=>kc(s,...CH.map(c=>c.k))>=10},
+  {id:'mission10',lv:4,m:'歩',t:'小さな一歩の人',d:'本日の一歩を10回達成',ok:s=>kc(s,'mission')>=10},
+  {id:'leaf50',lv:5,m:'花',t:'花咲く木',d:'葉が50枚に',ok:s=>totalWins(s)>=50},
+  {id:'gym20',lv:5,m:'鍛',t:'鍛錬の人',d:'トレーニング系を合計20回',ok:s=>kc(s,'gym','gym30','core','move60')>=20},
+  {id:'weigh20',lv:5,m:'計',t:'体重計の常連',d:'体重を20回記録した',ok:s=>s.weights.length>=20},
+  {id:'restart3',lv:6,m:'三',t:'三度目の再出発',d:'3回戻ってきた。やめない方の証',ok:s=>s.returns>=3},
+  {id:'sleep20',lv:6,m:'眠',t:'眠りの名手',d:'睡眠やお風呂の項目を合計20回',ok:s=>kc(s,'sleep','sleep7','bath')>=20},
+  {id:'days30',lv:6,m:'月',t:'三十日の努力',d:'がんばった日が累計30日',ok:s=>winDays(s)>=30},
+  {id:'leaf100',lv:7,m:'樹',t:'ひだまりの大樹',d:'葉が100枚に',ok:s=>totalWins(s)>=100},
+  {id:'allkinds',lv:7,m:'全',t:'万能の人',d:'Lv.7までの項目をすべて1回以上',ok:s=>KINDS.concat(CH.filter(c=>c.lv<=7)).every(k=>kc(s,k.k)>0)},
+  {id:'visits60',lv:7,m:'友',t:'しば田の親友',d:'60日お越しくださった',ok:s=>s.visits.length>=60},
+  {id:'leaf200',lv:8,m:'森',t:'ひだまりの森',d:'葉が200枚に',ok:s=>totalWins(s)>=200},
+  {id:'days100',lv:8,m:'百',t:'百日の努力',d:'がんばった日が累計100日',ok:s=>winDays(s)>=100},
+  {id:'fire10',lv:9,m:'炎',t:'燃える一時間',d:'「1時間しっかり動いた」を10回',ok:s=>kc(s,'move60')>=10},
+  {id:'legend',lv:10,m:'伝',t:'伝説の主',d:'レベル10に到達した',ok:s=>levelInfo().lv>=10}
 ];
 
 /* ================= ユーティリティ ================= */
@@ -521,12 +603,13 @@ const reduced=()=>window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce
 const buzz=()=>{try{navigator.vibrate&&navigator.vibrate(15);}catch(e){}};
 const sama=()=>S.name?S.name+'様':'ご主人様';
 const say=t=>t.replace(/\{様\}/g,sama());
-function totalWins(s){let n=0;for(const d in s.wins)for(const k in s.wins[d])n+=s.wins[d][k];return n;}
+function totalWins(s){let n=0;for(const d in s.wins)for(const k in s.wins[d])n+=s.wins[d][k]*VALUE(k);return n;}
+function kc(s,...ks){let n=0;for(const d in s.wins)ks.forEach(k=>{n+=s.wins[d][k]||0;});return n;}
 function winDays(s){return Object.keys(s.wins).filter(d=>Object.values(s.wins[d]).some(v=>v>0)).length;}
 
 /* ================= 保存 ================= */
 const LS='hidamari-v1';
-function fresh(){return{v:1,updatedAt:0,onboarded:false,name:'',reason:'',letter:'',style:'gentle',hideWeight:false,wins:{},weights:[],visits:[],lastVisit:null,returns:0,recoveries:0,sosUsed:0,early:false,night:false,mission:null,stepDone:null,badges:{}};}
+function fresh(){return{v:1,updatedAt:0,onboarded:false,name:'',reason:'',letter:'',style:'gentle',hideWeight:false,wins:{},weights:[],visits:[],lastVisit:null,returns:0,recoveries:0,sosUsed:0,early:false,night:false,mission:null,stepDone:null,badges:{},level:null};}
 function normalize(o){const s=Object.assign(fresh(),o||{});if(!STYLES[s.style])s.style='gentle';return s;}
 let S=fresh();
 try{const raw=localStorage.getItem(LS);if(raw)S=normalize(JSON.parse(raw));}catch(e){}
@@ -553,8 +636,36 @@ function processVisit(){
 /* ================= 称号 ================= */
 function checkBadges(){
   const got=[];
-  for(const b of BADGES){if(!S.badges[b.id]&&b.ok(S)){S.badges[b.id]=today();got.push(b);}}
+  const lvNow=levelInfo().lv;
+  for(const b of BADGES){if(!S.badges[b.id]&&b.lv<=lvNow&&b.ok(S)){S.badges[b.id]=today();got.push(b);}}
   if(got.length){save();got.forEach((b,i)=>setTimeout(()=>toast('称号を授与いたします','「'+b.t+'」'),1700+i*2600));}
+}
+
+/* ================= レベル ================= */
+let pendingLv=null;
+function checkLevel(){
+  const L=levelInfo().lv;
+  if(S.level==null){S.level=L;save();return;}
+  if(L>S.level){
+    const from=S.level;S.level=L;save();
+    if($('sheetWrap').hidden)setTimeout(()=>{if($('sheetWrap').hidden)openLevelUp(from,L);else pendingLv=[from,L];},900);
+    else pendingLv=[from,L];
+  }
+}
+function afterGain(){checkLevel();checkBadges();}
+function openLevelUp(from,to){
+  const items=CH.filter(c=>c.lv>from&&c.lv<=to);
+  const nb=BADGES.filter(b=>b.lv>from&&b.lv<=to).length;
+  const t0=titleOf(from),t1=titleOf(to);
+  const msg=t0!==t1?sama()+'のおかげで、わたくしも「'+t1+'」に昇格いたしました。これからも、より一層お仕えいたします。':'お祝いに、本日より'+(ACC[to]||'新しい装い')+'を身につけてお仕えいたします。';
+  const accs=[];for(let l=from+1;l<=to;l++)if(ACC[l])accs.push(ACC[l]);
+  let list='';
+  if(items.length)list+='<div><small>NEW ・ できたこと</small>'+items.map(c=>esc(c.t)+(c.v>1?'（葉'+c.v+'枚）':'')).join('、')+'</div>';
+  if(accs.length)list+='<div><small>NEW ・ しば田の装い</small>'+accs.join('、')+'</div>';
+  if(nb)list+='<div><small>NEW ・ 称号</small>新しい称号が'+nb+'つ、あらわれました</div>';
+  openSheet(BH()+'<p class="eyebrow">LEVEL UP</p><div class="big-lv">Lv.'+to+'</div><h2>'+esc(sama())+'、おめでとうございます</h2><p class="lead">'+esc(msg)+'</p><div class="unlock-list">'+list+'</div><div class="actions"><button class="btn wide" type="button" id="lvOk">ありがとう、しば田</button></div>','レベルアップ');
+  sparkle(undefined,innerHeight*.3,60);bow();
+  $('lvOk').onclick=()=>{closeSheet();renderAll();};
 }
 
 /* ================= トースト・きらめき ================= */
@@ -600,6 +711,12 @@ function renderHome(){
   $('statLeaves').textContent=totalWins(S);
   $('statDays').textContent=Object.keys(S.wins).filter(d=>d.startsWith(ym)&&Object.values(S.wins[d]).some(v=>v>0)).length;
   $('statVisits').textContent=S.visits.filter(d=>d.startsWith(ym)).length;
+  const L=levelInfo();
+  $('lvBadge').textContent='Lv.'+L.lv;$('lvBar').style.width=Math.round(L.pct*100)+'%';
+  $('lvNext').textContent=L.next==null?'最高レベル':'次まであと'+L.left+'枚';
+  $('butlerTitle').textContent=titleOf(L.lv)+' しば田';
+  const at=attire();$('attire').textContent='本日の装い：'+(L.lv>=10?'金':at.tie[1])+'の蝶ネクタイ'+(at.flower?'と'+at.flower[1]:'');
+  placeButler();
   renderStep();renderWins();
   $('reasonCard').hidden=!S.reason;$('reasonText').textContent=S.reason;
 }
@@ -617,12 +734,21 @@ function renderStep(){
   a.innerHTML=done?'<span class="done-mark">完了 ✓</span>':'<button class="btn" type="button" id="stepDo">できた</button>';
   if(!done)$('stepDo').onclick=e=>{S.stepDone=today();if(st.special&&S.mission)S.mission.done=true;addWin('mission',e);};
 }
+function winBtn(k,n,icon,isNew){
+  const v=k.v||1;
+  return '<button type="button" class="win" data-k="'+k.k+'" aria-label="'+k.t+'（本日'+n+'回）">'+(isNew?'<span class="new-tag">NEW</span>':'<i class="dot" style="background:'+k.c+'"></i>')+(n?'<span class="cnt num">×'+n+'</span>':'')+
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+icon+'</svg><span class="lbl">'+k.t+'</span>'+(v>1?'<span class="val">'+'★'.repeat(v-1)+' 葉'+v+'枚</span>':'')+'</button>';
+}
 function renderWins(){
-  const tw=S.wins[today()]||{};
-  $('wins').innerHTML=KINDS.map(k=>{const n=tw[k.k]||0;
-    return '<button type="button" class="win" data-k="'+k.k+'" aria-label="'+k.t+'（本日'+n+'回）"><i class="dot" style="background:'+k.c+'"></i>'+(n?'<span class="cnt num">×'+n+'</span>':'')+
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+I[k.k]+'</svg><span class="lbl">'+k.t+'</span></button>';}).join('');
-  const sum=Object.values(tw).reduce((a,b)=>a+b,0);
+  const tw=S.wins[today()]||{},L=levelInfo();
+  $('wins').innerHTML=KINDS.map(k=>winBtn(k,tw[k.k]||0,I[k.k],false)).join('');
+  const open=CH.filter(c=>c.lv<=L.lv);
+  $('chWrap').hidden=!open.length;
+  $('winsCh').innerHTML=open.map(c=>winBtn(c,tw[c.k]||0,c.i,c.lv===L.lv&&!kc(S,c.k))).join('');
+  const nx=CH.filter(c=>c.lv>L.lv);
+  if(nx.length){const nl=nx[0].lv,need=LV[nl-1]-L.total;$('winTeaser').hidden=false;$('winTeaser').innerHTML='あと <b class="num">'+need+'</b> 枚でLv.'+nl+'。「'+nx.filter(c=>c.lv===nl).map(c=>esc(c.t)).join('」「')+'」が加わります';}
+  else $('winTeaser').hidden=true;
+  const sum=Object.keys(tw).reduce((a,k)=>a+tw[k]*VALUE(k),0);
   $('todaySum').innerHTML=sum?'本日は <b class="num">'+sum+'</b> 枚の葉が育ちました':'どれかおひとつ押せましたら、本日は満点でございます';
 }
 function addWin(kind,ev){
@@ -630,25 +756,30 @@ function addWin(kind,ev){
   buzz();bow();
   sparkle(ev&&ev.clientX?ev.clientX:undefined,ev&&ev.clientY?ev.clientY:undefined,22);
   const p=PRAISE[S.style];
-  toast(say(p[Math.floor(Math.random()*p.length)]),'葉が一枚増えました（合計 '+totalWins(S)+' 枚）');
+  toast(say(p[Math.floor(Math.random()*p.length)]),(VALUE(kind)>1?'葉が'+VALUE(kind)+'枚':'葉が一枚')+'増えました（合計 '+totalWins(S)+' 枚）');
   renderHome();
   const b=document.querySelector('.win[data-k="'+kind+'"]');if(b)b.classList.add('pop');
-  checkBadges();
+  afterGain();
 }
 $('wins').addEventListener('click',e=>{const b=e.target.closest('.win');if(b)addWin(b.dataset.k,e);});
+$('winsCh').addEventListener('click',e=>{const b=e.target.closest('.win');if(b)addWin(b.dataset.k,e);});
 $('nextMsg').onclick=()=>{msgOffset++;renderHome();};
 
 /* ================= 木 ================= */
 const STAGES=[[0,'種'],[1,'芽吹き'],[5,'若木'],[20,'すくすく育つ木'],[50,'花咲く木'],[100,'ひだまりの大樹']];
-function leafSeq(){const out=[];Object.keys(S.wins).sort().forEach(d=>{const w=S.wins[d];Object.keys(w).forEach(k=>{for(let i=0;i<w[k];i++)out.push(k);});});return out;}
+function leafSeq(){const out=[];Object.keys(S.wins).sort().forEach(d=>{const w=S.wins[d];Object.keys(w).forEach(k=>{for(let i=0;i<w[k]*VALUE(k);i++)out.push(k);});});return out;}
 let treeAnim=null;
 function renderTree(animate){
   const total=totalWins(S);
   let st=STAGES[0];STAGES.forEach(s=>{if(total>=s[0])st=s;});
   $('treeStage').textContent=st[1];
   $('treeLeaves').textContent=total;$('treeDays').textContent=winDays(S);
+  const L=levelInfo();$('treeLv').textContent='Lv.'+L.lv;$('treeLvBar').style.width=Math.round(L.pct*100)+'%';
+  $('treeLvNext').textContent=L.next==null?'最高レベル':'次まであと'+L.left+'枚';
+  const nt=[3,5,7,9,10].find(x=>x>L.lv);
+  $('rankLine').textContent='しば田の位：'+titleOf(L.lv)+(nt?'（Lv.'+nt+'で「'+titleOf(nt)+'」に昇格）':'');
   const used=new Set(leafSeq());
-  const items=KINDS.filter(k=>used.has(k.k)).map(k=>({t:k.t,c:k.c})).concat(Object.keys(EXTRA).filter(k=>used.has(k)).map(k=>EXTRA[k]));
+  const items=KINDS.concat(CH).filter(k=>used.has(k.k)).map(k=>({t:k.t,c:k.c})).concat(Object.keys(EXTRA).filter(k=>used.has(k)).map(k=>EXTRA[k]));
   $('legend').innerHTML=items.map(k=>'<span><i style="background:'+k.c+'"></i>'+k.t+'</span>').join('')||'<span>「できたこと」を押すと、その色の葉が芽吹きます</span>';
   cancelAnimationFrame(treeAnim);
   const c=$('treeCanvas');
@@ -706,10 +837,14 @@ function drawFlower(g,x,y,s,i){
   g.fillStyle='#C9A15B';g.beginPath();g.arc(0,0,s*.32,0,Math.PI*2);g.fill();g.restore();
 }
 function renderBadges(){
-  let n=0;
-  $('badges').innerHTML=BADGES.map(b=>{const got=!!S.badges[b.id];if(got)n++;
+  const L=levelInfo().lv;let n=0;
+  const vis=BADGES.filter(b=>b.lv<=L||S.badges[b.id]);
+  $('badges').innerHTML=vis.map(b=>{const got=!!S.badges[b.id];if(got)n++;
     return '<div class="badge'+(got?'':' locked')+'"><div class="medal" aria-hidden="true">'+(got?b.m:'・')+'</div><div style="min-width:0"><h3>'+b.t+'</h3><p>'+b.d+'</p></div></div>';}).join('');
-  $('badgeCount').textContent=n+' / '+BADGES.length;
+  $('badgeCount').textContent=n+' / '+vis.length;
+  const nx=BADGES.filter(b=>b.lv>L);
+  if(nx.length){const nl=nx[0].lv;$('badgeTeaser').hidden=false;$('badgeTeaser').innerHTML='Lv.'+nl+'になると、新しい称号が <b class="num">'+nx.filter(b=>b.lv===nl).length+'</b> つあらわれます';}
+  else $('badgeTeaser').hidden=true;
 }
 
 /* ================= 体重 ================= */
@@ -741,7 +876,7 @@ $('wSave').onclick=()=>{
   else if(prev.v-v>=.1)sub='前回より '+(Math.round((prev.v-v)*10)/10).toFixed(1)+'kg 軽くなられました';
   else sub='しっかりとキープなさっています';
   toast('記録いたしました',sub+(already?'':'（葉が一枚増えました）'));
-  checkBadges();renderHome();
+  afterGain();renderHome();
 };
 function drawChart(){
   const svg=$('wChart'),W=400,H=190,L=S.hideWeight?14:44,R=16,T=18,B=30;
@@ -770,12 +905,15 @@ function drawChart(){
 
 /* ================= シート ================= */
 let onSheetClose=null,breathTimer=null;
-const butlerHead='<div class="sheet-butler"><div class="bt-wrap bt-slot" aria-hidden="true"></div><p>執事 しば田</p></div>';
+const BH=()=>'<div class="sheet-butler"><div class="bt-wrap bt-slot" aria-hidden="true"></div><p>'+titleOf(levelInfo().lv)+' しば田</p></div>';
 function openSheet(html,label){
   $('sheet').innerHTML=html;$('sheet').setAttribute('aria-label',label||'メッセージ');$('sheetWrap').hidden=false;$('sheet').scrollTop=0;
   placeButler($('sheet'));const f=$('sheet').querySelector('button');f&&f.focus({preventScroll:true});
 }
-function closeSheet(){$('sheetWrap').hidden=true;clearInterval(breathTimer);const cb=onSheetClose;onSheetClose=null;cb&&cb();}
+function closeSheet(){
+  $('sheetWrap').hidden=true;clearInterval(breathTimer);const cb=onSheetClose;onSheetClose=null;cb&&cb();
+  if(pendingLv&&$('sheetWrap').hidden){const p=pendingLv;pendingLv=null;setTimeout(()=>openLevelUp(p[0],p[1]),500);}
+}
 $('sheetWrap').addEventListener('click',e=>{if(e.target===$('sheetWrap'))closeSheet();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('sheetWrap').hidden)closeSheet();});
 const prog=(n,of)=>'<div class="progress" aria-hidden="true">'+Array.from({length:of},(_,i)=>'<i'+(i<n?' class="on"':'')+'></i>').join('')+'</div>';
@@ -783,13 +921,13 @@ const prog=(n,of)=>'<div class="progress" aria-hidden="true">'+Array.from({lengt
 /* ----- リカバリー ----- */
 function openRecovery(diff){
   const kcal=Math.round(diff*7200),bowls=Math.max(1,Math.round(kcal/240));
-  const s1=()=>{openSheet(prog(1,3)+butlerHead+
+  const s1=()=>{openSheet(prog(1,3)+BH()+
     '<h2>ご安心ください。<br>まずは、ひと呼吸を。</h2>'+
     '<p class="lead">'+esc(say(RECOVER_LEAD[S.style]))+'</p>'+
     '<p class="body">昨日を楽しまれたのなら、それも大切な一日でございます。少しだけ、わたくしの話をお聞きください。</p>'+
     '<div class="actions"><button class="btn wide" type="button" id="r1">続きを聞く</button></div>','リカバリー');
     $('r1').onclick=s2;};
-  const s2=()=>{openSheet(prog(2,3)+butlerHead+
+  const s2=()=>{openSheet(prog(2,3)+BH()+
     '<h2>その数字、ほとんどは<br>脂肪ではございません</h2>'+
     (S.hideWeight?
       '<div class="fact"><div class="big">7,200 kcal</div><p>脂肪を1kg増やすのに必要な食べすぎの量でございます。ご飯（茶わん1杯）なら約30杯分。1日でそこまで召し上がるのは、まず不可能です。</p></div>':
@@ -797,27 +935,27 @@ function openRecovery(diff){
     '<p class="body">一晩で増えた重さのほとんどは、<b>水分・塩分・まだお腹の中にある食べ物</b>です。いつもどおり2〜3日お過ごしになれば、自然と落ち着いてまいります。</p>'+
     '<div class="actions"><button class="btn wide" type="button" id="r2">では、明日はどうするか</button></div>','リカバリー');
     $('r2').onclick=s3;};
-  const s3=()=>{openSheet(prog(3,3)+butlerHead+
+  const s3=()=>{openSheet(prog(3,3)+BH()+
     '<h2>明日の一歩を、<br>おひとつだけお選びください</h2>'+
     '<p class="body">取り戻そうと食事を抜いたり、無理をなさる必要はございません。いつものご自分に、静かに戻るだけで十分でございます。</p>'+
     '<div class="choices">'+RECOVER_STEPS.map((s,i)=>'<button class="choice" type="button" data-i="'+i+'">'+esc(s)+'</button>').join('')+'</div>','リカバリー');
     $('sheet').querySelectorAll('.choice').forEach(b=>b.onclick=()=>{
       S.mission={text:RECOVER_STEPS[+b.dataset.i],d:addDays(today(),1),done:false};S.recoveries++;save();finish();});};
-  const finish=()=>{openSheet(butlerHead+
+  const finish=()=>{openSheet(BH()+
     '<h2>かしこまりました</h2>'+
     '<p class="lead">「'+esc(S.mission.text)+'」<br>明日の朝、ホームでお知らせいたします。</p>'+
     '<p class="body">体重が増えた日に、ここまで向き合われた'+esc(sama())+'へ。ささやかながら、称号をお贈りいたします。</p>'+
     '<div class="actions"><button class="btn wide" type="button" id="r4">ホームへ戻る</button></div>','リカバリー');
     sparkle(undefined,undefined,34);bow();
     $('r4').onclick=()=>{closeSheet();go('home');};};
-  onSheetClose=()=>{checkBadges();renderHome();};
+  onSheetClose=()=>{afterGain();renderHome();};
   s1();
 }
 
 /* ----- 執事を呼ぶ ----- */
 function openSos(){
   S.sosUsed++;save();
-  const s1=()=>{openSheet(prog(1,4)+butlerHead+
+  const s1=()=>{openSheet(prog(1,4)+BH()+
     '<h2>お呼びでしょうか。<br>ここにおりますよ。</h2>'+
     '<p class="lead">'+esc(say(SOS_MSG[S.style]))+'</p>'+
     '<div class="actions"><button class="btn wide" type="button" id="s1">30秒だけ、ご一緒に深呼吸を</button><button class="btn soft wide" type="button" id="s1b">深呼吸は省く</button></div>','執事を呼ぶ');
@@ -839,19 +977,19 @@ function openSos(){
     },1000);};
   const s3=()=>{
     const has=S.reason||S.letter;
-    openSheet(prog(3,4)+butlerHead+
+    openSheet(prog(3,4)+BH()+
     '<h2>'+esc(sama())+'が、はじめた理由</h2>'+
     (has?(S.reason?'<div class="letter"><small>頑張る理由</small>'+esc(S.reason)+'</div>':'')+(S.letter?'<div class="letter"><small>未来のご自分から</small>'+esc(S.letter)+'</div>':''):
       '<p class="body">マイページに頑張る理由をお書きいただければ、このような日に、わたくしからお読み上げいたします。今は、ここまで来られたご自分をどうか認めてあげてください。</p>')+
     '<div class="actions"><button class="btn wide" type="button" id="s3">次へ</button></div>','理由');
     $('s3').onclick=s4;};
-  const s4=()=>{openSheet(prog(4,4)+butlerHead+
+  const s4=()=>{openSheet(prog(4,4)+BH()+
     '<h2>本日はご自分を労って、<br>おしまいにいたしましょう</h2>'+
     '<p class="body">温かい飲み物を一杯。湯船にゆっくりつかる。少し早めに休む。どれかおひとつで結構でございます。明日のことは、明日のわたくしどもにお任せください。</p>'+
     '<div class="actions"><button class="btn wide" type="button" id="s4">自分を労う（葉が一枚増えます）</button><button class="btn soft wide" type="button" id="s4b">閉じる</button></div>','今日はこれで十分');
     $('s4').onclick=e=>{closeSheet();addWin('care',e);};
     $('s4b').onclick=closeSheet;};
-  onSheetClose=()=>{checkBadges();};
+  onSheetClose=()=>{afterGain();};
   s1();
 }
 $('bell').onclick=openSos;$('openSos').onclick=openSos;
@@ -861,20 +999,20 @@ function styleButtons(sel){return Object.keys(STYLES).map(k=>'<button type="butt
 function openOnboarding(){
   const tmp={name:'',reason:'',style:'gentle'};
   const done=()=>{Object.assign(S,{name:tmp.name.trim(),reason:tmp.reason.trim(),style:tmp.style,onboarded:true});save();closeSheet();renderAll();sparkle(undefined,undefined,34);bow();toast('心を込めてお仕えいたします',sama()+'の木を植えました');};
-  const s1=()=>{openSheet(prog(1,3)+butlerHead+
+  const s1=()=>{openSheet(prog(1,3)+BH()+
     '<h2>はじめまして。<br>執事のしば田と申します。</h2>'+
     '<p class="lead">本日より、あなた様の毎日にお仕えいたします。</p>'+
     '<p class="body">記録が途切れても、体重が増えても、決して責めはいたしません。できたことだけを数え、あなた様だけの木を育ててまいります。落ち込んだときは、右下の呼び鈴でいつでもお呼びください。</p>'+
     '<div class="field" style="margin-top:16px"><label for="oName">なんとお呼びすればよろしいでしょうか？</label><input id="oName" maxlength="20" placeholder="例：たけし、ゆか（空欄でも結構です）"></div>'+
     '<div class="actions"><button class="btn wide" type="button" id="o1">次へ</button><button class="linkish" type="button" id="oSkip">あとで設定する</button></div>','はじめに');
     $('oName').value=tmp.name;$('o1').onclick=()=>{tmp.name=$('oName').value;s2();};$('oSkip').onclick=()=>{tmp.name=$('oName').value;done();};};
-  const s2=()=>{openSheet(prog(2,3)+butlerHead+
+  const s2=()=>{openSheet(prog(2,3)+BH()+
     '<h2>体が軽くなったら、<br>何をなさりたいですか？</h2>'+
     '<p class="body">落ち込まれた日に、このお言葉をお届けいたします。</p>'+
     '<div class="field" style="margin-top:8px"><label for="oReason">頑張る理由</label><textarea id="oReason" maxlength="200" placeholder="例：休みの日に、子どもと全力で遊ぶ"></textarea></div>'+
     '<div class="actions"><button class="btn wide" type="button" id="o2">次へ</button></div>','はじめに');
     $('oReason').value=tmp.reason;$('o2').onclick=()=>{tmp.reason=$('oReason').value;s3();};};
-  const s3=()=>{openSheet(prog(3,3)+butlerHead+
+  const s3=()=>{openSheet(prog(3,3)+BH()+
     '<h2>どのようにお仕えいたしましょう？</h2>'+
     '<div class="styles" style="margin-top:14px" role="radiogroup" aria-label="応援スタイル">'+styleButtons(tmp.style)+'</div>'+
     '<div class="actions"><button class="btn wide" type="button" id="o3">はじめる</button></div>','はじめに');
@@ -967,7 +1105,7 @@ function openInstall(){
     body='<h2>ホーム画面への追加方法</h2>'+(deferredPrompt?'<p class="body">下のボタンを押すと、すぐに追加できます。</p><div class="actions"><button class="btn wide" type="button" id="doInstall">ホーム画面に追加する</button></div>':'')+
       '<ol class="steps"><li>Chromeの右上「︙」をタップ</li><li>「ホーム画面に追加」または「アプリをインストール」をタップ</li><li>「追加」または「インストール」をタップ</li></ol>';
   }
-  openSheet(butlerHead+body+'<div class="actions"><button class="btn soft wide" type="button" id="instClose">閉じる</button></div>','ホーム画面への追加方法');
+  openSheet(BH()+body+'<div class="actions"><button class="btn soft wide" type="button" id="instClose">閉じる</button></div>','ホーム画面への追加方法');
   $('instClose').onclick=closeSheet;
   const d=$('doInstall');if(d)d.onclick=async()=>{try{deferredPrompt.prompt();await deferredPrompt.userChoice;}catch(e){}deferredPrompt=null;closeSheet();};
 }
@@ -983,7 +1121,7 @@ placeButler();
 processVisit();
 resetIdle();
 renderAll();
-checkBadges();
+checkLevel();checkBadges();
 if(!S.onboarded)setTimeout(openOnboarding,450);
 else if(returnedNow)setTimeout(()=>{sparkle(undefined,innerHeight*.25,40);bow();},500);
 
