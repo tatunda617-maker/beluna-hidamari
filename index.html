@@ -1,0 +1,994 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ひだまり</title>
+<meta name="description" content="柴犬の執事「しば田」が、できたことだけを数えて支えてくれる、責めないダイエット応援アプリ。">
+<meta name="theme-color" content="#E9ECE9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1318" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ひだまり">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta property="og:title" content="ひだまり">
+<meta property="og:description" content="柴犬の執事「しば田」が、あなたの毎日を責めずに応援します。">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap">
+<style>
+/* Layout: one phone-width column, like a quiet hotel lounge. A time-of-day sky with the shiba butler opens the app; stone cards below; tab bar pinned to the bottom. */
+:root{
+  --bg:#E9ECE9; --surface:#F8F8F5; --surface-2:#DFE4E1; --ink:#16212A; --muted:#5B6870; --line:#CFD6D2;
+  --brass:#9C7236; --brass-soft:#E6D8BE; --btn:#1B2833; --on-btn:#F3EEE2; --sage:#4F8468;
+  --bark:#7D6450; --ground:#D6DCD6; --shadow:0 18px 40px -22px rgba(20,35,45,.45);
+  --sky-filter:none;
+  --f-serif:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --f-sans:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-num:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1318; --surface:#161D24; --surface-2:#1F2831; --ink:#ECE9E2; --muted:#8F9BA3; --line:#28333D;
+    --brass:#D1A865; --brass-soft:#3A3122; --btn:#D1A865; --on-btn:#16110A; --sage:#6FAB8B;
+    --bark:#B3947A; --ground:#222C35; --shadow:0 18px 40px -22px rgba(0,0,0,.8);
+    --sky-filter:brightness(.78) saturate(.9); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1318; --surface:#161D24; --surface-2:#1F2831; --ink:#ECE9E2; --muted:#8F9BA3; --line:#28333D;
+  --brass:#D1A865; --brass-soft:#3A3122; --btn:#D1A865; --on-btn:#16110A; --sage:#6FAB8B;
+  --bark:#B3947A; --ground:#222C35; --shadow:0 18px 40px -22px rgba(0,0,0,.8);
+  --sky-filter:brightness(.78) saturate(.9); color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+img{max-width:100%}
+html{-webkit-text-size-adjust:100%;color-scheme:light}
+html,body{background:var(--bg);color:var(--ink)}
+body{margin:0;font-family:var(--f-sans);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;padding-inline:16px}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:10px}
+.app{max-width:460px;margin:0 auto;padding-block:calc(14px + env(safe-area-inset-top,0px)) calc(112px + env(safe-area-inset-bottom,0px))}
+.tab{display:flex;flex-direction:column;gap:20px}
+h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-height:1.5;text-wrap:balance}
+.eyebrow{font-size:11px;letter-spacing:.22em;color:var(--brass);font-weight:700;margin:0}
+.card{background:var(--surface);border-radius:20px;padding:22px 20px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-inline:2px}
+.sec-head p{margin:0;color:var(--muted);font-size:12px}
+.num{font-family:var(--f-num);font-style:italic;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* ---------- Sky hero ---------- */
+.hero{position:relative;overflow:hidden;border-radius:24px;padding:24px 20px 18px;color:var(--hero-ink);isolation:isolate;box-shadow:var(--shadow)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background:var(--sky);filter:var(--sky-filter)}
+.sky-morning{--sky:linear-gradient(160deg,#E7C99B 0%,#E6DDCB 50%,#D8DFDB 100%);--hero-ink:#231E17;--orb:#F2C27A;--orb-glow:rgba(242,194,122,.5);--bubble:rgba(255,255,255,.62);--chip:rgba(255,255,255,.42)}
+.sky-day{--sky:linear-gradient(160deg,#AFC5D3 0%,#D3DCD8 55%,#E6E5DD 100%);--hero-ink:#18242E;--orb:#F4E2B0;--orb-glow:rgba(244,226,176,.55);--bubble:rgba(255,255,255,.62);--chip:rgba(255,255,255,.42)}
+.sky-evening{--sky:linear-gradient(160deg,#C58A57 0%,#7B6769 48%,#2B3A51 100%);--hero-ink:#FBF4E8;--orb:#EDBF74;--orb-glow:rgba(237,191,116,.45);--bubble:rgba(15,22,32,.38);--chip:rgba(255,255,255,.14)}
+.sky-night{--sky:linear-gradient(160deg,#0B121D 0%,#15233A 55%,#2A3D57 100%);--hero-ink:#F3EEE4;--orb:#F4EAC8;--orb-glow:rgba(244,234,200,.28);--bubble:rgba(255,255,255,.08);--chip:rgba(255,255,255,.1)}
+.orb{position:absolute;z-index:-1;width:110px;height:110px;border-radius:50%;right:-30px;top:-34px;background:var(--orb);box-shadow:0 0 70px 26px var(--orb-glow)}
+.sky-night .orb{width:56px;height:56px;right:24px;top:20px;box-shadow:0 0 44px 10px var(--orb-glow)}
+.sky-night .orb::after{content:"";position:absolute;width:48px;height:48px;border-radius:50%;left:-12px;top:-7px;background:#122036}
+.stars{position:absolute;inset:0;z-index:-1;display:none;background-image:
+  radial-gradient(1.3px 1.3px at 12% 22%,#fff 60%,transparent),radial-gradient(1px 1px at 28% 60%,#fff 60%,transparent),
+  radial-gradient(1.3px 1.3px at 44% 12%,#fff 60%,transparent),radial-gradient(1px 1px at 62% 34%,#fff 60%,transparent),
+  radial-gradient(1.1px 1.1px at 84% 62%,#fff 60%,transparent),radial-gradient(1px 1px at 92% 44%,#fff 60%,transparent)}
+.sky-night .stars{display:block;animation:twinkle 5s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.45}to{opacity:.95}}
+.hero-date{margin:0;font-family:var(--f-num);font-style:italic;font-size:15px;letter-spacing:.06em;opacity:.85}
+.hero-greet{margin:2px 0 0;font-family:var(--f-serif);font-size:23px;font-weight:800;line-height:1.45;text-wrap:balance;max-width:15em;letter-spacing:.02em}
+.butler-row{display:flex;align-items:flex-end;gap:10px;margin-top:14px}
+.bt-wrap{flex:none;width:92px}
+.bt-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+.bubble{position:relative;flex:1;min-width:0;background:var(--bubble);border-radius:18px 18px 18px 4px;padding:14px 16px 10px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);margin-bottom:22px}
+.bubble::before{content:"";position:absolute;left:-7px;bottom:0;width:14px;height:14px;background:var(--bubble);clip-path:polygon(100% 0,100% 100%,0 100%)}
+.bubble .who{display:block;font-size:10.5px;letter-spacing:.2em;opacity:.7;font-weight:700}
+.hero-msg{margin:4px 0 0;font-family:var(--f-serif);font-weight:500;font-size:16.5px;line-height:1.8;text-wrap:pretty}
+.hero-msg.show{animation:msgIn .7s ease both}
+@keyframes msgIn{from{opacity:.2;transform:translateY(5px)}to{opacity:1;transform:none}}
+.more{border:0;background:none;color:inherit;opacity:.7;font-size:11.5px;font-weight:700;padding:6px 0 2px;letter-spacing:.06em}
+.more:hover{opacity:1}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:4px;border-top:1px solid color-mix(in srgb,var(--hero-ink) 18%,transparent);padding-top:12px}
+.stat{border:0;text-align:left;background:none;color:var(--hero-ink);padding:0 6px;display:flex;flex-direction:column;min-width:0}
+.stat+.stat{border-left:1px solid color-mix(in srgb,var(--hero-ink) 18%,transparent);padding-left:12px}
+.stat .num{font-size:30px;line-height:1.05}
+.stat .lbl{font-size:10.5px;font-weight:500;opacity:.8;line-height:1.4;letter-spacing:.04em}
+
+/* butler motion */
+.bt-body{transform-box:fill-box;transform-origin:50% 100%;animation:idle 5s ease-in-out infinite}
+@keyframes idle{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+.bt-eye{transform-box:fill-box;transform-origin:center;animation:blink 6s infinite}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.bt-tail{transform-box:fill-box;transform-origin:0% 100%;animation:wag 3.2s ease-in-out infinite}
+@keyframes wag{0%,70%,100%{transform:rotate(0)}78%{transform:rotate(-10deg)}86%{transform:rotate(8deg)}94%{transform:rotate(-6deg)}}
+.bow .bt-body{animation:bow .9s ease}
+.bow .bt-tail{animation:wagfast .9s ease}
+@keyframes wagfast{0%,100%{transform:rotate(0)}15%,45%,75%{transform:rotate(-14deg)}30%,60%,90%{transform:rotate(12deg)}}
+@keyframes bow{0%{transform:rotate(0)}35%{transform:rotate(-9deg) translateY(3px)}70%{transform:rotate(-9deg) translateY(3px)}100%{transform:rotate(0)}}
+
+/* ---------- Step card ---------- */
+.step{display:flex;gap:14px;align-items:center}
+.step-body{flex:1;min-width:0}
+.step-body h2{margin-top:4px}
+.step-note{margin:6px 0 0;font-size:12px;color:var(--muted)}
+.btn{border:0;border-radius:12px;padding:12px 20px;font-weight:700;font-size:14px;letter-spacing:.06em;background:var(--btn);color:var(--on-btn);transition:transform .15s ease,opacity .2s}
+.btn:active{transform:scale(.97)}
+.btn.soft{background:var(--surface-2);color:var(--ink)}
+.btn.wide{width:100%}
+.done-mark{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:13px;color:var(--brass);border:1px solid var(--brass);padding:9px 14px;border-radius:12px;white-space:nowrap;letter-spacing:.06em}
+
+/* ---------- Wins grid ---------- */
+.wins{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.win{position:relative;border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:16px 6px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:transform .18s ease,border-color .2s}
+.win:hover{border-color:var(--brass)}
+.win:active{transform:scale(.95)}
+.win.pop{animation:pop .45s ease}
+@keyframes pop{0%{transform:scale(.94)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+.win svg{width:28px;height:28px;color:var(--ink)}
+.win .lbl{font-size:12px;font-weight:500;line-height:1.35;text-align:center}
+.win .dot{position:absolute;left:10px;top:10px;width:6px;height:6px;border-radius:50%}
+.win .cnt{position:absolute;right:9px;top:6px;font-size:17px;color:var(--brass);line-height:1.2}
+.today-sum{margin:0;text-align:center;color:var(--muted);font-size:12.5px}
+.today-sum b{color:var(--ink)}
+.reason{background:transparent;box-shadow:none;border:1px solid var(--line)}
+.reason p.q{margin:8px 0 0;font-family:var(--f-serif);font-weight:500;font-size:17px;line-height:1.8}
+
+/* ---------- Tree ---------- */
+.tree-card{padding:0;overflow:hidden}
+.tree-sky{background:linear-gradient(180deg,var(--surface-2),var(--surface) 75%)}
+#treeCanvas{display:block;width:100%;aspect-ratio:1/1.02;max-width:100%}
+.tree-info{padding:4px 22px 22px;display:flex;flex-direction:column;gap:4px}
+.tree-stage{font-family:var(--f-serif);font-size:24px;font-weight:800;margin:0}
+.tree-count{margin:0;color:var(--muted);font-size:13px}
+.tree-count .num{font-size:24px;color:var(--ink)}
+.promise{margin:12px 0 0;font-family:var(--f-serif);font-weight:500;font-size:15px;line-height:1.85}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px}
+.legend span{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.legend i{width:9px;height:9px;border-radius:50% 0 50% 0;display:inline-block}
+.badges{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.badge{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;gap:12px;align-items:flex-start;min-width:0}
+.medal{flex:none;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--f-serif);font-weight:800;font-size:17px;color:#2A1E0C;background:radial-gradient(circle at 35% 30%,#F4E3BE,#C9A15B 70%,#9C7236);box-shadow:inset 0 0 0 2px rgba(255,255,255,.35),inset 0 -2px 0 rgba(0,0,0,.15)}
+.badge.locked .medal{background:none;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line)}
+.badge h3{margin:0;font-family:var(--f-serif);font-size:13.5px;line-height:1.45;font-weight:700}
+.badge p{margin:3px 0 0;font-size:11px;color:var(--muted);line-height:1.55}
+.badge.locked h3{color:var(--muted)}
+
+/* ---------- Weight ---------- */
+.w-input{display:flex;align-items:center;justify-content:center;gap:12px;margin:14px 0 8px}
+.round{flex:none;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:22px;color:var(--ink)}
+.w-field{display:flex;align-items:baseline;gap:4px}
+#wInput{width:3.6em;border:0;background:transparent;text-align:center;font-family:var(--f-num);font-style:italic;font-weight:600;font-size:58px;line-height:1.05;padding:0;-moz-appearance:textfield;appearance:textfield}
+#wInput::-webkit-outer-spin-button,#wInput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.w-field span{font-size:15px;color:var(--muted)}
+.hint{margin:12px 0 0;font-size:12px;color:var(--muted);text-align:center}
+.chart-wrap{overflow-x:auto;margin-top:6px}
+#wChart{display:block;width:100%;height:auto}
+.chart-empty{margin:8px 0 0;color:var(--muted);font-size:13px}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.toggle p{margin:0;font-size:14px;font-weight:700}
+.toggle small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.switch{position:relative;flex:none;width:50px;height:28px;border-radius:999px;border:0;background:var(--line);transition:background .2s}
+.switch::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:var(--surface);box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .2s}
+.switch[aria-checked="true"]{background:var(--sage)}
+.switch[aria-checked="true"]::after{transform:translateX(22px)}
+
+/* ---------- Me ---------- */
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:13px;font-weight:700}
+.field small{color:var(--muted);font-size:12px;margin-top:-4px}
+.field input,.field textarea{border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px 14px;font-size:15px;width:100%;resize:vertical}
+.field textarea{min-height:84px;font-family:var(--f-serif);font-weight:500;line-height:1.8}
+.form{display:flex;flex-direction:column;gap:16px}
+.styles{display:grid;gap:10px}
+.style-opt{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:14px 16px;text-align:left;display:flex;flex-direction:column;gap:3px}
+.style-opt b{font-size:14px}
+.style-opt span{font-family:var(--f-serif);font-size:13.5px;color:var(--muted);line-height:1.7}
+.style-opt[aria-checked="true"]{border-color:var(--brass);box-shadow:inset 0 0 0 1px var(--brass)}
+.style-opt[aria-checked="true"] span{color:var(--ink)}
+.small-note{font-size:12px;color:var(--muted);margin:0}
+.danger-zone{display:flex;flex-direction:column;gap:10px}
+.linkish{border:0;background:none;color:var(--muted);text-decoration:underline;font-size:12px;padding:4px;align-self:flex-start}
+
+/* ---------- Bell + tab bar ---------- */
+.bell{position:fixed;z-index:30;right:max(16px,calc(50% - 214px));bottom:calc(84px + env(safe-area-inset-bottom,0px));border:1px solid var(--line);border-radius:999px;padding:9px 16px 9px 10px;display:flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px;letter-spacing:.06em;background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.bell .ring{width:28px;height:28px;border-radius:50%;background:var(--btn);color:var(--on-btn);display:flex;align-items:center;justify-content:center}
+.bell svg{width:16px;height:16px;transform-origin:50% 10%;animation:ding 6s ease-in-out infinite}
+@keyframes ding{0%,88%,100%{transform:rotate(0)}91%{transform:rotate(14deg)}94%{transform:rotate(-12deg)}97%{transform:rotate(6deg)}}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:8px 16px calc(10px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line)}
+.tabbar-in{max-width:460px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.tabbar button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;color:var(--muted);font-size:10.5px;font-weight:700;letter-spacing:.06em;border-radius:12px}
+.tabbar svg{width:22px;height:22px}
+.tabbar button[aria-selected="true"]{color:var(--ink)}
+.tabbar button[aria-selected="true"] svg{color:var(--brass)}
+
+/* ---------- Sheet ---------- */
+.sheet-wrap{position:fixed;inset:0;z-index:60;background:rgba(8,14,20,.55);display:flex;align-items:flex-end;justify-content:center;padding:12px}
+.sheet{width:100%;max-width:460px;max-height:88vh;overflow:auto;background:var(--surface);border-radius:24px;padding:24px 22px calc(22px + env(safe-area-inset-bottom,0px));animation:up .38s cubic-bezier(.2,1,.3,1) both}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.sheet h2{font-size:22px;font-weight:800;line-height:1.5}
+.sheet .lead{font-family:var(--f-serif);font-weight:500;font-size:17px;line-height:1.9;margin:12px 0 0}
+.sheet .body{font-size:14px;line-height:1.9;margin:12px 0 0}
+.sheet .actions{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.sheet-butler{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sheet-butler .bt-wrap{width:58px}
+.sheet-butler p{margin:0;font-size:11px;letter-spacing:.2em;color:var(--brass);font-weight:700}
+.progress{display:flex;gap:6px;margin-bottom:16px}
+.progress i{height:3px;flex:1;border-radius:9px;background:var(--line)}
+.progress i.on{background:var(--brass)}
+.fact{margin-top:16px;border-radius:16px;padding:16px 18px;background:var(--surface-2)}
+.fact .big{font-family:var(--f-num);font-style:italic;font-weight:600;font-size:40px;line-height:1.05}
+.fact p{margin:6px 0 0;font-size:13.5px;line-height:1.8}
+.choices{display:grid;gap:8px;margin-top:16px}
+.choice{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:13px 16px;text-align:left;font-weight:500;font-size:14px}
+.choice:hover{border-color:var(--brass)}
+.breath{display:flex;flex-direction:column;align-items:center;gap:16px;margin:22px 0 4px}
+.breath-ring{width:180px;height:180px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;border:1px solid var(--line)}
+.breath-ring::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,var(--brass-soft) 0%,var(--brass-soft) 55%,transparent 72%);transform:scale(var(--s,.5));transition:transform 4s ease-in-out}
+.breath-ring b{position:relative;font-family:var(--f-serif);font-weight:700;font-size:19px}
+.breath-time{font-size:12.5px;color:var(--muted)}
+.letter{margin-top:14px;padding:18px 20px;border-radius:16px;background:var(--surface-2);font-family:var(--f-serif);font-weight:500;font-size:16px;line-height:1.9;white-space:pre-wrap}
+.letter small{display:block;font-family:var(--f-sans);font-weight:700;font-size:10.5px;letter-spacing:.2em;color:var(--brass);margin-bottom:4px}
+
+/* ---------- Toast + sparkle ---------- */
+.toast{position:fixed;z-index:80;left:50%;top:calc(16px + env(safe-area-inset-top,0px));transform:translate(-50%,-150%);width:max-content;max-width:calc(100% - 32px);background:var(--btn);color:var(--on-btn);border-radius:14px;padding:12px 18px;font-weight:700;font-size:13.5px;line-height:1.55;box-shadow:0 18px 30px -14px rgba(0,0,0,.5);transition:transform .45s cubic-bezier(.2,1.1,.3,1);text-align:center}
+.toast.on{transform:translate(-50%,0)}
+.toast small{display:block;font-weight:500;opacity:.8;font-size:11.5px}
+#sparkle{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:90}
+
+.install{display:flex;gap:14px;align-items:center;background:var(--btn);color:var(--on-btn);border:0}
+.install .bt-wrap{width:54px;flex:none}
+.install p{margin:0;font-size:13px;line-height:1.6;opacity:.9}
+.install b{display:block;font-family:var(--f-serif);font-size:16px;opacity:1}
+.install-actions{display:flex;gap:14px;margin-top:8px;align-items:center}
+.install-actions button{border:0;background:none;color:inherit;font-weight:700;font-size:12.5px;padding:4px 0;letter-spacing:.04em}
+.install-actions .go{border-bottom:1px solid currentColor}
+.install-actions .x{opacity:.6}
+.steps{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:10px;counter-reset:st}
+.steps li{counter-increment:st;display:flex;gap:12px;align-items:flex-start;background:var(--surface-2);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.7}
+.steps li::before{content:counter(st);flex:none;width:24px;height:24px;border-radius:50%;background:var(--btn);color:var(--on-btn);font-family:var(--f-num);font-style:italic;font-weight:600;display:flex;align-items:center;justify-content:center;font-size:15px;margin-top:1px}
+.steps svg{width:18px;height:18px;vertical-align:-3px;margin:0 2px}
+.warn{margin:14px 0 0;font-size:12.5px;color:var(--muted);line-height:1.7}
+.code-box{width:100%;min-height:90px;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:10px 12px;font-size:11px;font-family:ui-monospace,Menlo,monospace;word-break:break-all;resize:vertical}
+.app-foot{text-align:center;font-size:11px;color:var(--muted);letter-spacing:.1em;margin:4px 0 0}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media (max-width:360px){.hero-greet{font-size:20px}.hero-msg{font-size:15px}.bt-wrap{width:78px}.stat .num{font-size:26px}}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <main>
+    <!-- HOME -->
+    <section class="tab" id="tab-home" aria-label="ホーム">
+      <header class="hero sky-morning" id="hero">
+        <div class="stars" aria-hidden="true"></div>
+        <div class="orb" aria-hidden="true"></div>
+        <p class="hero-date" id="heroDate"></p>
+        <h1 class="hero-greet" id="heroGreet">おはようございます</h1>
+        <div class="butler-row">
+          <div class="bt-wrap bt-slot" aria-hidden="true"></div>
+          <div class="bubble">
+            <span class="who">執事 しば田</span>
+            <p class="hero-msg show" id="heroMsg">本日もお越しくださり、光栄でございます。</p>
+            <button class="more" type="button" id="nextMsg">ほかのお言葉を →</button>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <button class="stat" type="button" data-go="tree"><span class="num" id="statLeaves">0</span><span class="lbl">枚の葉</span></button>
+          <div class="stat"><span class="num" id="statDays">0</span><span class="lbl">今月がんばった日</span></div>
+          <div class="stat"><span class="num" id="statVisits">0</span><span class="lbl">今月お越しの日</span></div>
+        </div>
+      </header>
+
+      <div class="card install" id="installCard" hidden>
+        <div class="bt-wrap bt-slot" aria-hidden="true"></div>
+        <div style="min-width:0">
+          <p><b>ホーム画面に置いてくださいませ</b>アイコンからすぐ開けて、アプリのように使えます。</p>
+          <div class="install-actions"><button type="button" class="go" id="installGo">追加の方法を見る</button><button type="button" class="x" id="installX">あとで</button></div>
+        </div>
+      </div>
+
+      <div class="card step">
+        <div class="step-body">
+          <p class="eyebrow" id="stepEyebrow">TODAY'S STEP</p>
+          <h2 id="stepText">コップ1杯のお水を飲む</h2>
+          <p class="step-note" id="stepNote">おひとつだけで満点でございます。</p>
+        </div>
+        <div id="stepAction"></div>
+      </div>
+
+      <div>
+        <div class="sec-head"><h2>本日できたこと</h2><p>押すたびに葉が一枚ふえます</p></div>
+        <div class="wins" id="wins" style="margin-top:12px"></div>
+        <p class="today-sum" id="todaySum" style="margin-top:12px"></p>
+      </div>
+
+      <div class="card reason" id="reasonCard" hidden>
+        <p class="eyebrow">YOUR REASON</p>
+        <p class="q" id="reasonText"></p>
+      </div>
+    </section>
+
+    <!-- TREE -->
+    <section class="tab" id="tab-tree" aria-label="がんばりの木" hidden>
+      <div class="card tree-card">
+        <div class="tree-sky"><canvas id="treeCanvas" aria-label="がんばりの木のイラスト" role="img"></canvas></div>
+        <div class="tree-info">
+          <p class="eyebrow">YOUR TREE</p>
+          <p class="tree-stage" id="treeStage">種</p>
+          <p class="tree-count"><span class="num" id="treeLeaves">0</span> 枚の葉 ・ <span id="treeDays">0</span>日ぶんのがんばり</p>
+          <p class="promise">何日お休みになっても、この木は枯れません。<br>お戻りになれば、そこからまた育ちます。</p>
+          <div class="legend" id="legend"></div>
+        </div>
+      </div>
+      <div>
+        <div class="sec-head"><h2>授与された称号</h2><p id="badgeCount"></p></div>
+        <div class="badges" id="badges" style="margin-top:12px"></div>
+      </div>
+    </section>
+
+    <!-- WEIGHT -->
+    <section class="tab" id="tab-weight" aria-label="体重" hidden>
+      <div class="card">
+        <p class="eyebrow">WEIGHT</p>
+        <h2>体重計に乗られただけで、立派な一歩でございます</h2>
+        <div class="w-input">
+          <button class="round" type="button" id="wMinus" aria-label="0.1kg減らす">−</button>
+          <div class="w-field"><input id="wInput" type="number" inputmode="decimal" step="0.1" min="20" max="250" value="60.0" aria-label="体重（kg）"><span>kg</span></div>
+          <button class="round" type="button" id="wPlus" aria-label="0.1kg増やす">＋</button>
+        </div>
+        <button class="btn wide" type="button" id="wSave">記録する</button>
+        <p class="hint">体重は1日に1〜2kg揺れるのが自然です。ご覧いただくのは1週間の流れでございます。</p>
+      </div>
+      <div class="card">
+        <div class="sec-head" style="padding:0"><h2>ゆるやかな流れ</h2><p>7日間の平均</p></div>
+        <div class="chart-wrap"><svg id="wChart" viewBox="0 0 400 190" role="img" aria-label="体重の7日平均のグラフ"></svg></div>
+        <p class="chart-empty" id="chartEmpty" hidden>2回以上記録なさると、ここにゆるやかな流れを表示いたします。</p>
+      </div>
+      <div class="card toggle">
+        <p>数字を見ない<small>体重の数字を隠して、流れだけをご覧いただけます</small></p>
+        <button class="switch" type="button" role="switch" aria-checked="false" id="hideSwitch" aria-label="体重の数字を隠す"></button>
+      </div>
+    </section>
+
+    <!-- ME -->
+    <section class="tab" id="tab-me" aria-label="マイページ" hidden>
+      <div class="card form">
+        <div><p class="eyebrow">PROFILE</p><h2>ここにお書きいただいた言葉を、つらい日にお届けいたします</h2></div>
+        <div class="field"><label for="fName">お呼びする名前</label><input id="fName" maxlength="20" placeholder="例：たけし、ゆか"></div>
+        <div class="field"><label for="fReason">頑張る理由</label><small>体が軽くなったら、何をなさりたいですか？</small><textarea id="fReason" maxlength="200" placeholder="例：休みの日に、子どもと全力で遊ぶ"></textarea></div>
+        <div class="field"><label for="fLetter">未来のご自分から、今のご自分へ</label><small>目標をかなえたご自分になったつもりで</small><textarea id="fLetter" maxlength="400" placeholder="例：あの時やめないでくれて、ありがとう。今、毎日が本当に楽しい。"></textarea></div>
+      </div>
+      <div class="card form">
+        <div><p class="eyebrow">BUTLER</p><h2>しば田のお仕えの仕方</h2></div>
+        <div class="styles" id="styles" role="radiogroup" aria-label="応援スタイル"></div>
+      </div>
+      <div class="card form">
+        <div><p class="eyebrow">BACKUP</p><h2>機種変更のときの引き継ぎ</h2></div>
+        <p class="small-note">記録はこのスマホの中だけに保存され、外部には一切送信されません。機種変更やアプリを消す前に、「引き継ぎコード」をコピーしてメモなどに保管してください。</p>
+        <button class="btn soft wide" type="button" id="bkCopy">引き継ぎコードをコピーする</button>
+        <textarea class="code-box" id="bkOut" readonly hidden aria-label="引き継ぎコード"></textarea>
+        <button class="linkish" type="button" id="bkOpen">引き継ぎコードから記録を戻す</button>
+        <div class="form" id="bkRestore" hidden>
+          <div class="field"><label for="bkIn">引き継ぎコードを貼り付け</label><textarea class="code-box" id="bkIn" placeholder="HIDAMARI1: からはじまるコード"></textarea></div>
+          <p class="small-note">今この端末にある記録は、コードの内容に置きかわります。</p>
+          <button class="btn wide" type="button" id="bkApply">このコードで記録を戻す</button>
+        </div>
+      </div>
+      <div class="card form">
+        <button class="btn soft wide" type="button" id="openSos">執事を呼ぶ（落ち込んだとき）</button>
+        <button class="btn soft wide" type="button" id="openInstall">ホーム画面への追加方法</button>
+        <div class="danger-zone" id="resetZone"></div>
+      </div>
+      <p class="app-foot">ひだまり ・ ver 1.0</p>
+    </section>
+  </main>
+</div>
+
+<button class="bell" id="bell" type="button" aria-label="執事を呼ぶ（落ち込んだとき）"><span class="ring" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v1.5"/><path d="M5 17h14"/><path d="M6.5 17a5.5 5.5 0 0 1 11 0"/><path d="M4 20h16"/></svg></span>執事を呼ぶ</button>
+
+<nav class="tabbar" aria-label="メニュー">
+  <div class="tabbar-in" role="tablist">
+    <button type="button" role="tab" data-tab="home" aria-selected="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>ホーム</button>
+    <button type="button" role="tab" data-tab="tree" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-7"/><path d="M12 14l-3-3M12 15l3.5-3"/><path d="M7.5 11.5a4.5 4.5 0 1 1 1.3-8.1A4.5 4.5 0 0 1 17 5a4 4 0 0 1-.5 7.4"/></svg>木</button>
+    <button type="button" role="tab" data-tab="weight" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="4"/><path d="M8.5 9.5a4 4 0 0 1 7 0"/><path d="M12 9.5l1.3-1.6"/></svg>体重</button>
+    <button type="button" role="tab" data-tab="me" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg>マイページ</button>
+  </div>
+</nav>
+
+<div class="sheet-wrap" id="sheetWrap" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="メッセージ"></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<canvas id="sparkle" aria-hidden="true"></canvas>
+
+<script>
+(function(){
+"use strict";
+/* ================= 執事しば田（オリジナルキャラクター） ================= */
+const BUTLER='<svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg"><g class="bt-body">'+
+  '<ellipse cx="60" cy="146" rx="34" ry="4" fill="rgba(0,0,0,.18)"/>'+
+  '<g class="bt-tail"><path d="M86 98 C104 94 110 76 100 68 C92 62 82 70 88 78 C92 84 98 80 97 75" stroke="#D98C45" stroke-width="11" stroke-linecap="round" fill="none"/><path d="M97 75 C98 80 92 84 88 78" stroke="#F6EBD9" stroke-width="5" stroke-linecap="round" fill="none"/></g>'+
+  '<path d="M30 104 Q22 138 40 144 L60 130 L80 144 Q98 138 90 104 Z" fill="#1A2530"/>'+
+  '<ellipse cx="60" cy="104" rx="33" ry="36" fill="#1F2C38"/>'+
+  '<path d="M46 74 L60 122 L74 74 Z" fill="#F3EEE3"/>'+
+  '<path d="M46 74 L56 108 L42 86 Z M74 74 L64 108 L78 86 Z" fill="#16202A"/>'+
+  '<circle cx="60" cy="100" r="1.6" fill="#1A2530"/><circle cx="60" cy="110" r="1.6" fill="#1A2530"/>'+
+  '<path d="M78 88 l8 -1 l-1 6 z" fill="#C9A15B"/>'+
+  '<path d="M51 78 L60 82 L51 87 Z M69 78 L60 82 L69 87 Z" fill="#9C3B32"/><circle cx="60" cy="82.5" r="2.4" fill="#7E2E27"/>'+
+  '<path d="M28 92 Q34 108 56 104 L56 112 Q34 118 26 104 Z" fill="#243340"/>'+
+  '<ellipse cx="60" cy="107" rx="8" ry="7" fill="#FBFAF6"/><path d="M55 104 h9 M55 108 h9" stroke="#D9D4C8" stroke-width="1"/>'+
+  '<path d="M29 36 L31 5 L53 22 Z M91 36 L89 5 L67 22 Z" fill="#D98C45"/>'+
+  '<path d="M34 29 L35 12 L47 22 Z M86 29 L85 12 L73 22 Z" fill="#E9B48A"/>'+
+  '<ellipse cx="60" cy="46" rx="33" ry="28" fill="#D98C45"/>'+
+  '<path d="M29 50 Q33 75 60 77 Q87 75 91 50 Q78 60 60 58 Q42 60 29 50 Z" fill="#F6EBD9"/>'+
+  '<ellipse cx="60" cy="61" rx="14" ry="10" fill="#F6EBD9"/>'+
+  '<ellipse cx="46" cy="35" rx="4" ry="2.4" fill="#F6EBD9"/><ellipse cx="74" cy="35" rx="4" ry="2.4" fill="#F6EBD9"/>'+
+  '<g class="bt-eye"><circle cx="46" cy="45" r="4.2" fill="#231A15"/><circle cx="47.4" cy="43.6" r="1.3" fill="#fff"/></g>'+
+  '<g class="bt-eye"><circle cx="74" cy="45" r="4.2" fill="#231A15"/><circle cx="75.4" cy="43.6" r="1.3" fill="#fff"/></g>'+
+  '<ellipse cx="37" cy="55" rx="4.5" ry="2.6" fill="#E9A27A" opacity=".45"/><ellipse cx="83" cy="55" rx="4.5" ry="2.6" fill="#E9A27A" opacity=".45"/>'+
+  '<ellipse cx="60" cy="55.5" rx="4.4" ry="3.2" fill="#231A15"/>'+
+  '<path d="M60 58.5 v3.2 M60 61.7 Q56.5 65.5 53 62.5 M60 61.7 Q63.5 65.5 67 62.5" stroke="#231A15" stroke-width="1.5" stroke-linecap="round" fill="none"/>'+
+  '</g></svg>';
+function placeButler(root){(root||document).querySelectorAll('.bt-slot').forEach(el=>{if(!el.firstChild)el.innerHTML=BUTLER;});}
+function bow(){document.querySelectorAll('.bt-slot').forEach(el=>{el.classList.remove('bow');void el.offsetWidth;el.classList.add('bow');});}
+
+/* ================= データ ================= */
+const I={
+  water:'<path d="M6.5 3.5h11l-1.4 16.2a1.5 1.5 0 0 1-1.5 1.3H9.4a1.5 1.5 0 0 1-1.5-1.3z"/><path d="M7.2 9.5h9.6"/>',
+  walk:'<path d="M8.5 3c1.6 0 2.4 1.9 2.4 4.2s-.9 3.8-2.4 3.8S6 9.5 6 7.2 6.9 3 8.5 3z"/><path d="M6.4 13.5h4v1.7a2 2 0 0 1-4 0z"/><path d="M15.5 7.5c1.6 0 2.4 1.9 2.4 4.2s-.9 3.8-2.4 3.8-2.5-1.5-2.5-3.8.9-4.2 2.5-4.2z"/><path d="M13.4 18h4v1a2 2 0 0 1-4 0z"/>',
+  veg:'<path d="M5 19C5 10.5 10.5 5 19 5c0 8.5-5.5 14-14 14z"/><path d="M5 19l8.5-8.5"/>',
+  slow:'<path d="M3.5 12h17a8.5 8.5 0 0 1-17 0z"/><path d="M9 4l2.5 6.5M15.5 3.5l-2 6.5"/>',
+  eight:'<circle cx="12" cy="12" r="8.5"/><path d="M12 12V3.5"/><path d="M12 12l6.9 5"/>',
+  stretch:'<circle cx="12" cy="4.8" r="1.8"/><path d="M4 8.5l8 1.8 8-1.8M12 10.3v5M12 15.3L8.5 21M12 15.3l3.5 5.7"/>',
+  gym:'<path d="M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/>',
+  sleep:'<path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.5 6.5 0 0 0 10 10z"/>',
+  self:'<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>'
+};
+const KINDS=[
+  {k:'water',t:'お水を飲んだ',c:'#6E9FB8'},
+  {k:'walk',t:'歩いた',c:'#6FA287'},
+  {k:'veg',t:'野菜を食べた',c:'#4E8A62'},
+  {k:'slow',t:'ゆっくり食べた',c:'#A3B06A'},
+  {k:'eight',t:'腹八分目',c:'#C9A45C'},
+  {k:'stretch',t:'ストレッチ',c:'#7C8FB5'},
+  {k:'gym',t:'トレーニング',c:'#B7744E'},
+  {k:'sleep',t:'早く寝た',c:'#56688F'},
+  {k:'self',t:'自分をほめた',c:'#D2A866'}
+];
+const EXTRA={stairs:{t:'階段を使った',c:'#8DAA70'},scale:{t:'体重計に乗った',c:'#8FB3BF'},mission:{t:'小さな一歩',c:'#D9B96E'},care:{t:'自分をいたわった',c:'#BFA07A'}};
+const COLOR=k=>(KINDS.find(x=>x.k===k)||EXTRA[k]||{c:'#8DAA70'}).c;
+
+const STYLES={
+  gentle:{name:'そっと寄り添う',sample:'「本日もお越しくださり、光栄でございます」'},
+  hot:{name:'力強く励ます',sample:'「さあ、参りましょう。必ずおできになります」'},
+  trainer:{name:'専門家として助言する',sample:'「体重は日々揺れるもの。ご覧いただくのは1週間の流れです」'}
+};
+const MSG={
+  gentle:['本日もお越しくださり、光栄でございます。それだけで十分でございますよ。','完璧でなくて構いません。昨日より、ほんの少しで結構でございます。','{様}のペースこそが、いちばん正しいペースでございます。','お身体は毎日、{様}のために懸命に働いております。どうか労ってあげてくださいませ。','本日の目標は、おひとつだけで満点でございます。','美味しく召し上がれるのは、お元気な証でございます。','続ける秘訣は、やめてもまた戻ってくること。わたくしは、いつでもお待ちしております。'],
+  hot:['さあ、参りましょう。{様}なら必ずおできになります。','昨日は昨日。本日の主役は{様}でございます。','小さな一歩でも、前へ進めば勝利でございます。','ここを開かれた時点で、もう始まっておりますよ。','つまずいても、立ち上がれば前進。わたくしが見届けます。','本日の1回が、未来の{様}をつくるのです。'],
+  trainer:['お身体は正直でございます。積み重ねた分だけ、必ず応えてくれます。','体重は1日に1〜2kg揺れるもの。ご覧いただくのは1週間の流れでございます。','まずは水分と睡眠を。土台が整えば、お身体は変わってまいります。','本日のノルマはおひとつだけ。小さく始めて、長く続けてまいりましょう。','筋肉は休息中に育ちます。お休みもトレーニングの一部でございます。','召し上がりすぎた翌日こそ、いつもどおりの一日を。それが最短の道でございます。']
+};
+const RETURN_MSG={gentle:'お帰りなさいませ、{様}。……失礼、しっぽが勝手に。またお会いできて、心より嬉しく存じます。',hot:'お帰りなさいませ！戻ってこられた{様}は、誰よりもお強い。',trainer:'お帰りなさいませ。再開できる方こそ、最後に結果を出されます。'};
+const PRAISE={
+  gentle:['お見事でございます。しかと拝見いたしました。','素晴らしい。葉が一枚、増えましたよ。','お身体が喜んでおります。','本日の{様}、実に良い調子でございます。'],
+  hot:['お見事！その調子でございます！','さすが{様}。また一枚、葉が増えました！','積み重ねこそ力。実に頼もしい！','本日の{様}は、ひと味違いますね！'],
+  trainer:['結構です。その積み重ねがお身体を変えます。','良い習慣は、小さな1回から育ちます。','確かに記録いたしました。無理なく参りましょう。','理想的なご選択でございます。']
+};
+const STEPS=['コップ1杯のお水を飲む','10分だけ歩く','ひと口20回、ゆっくり噛む','寝る前に3分ストレッチ','いつもより30分早く床につく','野菜をひと皿プラスする','鏡のご自分に「よくやっている」と言う'];
+const RECOVER_STEPS=['お水をこまめに飲む（むくみをリセット）','10分だけ散歩する','いつもどおりに3食とる（抜かない）','早めに湯船につかり、ぐっすり眠る'];
+const SOS_MSG={
+  gentle:'つらい日があるのは、真剣に向き合っておられる証でございます。本日は、ご自分を責めるのはお休みにいたしましょう。',
+  hot:'落ち込むのは本気の証。ご安心ください、ここからいくらでも巻き返せます。',
+  trainer:'停滞や後戻りは、どなたにも必ず訪れます。長い目で見れば、本日は小さな点にすぎません。'
+};
+const RECOVER_LEAD={
+  gentle:'体重計に乗られた{様}は、きちんとご自分と向き合っておられます。それだけで、立派でございます。',
+  hot:'逃げずに体重計に乗られた。それがもう、勝利への一歩でございます。',
+  trainer:'数字を確認されたのは良いことです。ここからの過ごし方で、十分に取り戻せます。'
+};
+const BADGES=[
+  {id:'first',m:'初',t:'はじめの一葉',d:'はじめて「できた」を押した',ok:s=>totalWins(s)>=1},
+  {id:'leaf10',m:'十',t:'十枚の葉',d:'できたことが10回に',ok:s=>totalWins(s)>=10},
+  {id:'days7',m:'七',t:'七日の努力',d:'がんばった日が累計7日（連続でなくて結構）',ok:s=>winDays(s)>=7},
+  {id:'return',m:'帰',t:'お帰りなさいませ賞',d:'3日以上あいても、また来てくださった',ok:s=>s.returns>=1},
+  {id:'recover',m:'復',t:'食べすぎても戻ってきた賞',d:'体重が増えた日も、きちんと向き合った',ok:s=>s.recoveries>=1},
+  {id:'sos',m:'鈴',t:'執事を呼べた賞',d:'落ち込んだとき、呼び鈴を鳴らせた',ok:s=>s.sosUsed>=1},
+  {id:'scale5',m:'量',t:'体重計と和解',d:'体重を5回記録した',ok:s=>s.weights.length>=5},
+  {id:'leaf50',m:'花',t:'花咲く木',d:'できたことが50回に',ok:s=>totalWins(s)>=50},
+  {id:'restart3',m:'三',t:'三度目の再出発',d:'3回戻ってきた。やめない方の証',ok:s=>s.returns>=3},
+  {id:'early',m:'朝',t:'早朝の紳士淑女',d:'朝7時前に開いた',ok:s=>!!s.early},
+  {id:'night',m:'夜',t:'夜更けのご来訪',d:'夜22時すぎに開いた',ok:s=>!!s.night},
+  {id:'leaf100',m:'樹',t:'ひだまりの大樹',d:'できたことが100回に',ok:s=>totalWins(s)>=100}
+];
+
+/* ================= ユーティリティ ================= */
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,'0');
+const keyOf=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const today=()=>keyOf(new Date());
+const addDays=(k,n)=>{const [y,m,d]=k.split('-').map(Number);return keyOf(new Date(y,m-1,d+n));};
+const daysBetween=(a,b)=>{const pa=a.split('-').map(Number),pb=b.split('-').map(Number);return Math.round((new Date(pb[0],pb[1]-1,pb[2])-new Date(pa[0],pa[1]-1,pa[2]))/864e5);};
+const hash=str=>{let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;};
+const rnd=str=>(hash(str)%100000)/100000;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const reduced=()=>window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+const buzz=()=>{try{navigator.vibrate&&navigator.vibrate(15);}catch(e){}};
+const sama=()=>S.name?S.name+'様':'ご主人様';
+const say=t=>t.replace(/\{様\}/g,sama());
+function totalWins(s){let n=0;for(const d in s.wins)for(const k in s.wins[d])n+=s.wins[d][k];return n;}
+function winDays(s){return Object.keys(s.wins).filter(d=>Object.values(s.wins[d]).some(v=>v>0)).length;}
+
+/* ================= 保存 ================= */
+const LS='hidamari-v1';
+function fresh(){return{v:1,updatedAt:0,onboarded:false,name:'',reason:'',letter:'',style:'gentle',hideWeight:false,wins:{},weights:[],visits:[],lastVisit:null,returns:0,recoveries:0,sosUsed:0,early:false,night:false,mission:null,stepDone:null,badges:{}};}
+function normalize(o){const s=Object.assign(fresh(),o||{});if(!STYLES[s.style])s.style='gentle';return s;}
+let S=fresh();
+try{const raw=localStorage.getItem(LS);if(raw)S=normalize(JSON.parse(raw));}catch(e){}
+function save(){
+  S.updatedAt=Date.now();
+  try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}
+}
+
+/* ================= 訪問 ================= */
+let returnedNow=false;
+function processVisit(){
+  const t=today();
+  if(S.lastVisit===t)return;
+  if(S.lastVisit&&daysBetween(S.lastVisit,t)>=3){S.returns++;returnedNow=true;}
+  S.lastVisit=t;
+  if(!S.visits.includes(t))S.visits.push(t);
+  if(S.visits.length>500)S.visits=S.visits.slice(-500);
+  const h=new Date().getHours();
+  if(h>=4&&h<7)S.early=true;
+  if(h>=22||h<4)S.night=true;
+  save();
+}
+
+/* ================= 称号 ================= */
+function checkBadges(){
+  const got=[];
+  for(const b of BADGES){if(!S.badges[b.id]&&b.ok(S)){S.badges[b.id]=today();got.push(b);}}
+  if(got.length){save();got.forEach((b,i)=>setTimeout(()=>toast('称号を授与いたします','「'+b.t+'」'),1700+i*2600));}
+}
+
+/* ================= トースト・きらめき ================= */
+let toastTimer;
+function toast(main,sub){
+  const el=$('toast');el.innerHTML=esc(main)+(sub?'<small>'+esc(sub)+'</small>':'');
+  el.classList.add('on');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('on'),2400);
+}
+const cv=$('sparkle'),cx=cv.getContext('2d');let parts=[],raf=null;
+function sparkle(x,y,amount){
+  if(reduced())return;
+  const dpr=window.devicePixelRatio||1;cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
+  const cols=['#D1A865','#F1DDAF','#E9E4D8','#6FAB8B','#8FB3BF'];
+  x=x??innerWidth/2;y=y??innerHeight/2.6;
+  for(let i=0;i<(amount||22);i++){const a=Math.random()*Math.PI*2,v=1.5+Math.random()*4.5;
+    parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-2.2,r:2+Math.random()*3.5,c:cols[i%cols.length],rot:Math.random()*6,vr:(Math.random()-.5)*.2,life:1});}
+  if(!raf)raf=requestAnimationFrame(tick);
+}
+function tick(){
+  cx.clearRect(0,0,innerWidth,innerHeight);
+  parts.forEach(p=>{p.vy+=.09;p.vx*=.98;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;p.life-=.014;
+    cx.save();cx.globalAlpha=Math.max(0,p.life);cx.translate(p.x,p.y);cx.rotate(p.rot);cx.fillStyle=p.c;
+    cx.beginPath();cx.moveTo(0,-p.r*1.6);cx.lineTo(p.r*.55,0);cx.lineTo(0,p.r*1.6);cx.lineTo(-p.r*.55,0);cx.closePath();cx.fill();cx.restore();});
+  parts=parts.filter(p=>p.life>0&&p.y<innerHeight+40);
+  if(parts.length)raf=requestAnimationFrame(tick);else{raf=null;cx.clearRect(0,0,innerWidth,innerHeight);}
+}
+
+/* ================= ホーム ================= */
+let msgOffset=0;
+function timeSlot(){const h=new Date().getHours();if(h>=5&&h<10)return'morning';if(h>=10&&h<17)return'day';if(h>=17&&h<22)return'evening';return'night';}
+function renderHome(){
+  const now=new Date(),slot=timeSlot();
+  $('hero').className='hero sky-'+slot;
+  const wd=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][now.getDay()];
+  $('heroDate').textContent=now.getFullYear()+' . '+(now.getMonth()+1)+' . '+now.getDate()+'  '+wd;
+  const greet={morning:'おはようございます',day:'ようこそ、お越しくださいました',evening:'本日もお疲れさまでございました',night:'夜分まで、お疲れさまでございます'}[slot];
+  $('heroGreet').textContent=sama()+'、'+greet;
+  const pool=MSG[S.style];
+  const msgEl=$('heroMsg');
+  msgEl.textContent=say((returnedNow&&msgOffset===0)?RETURN_MSG[S.style]:pool[(hash(today())+msgOffset)%pool.length]);
+  msgEl.classList.remove('show');void msgEl.offsetWidth;msgEl.classList.add('show');
+  const ym=today().slice(0,7);
+  $('statLeaves').textContent=totalWins(S);
+  $('statDays').textContent=Object.keys(S.wins).filter(d=>d.startsWith(ym)&&Object.values(S.wins[d]).some(v=>v>0)).length;
+  $('statVisits').textContent=S.visits.filter(d=>d.startsWith(ym)).length;
+  renderStep();renderWins();
+  $('reasonCard').hidden=!S.reason;$('reasonText').textContent=S.reason;
+}
+function currentStep(){
+  const t=today();
+  if(S.mission&&S.mission.d<=t&&!S.mission.done)return{text:S.mission.text,special:true};
+  return{text:STEPS[hash('step'+t)%STEPS.length],special:false};
+}
+function renderStep(){
+  const st=currentStep(),t=today(),done=S.stepDone===t;
+  $('stepEyebrow').textContent=st.special?'YOUR CHOICE ・ お選びになった一歩':"TODAY'S STEP ・ 本日の一歩";
+  $('stepText').textContent=st.text;
+  $('stepNote').textContent=(S.mission&&S.mission.d>t&&!S.mission.done)?'明日の一歩「'+S.mission.text+'」も承っております。':'おひとつだけで満点でございます。';
+  const a=$('stepAction');
+  a.innerHTML=done?'<span class="done-mark">完了 ✓</span>':'<button class="btn" type="button" id="stepDo">できた</button>';
+  if(!done)$('stepDo').onclick=e=>{S.stepDone=today();if(st.special&&S.mission)S.mission.done=true;addWin('mission',e);};
+}
+function renderWins(){
+  const tw=S.wins[today()]||{};
+  $('wins').innerHTML=KINDS.map(k=>{const n=tw[k.k]||0;
+    return '<button type="button" class="win" data-k="'+k.k+'" aria-label="'+k.t+'（本日'+n+'回）"><i class="dot" style="background:'+k.c+'"></i>'+(n?'<span class="cnt num">×'+n+'</span>':'')+
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+I[k.k]+'</svg><span class="lbl">'+k.t+'</span></button>';}).join('');
+  const sum=Object.values(tw).reduce((a,b)=>a+b,0);
+  $('todaySum').innerHTML=sum?'本日は <b class="num">'+sum+'</b> 枚の葉が育ちました':'どれかおひとつ押せましたら、本日は満点でございます';
+}
+function addWin(kind,ev){
+  const t=today();S.wins[t]=S.wins[t]||{};S.wins[t][kind]=(S.wins[t][kind]||0)+1;save();
+  buzz();bow();
+  sparkle(ev&&ev.clientX?ev.clientX:undefined,ev&&ev.clientY?ev.clientY:undefined,22);
+  const p=PRAISE[S.style];
+  toast(say(p[Math.floor(Math.random()*p.length)]),'葉が一枚増えました（合計 '+totalWins(S)+' 枚）');
+  renderHome();
+  const b=document.querySelector('.win[data-k="'+kind+'"]');if(b)b.classList.add('pop');
+  checkBadges();
+}
+$('wins').addEventListener('click',e=>{const b=e.target.closest('.win');if(b)addWin(b.dataset.k,e);});
+$('nextMsg').onclick=()=>{msgOffset++;renderHome();};
+
+/* ================= 木 ================= */
+const STAGES=[[0,'種'],[1,'芽吹き'],[5,'若木'],[20,'すくすく育つ木'],[50,'花咲く木'],[100,'ひだまりの大樹']];
+function leafSeq(){const out=[];Object.keys(S.wins).sort().forEach(d=>{const w=S.wins[d];Object.keys(w).forEach(k=>{for(let i=0;i<w[k];i++)out.push(k);});});return out;}
+let treeAnim=null;
+function renderTree(animate){
+  const total=totalWins(S);
+  let st=STAGES[0];STAGES.forEach(s=>{if(total>=s[0])st=s;});
+  $('treeStage').textContent=st[1];
+  $('treeLeaves').textContent=total;$('treeDays').textContent=winDays(S);
+  const used=new Set(leafSeq());
+  const items=KINDS.filter(k=>used.has(k.k)).map(k=>({t:k.t,c:k.c})).concat(Object.keys(EXTRA).filter(k=>used.has(k)).map(k=>EXTRA[k]));
+  $('legend').innerHTML=items.map(k=>'<span><i style="background:'+k.c+'"></i>'+k.t+'</span>').join('')||'<span>「できたこと」を押すと、その色の葉が芽吹きます</span>';
+  cancelAnimationFrame(treeAnim);
+  const c=$('treeCanvas');
+  if(!animate||reduced()){drawTree(c,1);return;}
+  const t0=performance.now();
+  const step=now=>{const p=Math.min(1,(now-t0)/1200);drawTree(c,p);if(p<1)treeAnim=requestAnimationFrame(step);};
+  treeAnim=requestAnimationFrame(step);
+}
+function drawTree(c,prog){
+  const dpr=window.devicePixelRatio||1,w=c.clientWidth||360,h=c.clientHeight||370;
+  if(c.width!==Math.round(w*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);}
+  const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,w,h);
+  const css=getComputedStyle(document.documentElement);
+  const bark=css.getPropertyValue('--bark').trim()||'#7D6450',ground=css.getPropertyValue('--ground').trim()||'#D6DCD6';
+  const seq=leafSeq(),total=seq.length,gr=Math.min(1,total/70),baseY=h*.88;
+  g.fillStyle=ground;g.beginPath();g.ellipse(w/2,baseY+h*.05,w*.42,h*.07,0,0,Math.PI*2);g.fill();
+  if(total===0){
+    g.fillStyle=bark;g.beginPath();g.ellipse(w/2,baseY+2,10,6,0,0,Math.PI*2);g.fill();
+    g.fillStyle=css.getPropertyValue('--muted').trim();g.font='500 14px "Shippori Mincho", serif';g.textAlign='center';
+    g.fillText('ここから、あなた様の木が育ちます',w/2,h*.45);return;
+  }
+  const depthFor=[[1,2],[4,3],[10,4],[20,5],[36,6],[56,7]];let maxD=1;depthFor.forEach(([n,d])=>{if(total>=n)maxD=d;});
+  const trunk=h*(.1+.085*gr),branches=[],tips=[];
+  (function grow(x,y,ang,len,wid,d,path){
+    const x2=x+Math.cos(ang)*len,y2=y+Math.sin(ang)*len;
+    branches.push([x,y,x2,y2,wid,d]);
+    if(d>=maxD-1)tips.push([x2,y2]);
+    if(d>=maxD)return;
+    const r=rnd(path),n=(d>=1&&r>.62)?3:2;
+    for(let k=0;k<n;k++){
+      const rr=rnd(path+'-'+k),spread=.32+rr*.32;
+      let a=n===2?ang+(k?spread:-spread):ang+(k-1)*spread*1.15;
+      a+=(rr-.5)*.22;a=a*.88+(-Math.PI/2)*.12;
+      grow(x2,y2,a,len*(.7+rr*.12),Math.max(1.1,wid*.66),d+1,path+k);
+    }
+  })(w/2,baseY,-Math.PI/2,trunk,4+10*gr,1,'r');
+  g.strokeStyle=bark;g.lineCap='round';
+  const bp=Math.min(1,prog*1.6);
+  branches.forEach(([x1,y1,x2,y2,wd,d])=>{
+    const local=Math.max(0,Math.min(1,bp*maxD-(d-1)));if(local<=0)return;
+    g.lineWidth=wd;g.beginPath();g.moveTo(x1,y1);g.lineTo(x1+(x2-x1)*local,y1+(y2-y1)*local);g.stroke();
+  });
+  const shown=Math.floor(total*Math.max(0,(prog-.35)/.65)),size=5.5+3.5*gr;
+  for(let i=0;i<Math.min(shown,480);i++){
+    const tip=tips[hash('t'+i)%tips.length],ang=rnd('a'+i)*Math.PI*2,dist=3+rnd('d'+i)*(10+18*gr);
+    const x=tip[0]+Math.cos(ang)*dist,y=tip[1]+Math.sin(ang)*dist*.8;
+    if((i+1)%10===0){drawFlower(g,x,y,size,i);continue;}
+    g.save();g.translate(x,y);g.rotate(rnd('r'+i)*Math.PI*2);g.fillStyle=COLOR(seq[i]);g.globalAlpha=.9;
+    g.beginPath();g.moveTo(-size,0);g.quadraticCurveTo(0,-size*.9,size,0);g.quadraticCurveTo(0,size*.9,-size,0);g.fill();g.restore();
+  }
+}
+function drawFlower(g,x,y,s,i){
+  g.save();g.translate(x,y);g.rotate(rnd('f'+i));g.fillStyle='#F4EEDF';
+  for(let k=0;k<5;k++){g.rotate(Math.PI*2/5);g.beginPath();g.ellipse(0,-s*.62,s*.4,s*.62,0,0,Math.PI*2);g.fill();}
+  g.fillStyle='#C9A15B';g.beginPath();g.arc(0,0,s*.32,0,Math.PI*2);g.fill();g.restore();
+}
+function renderBadges(){
+  let n=0;
+  $('badges').innerHTML=BADGES.map(b=>{const got=!!S.badges[b.id];if(got)n++;
+    return '<div class="badge'+(got?'':' locked')+'"><div class="medal" aria-hidden="true">'+(got?b.m:'・')+'</div><div style="min-width:0"><h3>'+b.t+'</h3><p>'+b.d+'</p></div></div>';}).join('');
+  $('badgeCount').textContent=n+' / '+BADGES.length;
+}
+
+/* ================= 体重 ================= */
+function lastWeight(){return S.weights.length?S.weights[S.weights.length-1]:null;}
+function renderWeight(){
+  const lw=lastWeight();
+  if(document.activeElement!==$('wInput'))$('wInput').value=(lw?lw.v:60).toFixed(1);
+  $('hideSwitch').setAttribute('aria-checked',String(S.hideWeight));
+  drawChart();
+}
+function nudge(d){const v=parseFloat($('wInput').value)||60;$('wInput').value=Math.max(20,Math.min(250,v+d)).toFixed(1);}
+$('wMinus').onclick=()=>nudge(-.1);$('wPlus').onclick=()=>nudge(.1);
+$('hideSwitch').onclick=()=>{S.hideWeight=!S.hideWeight;save();renderWeight();};
+$('wSave').onclick=()=>{
+  const v=Math.round((parseFloat($('wInput').value)||0)*10)/10;
+  if(!(v>=20&&v<=250)){toast('20〜250の数字でご入力ください');return;}
+  const t=today();
+  const prev=[...S.weights].reverse().find(x=>x.d!==t);
+  S.weights=S.weights.filter(x=>x.d!==t);S.weights.push({d:t,v});S.weights.sort((a,b)=>a.d<b.d?-1:1);
+  if(S.weights.length>400)S.weights=S.weights.slice(-400);
+  const already=(S.wins[t]||{}).scale;
+  if(!already){S.wins[t]=S.wins[t]||{};S.wins[t].scale=1;}
+  save();renderWeight();
+  if(prev&&v-prev.v>=.1){openRecovery(Math.round((v-prev.v)*10)/10);return;}
+  sparkle(undefined,undefined,30);bow();
+  let sub;
+  if(!prev)sub='はじめての記録でございます。ここからご一緒いたします';
+  else if(S.hideWeight)sub='良い流れでございます';
+  else if(prev.v-v>=.1)sub='前回より '+(Math.round((prev.v-v)*10)/10).toFixed(1)+'kg 軽くなられました';
+  else sub='しっかりとキープなさっています';
+  toast('記録いたしました',sub+(already?'':'（葉が一枚増えました）'));
+  checkBadges();renderHome();
+};
+function drawChart(){
+  const svg=$('wChart'),W=400,H=190,L=S.hideWeight?14:44,R=16,T=18,B=30;
+  const data=S.weights.slice(-60);
+  if(data.length<2){svg.innerHTML='';svg.style.display='none';$('chartEmpty').hidden=false;return;}
+  svg.style.display='';$('chartEmpty').hidden=true;
+  const avg=data.map((p,i)=>{const s=data.slice(Math.max(0,i-6),i+1);return{d:p.d,v:s.reduce((a,b)=>a+b.v,0)/s.length};}).slice(-30);
+  let mn=Math.min(...avg.map(p=>p.v)),mx=Math.max(...avg.map(p=>p.v));
+  const padv=Math.max(.6,(mx-mn)*.35);mn-=padv;mx+=padv;
+  const x=i=>L+(W-L-R)*(avg.length===1?.5:i/(avg.length-1)),y=v=>T+(H-T-B)*(1-(v-mn)/(mx-mn));
+  const pts=avg.map((p,i)=>[x(i),y(p.v)]);
+  let d='M'+pts[0][0]+' '+pts[0][1];
+  for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;
+    d+=' C'+(p1[0]+(p2[0]-p0[0])/6).toFixed(1)+' '+(p1[1]+(p2[1]-p0[1])/6).toFixed(1)+','+(p2[0]-(p3[0]-p1[0])/6).toFixed(1)+' '+(p2[1]-(p3[1]-p1[1])/6).toFixed(1)+','+p2[0].toFixed(1)+' '+p2[1].toFixed(1);}
+  const area=d+' L'+pts[pts.length-1][0]+' '+(H-B)+' L'+pts[0][0]+' '+(H-B)+' Z';
+  const md=s=>{const [,m,dd]=s.split('-');return(+m)+'/'+(+dd);};
+  let grid='';
+  if(!S.hideWeight){[mn+padv*.5,(mn+mx)/2,mx-padv*.5].forEach(v=>{grid+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(v).toFixed(1)+'" y2="'+y(v).toFixed(1)+'" stroke="var(--line)" stroke-dasharray="2 5"/><text x="'+(L-8)+'" y="'+(y(v)+4).toFixed(1)+'" text-anchor="end" font-size="12" fill="var(--muted)" font-family="Cormorant Garamond, Georgia, serif" font-style="italic">'+v.toFixed(1)+'</text>';});}
+  const last=pts[pts.length-1],lv=avg[avg.length-1].v;
+  svg.innerHTML='<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sage)" stop-opacity=".35"/><stop offset="1" stop-color="var(--sage)" stop-opacity="0"/></linearGradient></defs>'+grid+
+    '<path d="'+area+'" fill="url(#wg)"/><path d="'+d+'" fill="none" stroke="var(--sage)" stroke-width="2.5" stroke-linecap="round"/>'+
+    '<circle cx="'+last[0]+'" cy="'+last[1]+'" r="8" fill="var(--sage)" fill-opacity=".22"/><circle cx="'+last[0]+'" cy="'+last[1]+'" r="4.5" fill="var(--sage)" stroke="var(--surface)" stroke-width="2"/>'+
+    (S.hideWeight?'':'<text x="'+Math.min(last[0],W-R-2)+'" y="'+(last[1]-14)+'" text-anchor="end" font-size="15" font-weight="600" fill="var(--ink)" font-family="Cormorant Garamond, Georgia, serif" font-style="italic">'+lv.toFixed(1)+' kg</text>')+
+    '<text x="'+L+'" y="'+(H-8)+'" font-size="11" fill="var(--muted)">'+md(avg[0].d)+'</text><text x="'+(W-R)+'" y="'+(H-8)+'" text-anchor="end" font-size="11" fill="var(--muted)">'+md(avg[avg.length-1].d)+'</text>';
+}
+
+/* ================= シート ================= */
+let onSheetClose=null,breathTimer=null;
+const butlerHead='<div class="sheet-butler"><div class="bt-wrap bt-slot" aria-hidden="true"></div><p>執事 しば田</p></div>';
+function openSheet(html,label){
+  $('sheet').innerHTML=html;$('sheet').setAttribute('aria-label',label||'メッセージ');$('sheetWrap').hidden=false;$('sheet').scrollTop=0;
+  placeButler($('sheet'));const f=$('sheet').querySelector('button');f&&f.focus({preventScroll:true});
+}
+function closeSheet(){$('sheetWrap').hidden=true;clearInterval(breathTimer);const cb=onSheetClose;onSheetClose=null;cb&&cb();}
+$('sheetWrap').addEventListener('click',e=>{if(e.target===$('sheetWrap'))closeSheet();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('sheetWrap').hidden)closeSheet();});
+const prog=(n,of)=>'<div class="progress" aria-hidden="true">'+Array.from({length:of},(_,i)=>'<i'+(i<n?' class="on"':'')+'></i>').join('')+'</div>';
+
+/* ----- リカバリー ----- */
+function openRecovery(diff){
+  const kcal=Math.round(diff*7200),bowls=Math.max(1,Math.round(kcal/240));
+  const s1=()=>{openSheet(prog(1,3)+butlerHead+
+    '<h2>ご安心ください。<br>まずは、ひと呼吸を。</h2>'+
+    '<p class="lead">'+esc(say(RECOVER_LEAD[S.style]))+'</p>'+
+    '<p class="body">昨日を楽しまれたのなら、それも大切な一日でございます。少しだけ、わたくしの話をお聞きください。</p>'+
+    '<div class="actions"><button class="btn wide" type="button" id="r1">続きを聞く</button></div>','リカバリー');
+    $('r1').onclick=s2;};
+  const s2=()=>{openSheet(prog(2,3)+butlerHead+
+    '<h2>その数字、ほとんどは<br>脂肪ではございません</h2>'+
+    (S.hideWeight?
+      '<div class="fact"><div class="big">7,200 kcal</div><p>脂肪を1kg増やすのに必要な食べすぎの量でございます。ご飯（茶わん1杯）なら約30杯分。1日でそこまで召し上がるのは、まず不可能です。</p></div>':
+      '<div class="fact"><div class="big">+'+diff.toFixed(1)+' kg</div><p>これを脂肪で増やすには、約<b class="num">'+kcal.toLocaleString()+'</b>kcalの食べすぎが必要でございます。ご飯（茶わん1杯）なら約<b class="num">'+bowls+'</b>杯分。</p></div>')+
+    '<p class="body">一晩で増えた重さのほとんどは、<b>水分・塩分・まだお腹の中にある食べ物</b>です。いつもどおり2〜3日お過ごしになれば、自然と落ち着いてまいります。</p>'+
+    '<div class="actions"><button class="btn wide" type="button" id="r2">では、明日はどうするか</button></div>','リカバリー');
+    $('r2').onclick=s3;};
+  const s3=()=>{openSheet(prog(3,3)+butlerHead+
+    '<h2>明日の一歩を、<br>おひとつだけお選びください</h2>'+
+    '<p class="body">取り戻そうと食事を抜いたり、無理をなさる必要はございません。いつものご自分に、静かに戻るだけで十分でございます。</p>'+
+    '<div class="choices">'+RECOVER_STEPS.map((s,i)=>'<button class="choice" type="button" data-i="'+i+'">'+esc(s)+'</button>').join('')+'</div>','リカバリー');
+    $('sheet').querySelectorAll('.choice').forEach(b=>b.onclick=()=>{
+      S.mission={text:RECOVER_STEPS[+b.dataset.i],d:addDays(today(),1),done:false};S.recoveries++;save();finish();});};
+  const finish=()=>{openSheet(butlerHead+
+    '<h2>かしこまりました</h2>'+
+    '<p class="lead">「'+esc(S.mission.text)+'」<br>明日の朝、ホームでお知らせいたします。</p>'+
+    '<p class="body">体重が増えた日に、ここまで向き合われた'+esc(sama())+'へ。ささやかながら、称号をお贈りいたします。</p>'+
+    '<div class="actions"><button class="btn wide" type="button" id="r4">ホームへ戻る</button></div>','リカバリー');
+    sparkle(undefined,undefined,34);bow();
+    $('r4').onclick=()=>{closeSheet();go('home');};};
+  onSheetClose=()=>{checkBadges();renderHome();};
+  s1();
+}
+
+/* ----- 執事を呼ぶ ----- */
+function openSos(){
+  S.sosUsed++;save();
+  const s1=()=>{openSheet(prog(1,4)+butlerHead+
+    '<h2>お呼びでしょうか。<br>ここにおりますよ。</h2>'+
+    '<p class="lead">'+esc(say(SOS_MSG[S.style]))+'</p>'+
+    '<div class="actions"><button class="btn wide" type="button" id="s1">30秒だけ、ご一緒に深呼吸を</button><button class="btn soft wide" type="button" id="s1b">深呼吸は省く</button></div>','執事を呼ぶ');
+    $('s1').onclick=s2;$('s1b').onclick=s3;};
+  const s2=()=>{openSheet(prog(2,4)+
+    '<p class="eyebrow">BREATHE</p><h2>円に合わせて、ゆっくりと</h2>'+
+    '<div class="breath"><div class="breath-ring" id="ring"><b id="ringText">吸って…</b></div><span class="breath-time" id="btime">残り 30秒</span></div>'+
+    '<div class="actions"><button class="btn soft wide" type="button" id="s2">次へ</button></div>','深呼吸');
+    $('s2').onclick=()=>{clearInterval(breathTimer);s3();};
+    let left=30,phase=0,n=0;const ring=$('ring');
+    const set=()=>{const inhale=phase%2===0;ring.style.setProperty('--s',inhale?'1':'.5');$('ringText').textContent=inhale?'吸って…':'吐いて…';};
+    requestAnimationFrame(set);
+    clearInterval(breathTimer);
+    breathTimer=setInterval(()=>{left--;n++;
+      if(n%5===0){phase++;set();}
+      const bt=$('btime');if(!bt){clearInterval(breathTimer);return;}
+      bt.textContent=left>0?'残り '+left+'秒':'少し、楽になられましたか？';
+      if(left<=0){clearInterval(breathTimer);$('ringText').textContent='お疲れさまでした';ring.style.setProperty('--s','.75');}
+    },1000);};
+  const s3=()=>{
+    const has=S.reason||S.letter;
+    openSheet(prog(3,4)+butlerHead+
+    '<h2>'+esc(sama())+'が、はじめた理由</h2>'+
+    (has?(S.reason?'<div class="letter"><small>頑張る理由</small>'+esc(S.reason)+'</div>':'')+(S.letter?'<div class="letter"><small>未来のご自分から</small>'+esc(S.letter)+'</div>':''):
+      '<p class="body">マイページに頑張る理由をお書きいただければ、このような日に、わたくしからお読み上げいたします。今は、ここまで来られたご自分をどうか認めてあげてください。</p>')+
+    '<div class="actions"><button class="btn wide" type="button" id="s3">次へ</button></div>','理由');
+    $('s3').onclick=s4;};
+  const s4=()=>{openSheet(prog(4,4)+butlerHead+
+    '<h2>本日はご自分を労って、<br>おしまいにいたしましょう</h2>'+
+    '<p class="body">温かい飲み物を一杯。湯船にゆっくりつかる。少し早めに休む。どれかおひとつで結構でございます。明日のことは、明日のわたくしどもにお任せください。</p>'+
+    '<div class="actions"><button class="btn wide" type="button" id="s4">自分を労う（葉が一枚増えます）</button><button class="btn soft wide" type="button" id="s4b">閉じる</button></div>','今日はこれで十分');
+    $('s4').onclick=e=>{closeSheet();addWin('care',e);};
+    $('s4b').onclick=closeSheet;};
+  onSheetClose=()=>{checkBadges();};
+  s1();
+}
+$('bell').onclick=openSos;$('openSos').onclick=openSos;
+
+/* ----- 初回 ----- */
+function styleButtons(sel){return Object.keys(STYLES).map(k=>'<button type="button" role="radio" class="style-opt" data-s="'+k+'" aria-checked="'+(sel===k)+'"><b>'+STYLES[k].name+'</b><span>'+STYLES[k].sample+'</span></button>').join('');}
+function openOnboarding(){
+  const tmp={name:'',reason:'',style:'gentle'};
+  const done=()=>{Object.assign(S,{name:tmp.name.trim(),reason:tmp.reason.trim(),style:tmp.style,onboarded:true});save();closeSheet();renderAll();sparkle(undefined,undefined,34);bow();toast('心を込めてお仕えいたします',sama()+'の木を植えました');};
+  const s1=()=>{openSheet(prog(1,3)+butlerHead+
+    '<h2>はじめまして。<br>執事のしば田と申します。</h2>'+
+    '<p class="lead">本日より、あなた様の毎日にお仕えいたします。</p>'+
+    '<p class="body">記録が途切れても、体重が増えても、決して責めはいたしません。できたことだけを数え、あなた様だけの木を育ててまいります。落ち込んだときは、右下の呼び鈴でいつでもお呼びください。</p>'+
+    '<div class="field" style="margin-top:16px"><label for="oName">なんとお呼びすればよろしいでしょうか？</label><input id="oName" maxlength="20" placeholder="例：たけし、ゆか（空欄でも結構です）"></div>'+
+    '<div class="actions"><button class="btn wide" type="button" id="o1">次へ</button><button class="linkish" type="button" id="oSkip">あとで設定する</button></div>','はじめに');
+    $('oName').value=tmp.name;$('o1').onclick=()=>{tmp.name=$('oName').value;s2();};$('oSkip').onclick=()=>{tmp.name=$('oName').value;done();};};
+  const s2=()=>{openSheet(prog(2,3)+butlerHead+
+    '<h2>体が軽くなったら、<br>何をなさりたいですか？</h2>'+
+    '<p class="body">落ち込まれた日に、このお言葉をお届けいたします。</p>'+
+    '<div class="field" style="margin-top:8px"><label for="oReason">頑張る理由</label><textarea id="oReason" maxlength="200" placeholder="例：休みの日に、子どもと全力で遊ぶ"></textarea></div>'+
+    '<div class="actions"><button class="btn wide" type="button" id="o2">次へ</button></div>','はじめに');
+    $('oReason').value=tmp.reason;$('o2').onclick=()=>{tmp.reason=$('oReason').value;s3();};};
+  const s3=()=>{openSheet(prog(3,3)+butlerHead+
+    '<h2>どのようにお仕えいたしましょう？</h2>'+
+    '<div class="styles" style="margin-top:14px" role="radiogroup" aria-label="応援スタイル">'+styleButtons(tmp.style)+'</div>'+
+    '<div class="actions"><button class="btn wide" type="button" id="o3">はじめる</button></div>','はじめに');
+    $('sheet').querySelectorAll('.style-opt').forEach(b=>b.onclick=()=>{tmp.style=b.dataset.s;$('sheet').querySelectorAll('.style-opt').forEach(x=>x.setAttribute('aria-checked',String(x===b)));});
+    $('o3').onclick=done;};
+  onSheetClose=()=>{if(!S.onboarded){S.onboarded=true;save();}};
+  s1();
+}
+
+/* ================= マイページ ================= */
+function renderMe(){
+  if(document.activeElement!==$('fName'))$('fName').value=S.name;
+  if(document.activeElement!==$('fReason'))$('fReason').value=S.reason;
+  if(document.activeElement!==$('fLetter'))$('fLetter').value=S.letter;
+  $('styles').innerHTML=styleButtons(S.style);
+}
+let typeTimer;
+[['fName','name'],['fReason','reason'],['fLetter','letter']].forEach(([id,key])=>{
+  $(id).addEventListener('input',()=>{S[key]=$(id).value;clearTimeout(typeTimer);typeTimer=setTimeout(()=>{save();renderHome();},500);});
+});
+$('styles').addEventListener('click',e=>{const b=e.target.closest('.style-opt');if(!b)return;S.style=b.dataset.s;save();msgOffset=0;renderMe();renderHome();toast('かしこまりました','「'+STYLES[S.style].name+'」でお仕えいたします');});
+function resetIdle(){
+  $('resetZone').innerHTML='<button class="linkish" type="button" id="resetAsk">記録をすべて消して、はじめからにする</button>';
+  $('resetAsk').onclick=()=>{
+    $('resetZone').innerHTML='<p class="small-note">葉・体重・称号・お書きになった言葉が、すべて消えます。元には戻せません。</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn soft" type="button" id="resetNo">やめておく</button><button class="btn" type="button" id="resetYes">すべて消す</button></div>';
+    $('resetNo').onclick=resetIdle;
+    $('resetYes').onclick=()=>{S=fresh();processVisit();save();resetIdle();renderAll();go('home');openOnboarding();};
+  };
+}
+
+/* ================= タブ ================= */
+let current='home';
+function go(tab){
+  current=tab;
+  ['home','tree','weight','me'].forEach(t=>{$('tab-'+t).hidden=t!==tab;});
+  document.querySelectorAll('.tabbar button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===tab)));
+  if(tab==='home')renderHome();
+  if(tab==='tree'){renderTree(true);renderBadges();}
+  if(tab==='weight')renderWeight();
+  if(tab==='me')renderMe();
+  window.scrollTo({top:0,behavior:reduced()?'auto':'smooth'});
+}
+document.querySelectorAll('.tabbar button').forEach(b=>b.onclick=()=>go(b.dataset.tab));
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g)go(g.dataset.go);});
+window.addEventListener('resize',()=>{if(current==='tree')renderTree(false);});
+function renderAll(){renderInstallCard();renderHome();if(current==='tree'){renderTree(false);renderBadges();}renderWeight();renderMe();}
+
+/* ================= 引き継ぎ ================= */
+function encodeBackup(){return 'HIDAMARI1:'+btoa(unescape(encodeURIComponent(JSON.stringify(S))));}
+function decodeBackup(code){
+  const c=String(code||'').trim().replace(/\s+/g,'');
+  if(!c.startsWith('HIDAMARI1:'))throw new Error('format');
+  const o=JSON.parse(decodeURIComponent(escape(atob(c.slice(10)))));
+  if(!o||typeof o!=='object'||!o.wins)throw new Error('data');
+  return normalize(o);
+}
+$('bkCopy').onclick=()=>{
+  const code=encodeBackup(),out=$('bkOut');out.value=code;out.hidden=false;
+  const fallback=()=>{out.focus();out.select();toast('コードを選択しました','「コピー」を押して、メモなどに貼り付けてください');};
+  try{navigator.clipboard.writeText(code).then(()=>toast('引き継ぎコードをコピーしました','メモなどに貼り付けて保管してください'),fallback);}catch(e){fallback();}
+};
+$('bkOpen').onclick=()=>{$('bkRestore').hidden=!$('bkRestore').hidden;};
+$('bkApply').onclick=()=>{
+  try{S=decodeBackup($('bkIn').value);S.onboarded=true;processVisit();save();$('bkIn').value='';$('bkRestore').hidden=true;renderAll();go('home');toast('記録を戻しました','お帰りなさいませ、'+sama());}
+  catch(e){toast('コードを読み取れませんでした','HIDAMARI1: から最後まで、すべて貼り付けてください');}
+};
+
+/* ================= ホーム画面に追加 ================= */
+const UA=navigator.userAgent;
+const isIOS=/iPhone|iPad|iPod/.test(UA)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const isInApp=/Line\/|FBAN|FBAV|Instagram/i.test(UA);
+const isIOSNotSafari=isIOS&&/CriOS|FxiOS|EdgiOS/.test(UA);
+const standalone=()=>(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
+window.addEventListener('appinstalled',()=>{$('installCard').hidden=true;toast('ホーム画面に追加しました','これからは、アイコンからお越しくださいませ');});
+const SHARE_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M8 7l4-4 4 4"/><path d="M6 11H5v10h14V11h-1"/></svg>';
+const PLUS_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg>';
+function openInstall(){
+  let body;
+  if(standalone()){
+    body='<h2>すでにホーム画面から<br>お使いいただいております</h2><p class="body">このままアイコンからお越しくださいませ。</p>';
+  }else if(isInApp){
+    body='<h2>まずはブラウザで<br>お開きください</h2><ol class="steps"><li>画面の右上（または右下）にある「︙」や共有ボタンをタップ</li><li>'+(isIOS?'「Safariで開く」':'「ブラウザで開く」「Chromeで開く」')+'をタップ</li><li>開いた画面で、もう一度この案内をご覧ください</li></ol>';
+  }else if(isIOS){
+    body='<h2>ホーム画面への追加方法</h2>'+(isIOSNotSafari?'<p class="body">この方法は <b>Safari</b> で行います。Safariでこのページを開いてから、次の手順をどうぞ。</p>':'')+
+      '<ol class="steps"><li>画面下（iPadは右上）の共有ボタン '+SHARE_ICON+' をタップ</li><li>メニューを下へスクロールして「ホーム画面に追加」'+PLUS_ICON+' をタップ</li><li>右上の「追加」をタップ</li></ol>'+
+      '<p class="warn">ご注意：ホーム画面のアイコンから開くと、記録は新しく始まります。このページで付けた記録を引き継ぎたい場合は、先にマイページの「引き継ぎコード」をコピーして、アイコンから開いた後に「記録を戻す」をお使いください。</p>';
+  }else{
+    body='<h2>ホーム画面への追加方法</h2>'+(deferredPrompt?'<p class="body">下のボタンを押すと、すぐに追加できます。</p><div class="actions"><button class="btn wide" type="button" id="doInstall">ホーム画面に追加する</button></div>':'')+
+      '<ol class="steps"><li>Chromeの右上「︙」をタップ</li><li>「ホーム画面に追加」または「アプリをインストール」をタップ</li><li>「追加」または「インストール」をタップ</li></ol>';
+  }
+  openSheet(butlerHead+body+'<div class="actions"><button class="btn soft wide" type="button" id="instClose">閉じる</button></div>','ホーム画面への追加方法');
+  $('instClose').onclick=closeSheet;
+  const d=$('doInstall');if(d)d.onclick=async()=>{try{deferredPrompt.prompt();await deferredPrompt.userChoice;}catch(e){}deferredPrompt=null;closeSheet();};
+}
+function renderInstallCard(){
+  let dismissed=false;try{dismissed=localStorage.getItem('hidamari-install-later')===today();}catch(e){}
+  $('installCard').hidden=standalone()||dismissed||!S.onboarded;
+}
+$('installGo').onclick=openInstall;$('openInstall').onclick=openInstall;
+$('installX').onclick=()=>{try{localStorage.setItem('hidamari-install-later',today());}catch(e){}$('installCard').hidden=true;};
+
+/* ================= 起動 ================= */
+placeButler();
+processVisit();
+resetIdle();
+renderAll();
+checkBadges();
+if(!S.onboarded)setTimeout(openOnboarding,450);
+else if(returnedNow)setTimeout(()=>{sparkle(undefined,innerHeight*.25,40);bow();},500);
+
+if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
+})();
+</script>
+</body>
+</html>
