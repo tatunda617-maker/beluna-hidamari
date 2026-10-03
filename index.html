@@ -160,8 +160,8 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
 .w-input{display:flex;align-items:center;justify-content:center;gap:12px;margin:14px 0 8px}
 .round{flex:none;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:22px;color:var(--ink)}
 .w-field{display:flex;align-items:baseline;gap:4px}
-#wInput{width:3.6em;border:0;background:transparent;text-align:center;font-family:var(--f-num);font-style:italic;font-weight:600;font-size:58px;line-height:1.05;padding:0;-moz-appearance:textfield;appearance:textfield}
-#wInput::-webkit-outer-spin-button,#wInput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#wInput,.w-num{width:3.6em;border:0;background:transparent;text-align:center;font-family:var(--f-num);font-style:italic;font-weight:600;font-size:58px;line-height:1.05;padding:0;-moz-appearance:textfield;appearance:textfield}
+#wInput::-webkit-outer-spin-button,#wInput::-webkit-inner-spin-button,.w-num::-webkit-outer-spin-button,.w-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .w-field span{font-size:15px;color:var(--muted)}
 .hint{margin:12px 0 0;font-size:12px;color:var(--muted);text-align:center}
 .chart-wrap{overflow-x:auto;margin-top:6px}
@@ -275,6 +275,79 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
 .unlock-list{display:grid;gap:8px;margin-top:16px}
 .unlock-list div{background:var(--surface-2);border-radius:12px;padding:10px 14px;font-size:13.5px;line-height:1.7}
 .unlock-list small{display:block;color:var(--brass);font-size:10.5px;font-weight:700;letter-spacing:.14em}
+/* ---------- Wins: categories, my items, undo ---------- */
+.chips{display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding:2px 2px 4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:700;letter-spacing:.04em;white-space:nowrap;line-height:1.4}
+.chip[aria-pressed="true"]{background:var(--btn);border-color:var(--btn);color:var(--on-btn)}
+.chip .n{font-family:var(--f-num);font-style:italic;font-size:14px;margin-left:5px;color:var(--brass)}
+.chip[aria-pressed="true"] .n{color:inherit;opacity:.8}
+.win.add{border-style:dashed;background:transparent;color:var(--muted)}
+.win.add svg{color:var(--muted)}
+.wins-tools{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:12px}
+.undo{border:0;background:none;color:var(--brass);font-weight:700;font-size:12.5px;padding:6px 8px;letter-spacing:.04em}
+.cat-hint{grid-column:1/-1;margin:0;font-size:12.5px;color:var(--muted);text-align:center;padding:4px 0}
+.suggest{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.my-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.my-list li{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--surface-2);border-radius:12px;padding:6px 6px 6px 14px;font-size:14px}
+.my-list li span{display:flex;align-items:center;gap:8px;min-width:0}
+.my-list i{flex:none;width:8px;height:8px;border-radius:50%}
+.my-list .linkish{align-self:center}
+
+/* ---------- Weight: input ---------- */
+.w-dates{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:14px}
+.w-dates input{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700;min-height:34px;color:var(--ink)}
+.w-exist{margin:0 0 10px;text-align:center;font-size:12px;color:var(--brass);font-weight:700}
+.w-more{margin:0 0 14px}
+.w-more summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--muted);text-align:center;padding:4px;list-style:none}
+.w-more summary::-webkit-details-marker{display:none}
+.w-more summary::after{content:" ▾"}
+.w-more[open] summary::after{content:" ▴"}
+.w-extra{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:10px;margin-top:8px}
+.mini-field{display:flex;flex-direction:column;gap:4px;font-size:11.5px;color:var(--muted);font-weight:700;min-width:0}
+.mini-field input{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 10px;font-size:15px;width:100%;min-width:0;color:var(--ink)}
+/* summary */
+.w-now{display:flex;align-items:baseline;gap:8px;margin-top:8px;flex-wrap:wrap}
+.w-now .big{font-family:var(--f-num);font-style:italic;font-weight:600;font-size:50px;line-height:1}
+.w-now small{color:var(--muted);font-size:12.5px}
+.w-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
+.w-stat{background:var(--surface-2);border-radius:12px;padding:10px 10px 9px;display:flex;flex-direction:column;gap:1px;min-width:0}
+.w-stat .lbl{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.04em}
+.w-stat .v{font-family:var(--f-num);font-style:italic;font-weight:600;font-size:23px;line-height:1.2}
+.w-stat .sub{font-size:10px;color:var(--muted)}
+.down{color:var(--sage)!important}
+.goal{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);display:flex;flex-direction:column}
+.goal-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px}
+.goal-row .num{font-size:19px}
+.goal-bar{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:8px}
+.goal-bar i{display:block;height:100%;background:var(--sage);border-radius:9px;transition:width .6s ease}
+.w-count{margin:10px 0 0;font-size:11.5px;color:var(--muted)}
+/* chart */
+.seg{display:flex;background:var(--surface-2);border-radius:12px;padding:3px;margin-top:12px}
+.seg button{flex:1;border:0;background:none;border-radius:9px;padding:7px 0;font-size:12px;font-weight:700;color:var(--muted);min-width:0}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.14)}
+#wChart{touch-action:pan-y;cursor:crosshair}
+.chart-note{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:11px;color:var(--muted);margin:2px 0 0}
+.chart-note i{display:inline-block;width:14px;height:3px;border-radius:2px;background:var(--sage);vertical-align:middle;margin-right:5px}
+.chart-note i.pt{width:7px;height:7px;border-radius:50%;opacity:.45}
+.chart-note i.gl{background:none;border-top:2px dashed var(--brass);height:0;border-radius:0}
+/* history */
+.hist-month{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:18px 2px 8px;font-size:11.5px;color:var(--muted)}
+.hist-month b{font-family:var(--f-serif);font-size:14.5px;color:var(--ink)}
+.hist{list-style:none;margin:0;padding:0;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.hist li+li{border-top:1px solid var(--line)}
+.hrow{width:100%;display:grid;grid-template-columns:3.6em minmax(0,1fr) auto;align-items:center;gap:12px;border:0;background:var(--surface);padding:10px 14px;text-align:left;border-radius:0}
+.hrow:active{background:var(--surface-2)}
+.hrow .dt{font-size:14px;font-weight:700;line-height:1.3}
+.hrow .dt small{display:block;font-size:10.5px;color:var(--muted);font-weight:500}
+.hrow .mid{display:flex;flex-direction:column;min-width:0;line-height:1.35}
+.hrow .hv{font-family:var(--f-num);font-style:italic;font-weight:600;font-size:22px}
+.hrow .hv small{font-family:var(--f-sans);font-style:normal;font-size:11px;color:var(--muted);font-weight:500;margin-left:3px}
+.hrow .hv.plain{font-family:var(--f-sans);font-style:normal;font-size:13px;color:var(--muted);font-weight:700}
+.hrow .memo{font-size:11.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hrow .df{font-size:12.5px;font-weight:700;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.hist-foot{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+.hist-foot .linkish{align-self:center}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 @media (max-width:360px){.hero-greet{font-size:20px}.hero-msg{font-size:15px}.bt-wrap{width:78px}.stat .num{font-size:26px}}
 </style>
@@ -326,10 +399,11 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
 
       <div>
         <div class="sec-head"><h2>本日できたこと</h2><p>押すたびに葉が一枚ふえます</p></div>
-        <div class="wins" id="wins" style="margin-top:12px"></div>
+        <div class="chips" id="winCats" role="group" aria-label="項目のしぼりこみ"></div>
+        <div class="wins" id="wins" style="margin-top:10px"></div>
         <div id="chWrap" hidden><div class="sub-head"><h3>レベルで増えた項目</h3><p>★は葉が多めに増えます</p></div><div class="wins" id="winsCh"></div></div>
         <p class="teaser" id="winTeaser" hidden></p>
-        <p class="today-sum" id="todaySum" style="margin-top:12px"></p>
+        <div class="wins-tools"><p class="today-sum" id="todaySum"></p><button class="undo" type="button" id="undoWin" hidden>↶ いま押したものを取り消す</button></div>
       </div>
 
       <div class="card reason" id="reasonCard" hidden>
@@ -364,19 +438,48 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
       <div class="card">
         <p class="eyebrow">WEIGHT</p>
         <h2>体重計に乗られただけで、立派な一歩でございます</h2>
+        <div class="w-dates" role="group" aria-label="記録する日">
+          <button class="chip" type="button" data-wd="0">今日</button>
+          <button class="chip" type="button" data-wd="-1">昨日</button>
+          <input type="date" id="wDate" aria-label="記録する日をえらぶ">
+        </div>
         <div class="w-input">
           <button class="round" type="button" id="wMinus" aria-label="0.1kg減らす">−</button>
           <div class="w-field"><input id="wInput" type="number" inputmode="decimal" step="0.1" min="20" max="250" value="60.0" aria-label="体重（kg）"><span>kg</span></div>
           <button class="round" type="button" id="wPlus" aria-label="0.1kg増やす">＋</button>
         </div>
+        <p class="w-exist" id="wExist" hidden></p>
+        <details class="w-more" id="wMore"><summary>体脂肪率・メモも残す（任意）</summary>
+          <div class="w-extra">
+            <label class="mini-field">体脂肪率（%）<input id="wFat" type="number" inputmode="decimal" step="0.1" min="3" max="75" placeholder="例：24.5"></label>
+            <label class="mini-field">ひとことメモ<input id="wMemo" maxlength="40" placeholder="例：外食した、よく眠れた"></label>
+          </div>
+        </details>
         <button class="btn wide" type="button" id="wSave">記録する</button>
         <p class="hint">体重は1日に1〜2kg揺れるのが自然です。ご覧いただくのは1週間の流れでございます。</p>
       </div>
+
+      <div class="card" id="wSummary" hidden></div>
+
       <div class="card">
-        <div class="sec-head" style="padding:0"><h2>ゆるやかな流れ</h2><p>7日間の平均</p></div>
-        <div class="chart-wrap"><svg id="wChart" viewBox="0 0 400 190" role="img" aria-label="体重の7日平均のグラフ"></svg></div>
-        <p class="chart-empty" id="chartEmpty" hidden>2回以上記録なさると、ここにゆるやかな流れを表示いたします。</p>
+        <div class="sec-head" style="padding:0"><h2>ゆるやかな流れ</h2><p>触れると詳しく</p></div>
+        <div class="seg" role="group" aria-label="表示する期間" id="wRange">
+          <button type="button" data-r="7">1週間</button><button type="button" data-r="30">1か月</button><button type="button" data-r="90">3か月</button><button type="button" data-r="365">1年</button><button type="button" data-r="0">すべて</button>
+        </div>
+        <div class="chart-wrap"><svg id="wChart" viewBox="0 0 400 220" role="img" aria-label="体重のグラフ"></svg></div>
+        <p class="chart-note" id="chartNote"><span><i></i>7日間の平均</span><span><i class="pt"></i>その日の記録</span><span id="noteGoal"><i class="gl"></i>目標</span></p>
+        <p class="chart-empty" id="chartEmpty" hidden></p>
       </div>
+
+      <div class="card">
+        <div class="sec-head" style="padding:0"><h2>これまでの記録</h2><p id="histCount"></p></div>
+        <div id="hist"></div>
+        <div class="hist-foot">
+          <button class="btn soft wide" type="button" id="histMore" hidden>もっと前の記録を見る</button>
+          <button class="linkish" type="button" id="wCsv" hidden>記録をCSVで書き出す</button>
+        </div>
+      </div>
+
       <div class="card toggle">
         <p>数字を見ない<small>体重の数字を隠して、流れだけをご覧いただけます</small></p>
         <button class="switch" type="button" role="switch" aria-checked="false" id="hideSwitch" aria-label="体重の数字を隠す"></button>
@@ -412,7 +515,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
         <button class="btn soft wide" type="button" id="openInstall">ホーム画面への追加方法</button>
         <div class="danger-zone" id="resetZone"></div>
       </div>
-      <p class="app-foot">ひだまり ・ ver 1.1</p>
+      <p class="app-foot">ひだまり ・ ver 1.2</p>
     </section>
   </main>
 </div>
@@ -495,37 +598,74 @@ const I={
   stretch:'<circle cx="12" cy="4.8" r="1.8"/><path d="M4 8.5l8 1.8 8-1.8M12 10.3v5M12 15.3L8.5 21M12 15.3l3.5 5.7"/>',
   gym:'<path d="M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/>',
   sleep:'<path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.5 6.5 0 0 0 10 10z"/>',
-  self:'<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>'
+  self:'<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>',
+  breakfast:'<path d="M3.5 13h17a8.5 8.5 0 0 1-17 0z"/><path d="M12 4v2.2M6.2 6.5l1.4 1.4M17.8 6.5l-1.4 1.4M8.8 10.5a3.2 3.2 0 0 1 6.4 0"/>',
+  protein:'<path d="M12 3.5c3.3 0 6.5 5.2 6.5 9.6a6.5 6.5 0 0 1-13 0C5.5 8.7 8.7 3.5 12 3.5z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>',
+  vegfirst:'<path d="M4 19.5C4 12 8.5 7.5 16 7.5c0 7.5-4.5 12-12 12z"/><path d="M4 19.5l7-7"/><path d="M15.5 3.5h4v4"/>',
+  nosecond:'<path d="M3.5 12h17a8.5 8.5 0 0 1-17 0z"/><path d="M8.5 6.5l2.3 2.3 4.7-4.8"/>',
+  noalcohol:'<path d="M8 3.5h8l-.6 5.2a3.4 3.4 0 0 1-6.8 0z"/><path d="M12 12.2v8.3M8.5 20.5h7"/><path d="M4 20L20 4"/>',
+  stairs:'<path d="M3.5 20.5h5v-5h5v-5h5v-5h2"/>',
+  squat:'<circle cx="12" cy="4.5" r="1.8"/><path d="M6.5 9.5h11M12 7.5v5l-4 2.5 2 5.5M12 12.5l4 2.5-2 5.5"/>',
+  standup:'<path d="M5.5 4v16.5M5.5 13h8.5v7.5"/><path d="M18 11V3.5M15.5 6l2.5-2.5L20.5 6"/>',
+  housework:'<path d="M3.5 11.5L12 4.5l8.5 7"/><path d="M6 10v10.5h12V10"/><path d="M10 20.5v-5h4v5"/>',
+  sunlight:'<path d="M3 18.5h18M6.5 18.5a5.5 5.5 0 0 1 11 0"/><path d="M12 4.5v3M4.8 9.5l2 1.5M19.2 9.5l-2 1.5"/>',
+  posture:'<circle cx="12" cy="4.5" r="2"/><path d="M12 7v13.5M7.5 10.5h9M9.5 20.5h5"/>',
+  nophone:'<rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 17.5h2"/><path d="M4 20L20 4"/>',
+  breath:'<path d="M3.5 9h10a2.5 2.5 0 1 0-2.5-2.5"/><path d="M3.5 13h14a2.5 2.5 0 1 1-2.5 2.5"/><path d="M3.5 17h6"/>',
+  smile:'<circle cx="12" cy="12" r="8.5"/><path d="M8.5 14a4 4 0 0 0 7 0"/><path d="M9.2 9.5v.6M14.8 9.5v.6"/>',
+  journal:'<path d="M6 3.5h9.5L19 7v13.5H6z"/><path d="M9 10h7M9 13.5h7M9 17h4"/>',
+  mine:'<path d="M12 20.5v-8"/><path d="M12 12.5C12 8.6 9.2 6 4.5 6c0 4 3 6.5 7.5 6.5zM12 10.5c0-3.6 2.6-6 7-6 0 3.8-2.6 6-7 6z"/>',
+  add:'<circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/>'
 };
+const CATS=[{k:'meal',t:'食事'},{k:'move',t:'運動'},{k:'life',t:'生活'},{k:'mind',t:'こころ'},{k:'mine',t:'じぶん'}];
 const KINDS=[
-  {k:'water',t:'お水を飲んだ',c:'#6E9FB8'},
-  {k:'walk',t:'歩いた',c:'#6FA287'},
-  {k:'veg',t:'野菜を食べた',c:'#4E8A62'},
-  {k:'slow',t:'ゆっくり食べた',c:'#A3B06A'},
-  {k:'eight',t:'腹八分目',c:'#C9A45C'},
-  {k:'stretch',t:'ストレッチ',c:'#7C8FB5'},
-  {k:'gym',t:'トレーニング',c:'#B7744E'},
-  {k:'sleep',t:'早く寝た',c:'#56688F'},
-  {k:'self',t:'自分をほめた',c:'#D2A866'}
+  {k:'water',t:'お水を飲んだ',c:'#6E9FB8',cat:'meal'},
+  {k:'walk',t:'歩いた',c:'#6FA287',cat:'move'},
+  {k:'veg',t:'野菜を食べた',c:'#4E8A62',cat:'meal'},
+  {k:'slow',t:'ゆっくり食べた',c:'#A3B06A',cat:'meal'},
+  {k:'eight',t:'腹八分目',c:'#C9A45C',cat:'meal'},
+  {k:'stretch',t:'ストレッチ',c:'#7C8FB5',cat:'move'},
+  {k:'gym',t:'トレーニング',c:'#B7744E',cat:'move'},
+  {k:'sleep',t:'早く寝た',c:'#56688F',cat:'life'},
+  {k:'self',t:'自分をほめた',c:'#D2A866',cat:'mind'},
+  {k:'breakfast',t:'朝ごはんを食べた',c:'#D8A657',cat:'meal'},
+  {k:'protein',t:'たんぱく質をとった',c:'#C98F6B',cat:'meal'},
+  {k:'vegfirst',t:'野菜から食べた',c:'#6E9E5A',cat:'meal'},
+  {k:'nosecond',t:'おかわりしなかった',c:'#B9A36A',cat:'meal'},
+  {k:'noalcohol',t:'お酒を控えた',c:'#8E6A86',cat:'meal'},
+  {k:'stairs',t:'階段を使った',c:'#8DAA70',cat:'move'},
+  {k:'squat',t:'スクワットした',c:'#A8705A',cat:'move'},
+  {k:'standup',t:'こまめに立ち上がった',c:'#7BA39A',cat:'move'},
+  {k:'housework',t:'家事で体を動かした',c:'#9C8C6A',cat:'move'},
+  {k:'sunlight',t:'朝日を浴びた',c:'#E0B25C',cat:'life'},
+  {k:'posture',t:'姿勢を意識した',c:'#7E93A8',cat:'life'},
+  {k:'nophone',t:'寝る前スマホを控えた',c:'#5E6E8C',cat:'life'},
+  {k:'breath',t:'深呼吸した',c:'#8DB4C2',cat:'mind'},
+  {k:'smile',t:'楽しいことをした',c:'#D69A7C',cat:'mind'},
+  {k:'journal',t:'よかったことを書いた',c:'#B79A6E',cat:'mind'}
 ];
-const EXTRA={stairs:{t:'階段を使った',c:'#8DAA70'},scale:{t:'体重計に乗った',c:'#8FB3BF'},mission:{t:'小さな一歩',c:'#D9B96E'},care:{t:'自分をいたわった',c:'#BFA07A'}};
+const ORIG_KINDS=['water','walk','veg','slow','eight','stretch','gym','sleep','self'];
+const MY_COLORS=['#C08A7A','#8A9FC2','#9DB07A','#C2A06E','#A08AB8','#7FB0A6','#C7946A','#8FA08A'];
+const MY_SUGGEST=['お弁当を作った','ペットと散歩した','ヨガをした','白湯を飲んだ','エレベーターを使わなかった','夜食をがまんした','プロテインを飲んだ','早起きした','よく噛んだ','湯船で半身浴'];
+const EXTRA={scale:{t:'体重計に乗った',c:'#8FB3BF'},mission:{t:'小さな一歩',c:'#D9B96E'},care:{t:'自分をいたわった',c:'#BFA07A'}};
 const CH=[
-  {k:'snack',t:'間食をがまんした',c:'#B98B5E',lv:2,v:1,i:'<circle cx="12" cy="12" r="8"/><circle cx="9" cy="10" r=".9"/><circle cx="14.5" cy="9.5" r=".9"/><circle cx="13" cy="14.5" r=".9"/><path d="M5 19L19 5"/>'},
-  {k:'bath',t:'湯船につかった',c:'#7FA7B5',lv:2,v:1,i:'<path d="M3 12h18v2a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path d="M6 12V6.5a2 2 0 0 1 4 0"/><path d="M7 19l-1 2M17 19l1 2"/>'},
-  {k:'cook',t:'自炊した',c:'#A07850',lv:3,v:1,i:'<circle cx="10" cy="13.5" r="6"/><path d="M16 13.5h6"/><path d="M8 5.5c0-1 1-1 1-2.5M12 5.5c0-1 1-1 1-2.5"/>'},
-  {k:'walk20',t:'20分以上歩いた',c:'#5E9677',lv:3,v:2,i:'<circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M10 3h4"/>'},
-  {k:'nosugar',t:'甘い飲み物をやめた',c:'#8FA3A8',lv:4,v:1,i:'<path d="M6.5 7h11l-1.2 12.5a1.5 1.5 0 0 1-1.5 1.5H9.2a1.5 1.5 0 0 1-1.5-1.5z"/><path d="M13 7l2-4"/><path d="M4 21L20 4"/>'},
-  {k:'sleep7',t:'7時間眠れた',c:'#4B5C86',lv:4,v:2,i:'<path d="M16 15.5A6.5 6.5 0 1 1 8.5 6a5 5 0 0 0 7.5 9.5z"/><path d="M15 3.5h4l-4 4h4"/>'},
-  {k:'gym30',t:'30分以上鍛えた',c:'#A5623E',lv:5,v:2,i:'<path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"/><circle cx="12" cy="14.5" r="6"/>'},
-  {k:'late',t:'夜9時以降は食べなかった',c:'#3F5270',lv:5,v:2,i:'<circle cx="12" cy="12" r="8.5"/><path d="M12 12H7.5M12 12V6.5"/>'},
-  {k:'core',t:'体幹トレーニング',c:'#7E7AA8',lv:6,v:1,i:'<circle cx="5" cy="9" r="1.8"/><path d="M7 10.5l12 3M9 11v5M19 13.5l1 3"/>'},
-  {k:'steps',t:'8000歩あるいた',c:'#4F8A6A',lv:6,v:2,i:'<path d="M3.5 19l4.5-6 4 3 4.5-7 4 4"/>'},
-  {k:'newsport',t:'新しい運動に挑戦',c:'#C49A4A',lv:7,v:2,i:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>'},
-  {k:'move60',t:'1時間しっかり動いた',c:'#B5533C',lv:7,v:3,i:'<path d="M12 21c-4 0-6.5-2.7-6.5-6 0-4 3.5-6 4-10 3 2 4 4 4 6 1-1 1.5-2 1.5-3 2 1.5 3.5 4 3.5 7 0 3.3-2.5 6-6.5 6z"/>'},
-  {k:'meal',t:'3食バランスよく食べた',c:'#6B9A58',lv:8,v:2,i:'<circle cx="13.5" cy="12" r="7"/><circle cx="13.5" cy="12" r="3.5"/><path d="M4 4v16M2.5 4v4a1.5 1.5 0 0 0 3 0V4"/>'},
-  {k:'invite',t:'誰かを運動に誘った',c:'#9A6F8A',lv:8,v:2,i:'<circle cx="8.5" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3 20a5.5 5.5 0 0 1 11 0M13.5 20a4 4 0 0 1 7.5-2"/>'}
+  {k:'snack',cat:'meal',t:'間食をがまんした',c:'#B98B5E',lv:2,v:1,i:'<circle cx="12" cy="12" r="8"/><circle cx="9" cy="10" r=".9"/><circle cx="14.5" cy="9.5" r=".9"/><circle cx="13" cy="14.5" r=".9"/><path d="M5 19L19 5"/>'},
+  {k:'bath',cat:'life',t:'湯船につかった',c:'#7FA7B5',lv:2,v:1,i:'<path d="M3 12h18v2a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path d="M6 12V6.5a2 2 0 0 1 4 0"/><path d="M7 19l-1 2M17 19l1 2"/>'},
+  {k:'cook',cat:'meal',t:'自炊した',c:'#A07850',lv:3,v:1,i:'<circle cx="10" cy="13.5" r="6"/><path d="M16 13.5h6"/><path d="M8 5.5c0-1 1-1 1-2.5M12 5.5c0-1 1-1 1-2.5"/>'},
+  {k:'walk20',cat:'move',t:'20分以上歩いた',c:'#5E9677',lv:3,v:2,i:'<circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M10 3h4"/>'},
+  {k:'nosugar',cat:'meal',t:'甘い飲み物をやめた',c:'#8FA3A8',lv:4,v:1,i:'<path d="M6.5 7h11l-1.2 12.5a1.5 1.5 0 0 1-1.5 1.5H9.2a1.5 1.5 0 0 1-1.5-1.5z"/><path d="M13 7l2-4"/><path d="M4 21L20 4"/>'},
+  {k:'sleep7',cat:'life',t:'7時間眠れた',c:'#4B5C86',lv:4,v:2,i:'<path d="M16 15.5A6.5 6.5 0 1 1 8.5 6a5 5 0 0 0 7.5 9.5z"/><path d="M15 3.5h4l-4 4h4"/>'},
+  {k:'gym30',cat:'move',t:'30分以上鍛えた',c:'#A5623E',lv:5,v:2,i:'<path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"/><circle cx="12" cy="14.5" r="6"/>'},
+  {k:'late',cat:'meal',t:'夜9時以降は食べなかった',c:'#3F5270',lv:5,v:2,i:'<circle cx="12" cy="12" r="8.5"/><path d="M12 12H7.5M12 12V6.5"/>'},
+  {k:'core',cat:'move',t:'体幹トレーニング',c:'#7E7AA8',lv:6,v:1,i:'<circle cx="5" cy="9" r="1.8"/><path d="M7 10.5l12 3M9 11v5M19 13.5l1 3"/>'},
+  {k:'steps',cat:'move',t:'8000歩あるいた',c:'#4F8A6A',lv:6,v:2,i:'<path d="M3.5 19l4.5-6 4 3 4.5-7 4 4"/>'},
+  {k:'newsport',cat:'move',t:'新しい運動に挑戦',c:'#C49A4A',lv:7,v:2,i:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>'},
+  {k:'move60',cat:'move',t:'1時間しっかり動いた',c:'#B5533C',lv:7,v:3,i:'<path d="M12 21c-4 0-6.5-2.7-6.5-6 0-4 3.5-6 4-10 3 2 4 4 4 6 1-1 1.5-2 1.5-3 2 1.5 3.5 4 3.5 7 0 3.3-2.5 6-6.5 6z"/>'},
+  {k:'meal',cat:'meal',t:'3食バランスよく食べた',c:'#6B9A58',lv:8,v:2,i:'<circle cx="13.5" cy="12" r="7"/><circle cx="13.5" cy="12" r="3.5"/><path d="M4 4v16M2.5 4v4a1.5 1.5 0 0 0 3 0V4"/>'},
+  {k:'invite',cat:'mind',t:'誰かを運動に誘った',c:'#9A6F8A',lv:8,v:2,i:'<circle cx="8.5" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3 20a5.5 5.5 0 0 1 11 0M13.5 20a4 4 0 0 1 7.5-2"/>'}
 ];
-const COLOR=k=>(KINDS.find(x=>x.k===k)||CH.find(x=>x.k===k)||EXTRA[k]||{c:'#8DAA70'}).c;
+const mine=()=>S.custom.filter(c=>!c.off);
+const COLOR=k=>(KINDS.find(x=>x.k===k)||CH.find(x=>x.k===k)||S.custom.find(x=>x.k===k)||EXTRA[k]||{c:'#8DAA70'}).c;
 const VALUE=k=>(CH.find(x=>x.k===k)||{v:1}).v;
 const LV=[0,5,15,30,50,80,120,170,230,300];
 function levelInfo(){const t=totalWins(S);let lv=1;LV.forEach((n,i)=>{if(t>=n)lv=i+1;});const cur=LV[lv-1],next=LV[lv];return{lv,total:t,cur,next,left:next==null?0:next-t,pct:next==null?1:(t-cur)/(next-cur)};}
@@ -581,7 +721,7 @@ const BADGES=[
   {id:'sleep20',lv:6,m:'眠',t:'眠りの名手',d:'睡眠やお風呂の項目を合計20回',ok:s=>kc(s,'sleep','sleep7','bath')>=20},
   {id:'days30',lv:6,m:'月',t:'三十日の努力',d:'がんばった日が累計30日',ok:s=>winDays(s)>=30},
   {id:'leaf100',lv:7,m:'樹',t:'ひだまりの大樹',d:'葉が100枚に',ok:s=>totalWins(s)>=100},
-  {id:'allkinds',lv:7,m:'全',t:'万能の人',d:'Lv.7までの項目をすべて1回以上',ok:s=>KINDS.concat(CH.filter(c=>c.lv<=7)).every(k=>kc(s,k.k)>0)},
+  {id:'allkinds',lv:7,m:'全',t:'万能の人',d:'Lv.7までの項目をすべて1回以上',ok:s=>ORIG_KINDS.concat(CH.filter(c=>c.lv<=7).map(c=>c.k)).every(k=>kc(s,k)>0)},
   {id:'visits60',lv:7,m:'友',t:'しば田の親友',d:'60日お越しくださった',ok:s=>s.visits.length>=60},
   {id:'leaf200',lv:8,m:'森',t:'ひだまりの森',d:'葉が200枚に',ok:s=>totalWins(s)>=200},
   {id:'days100',lv:8,m:'百',t:'百日の努力',d:'がんばった日が累計100日',ok:s=>winDays(s)>=100},
@@ -609,8 +749,8 @@ function winDays(s){return Object.keys(s.wins).filter(d=>Object.values(s.wins[d]
 
 /* ================= 保存 ================= */
 const LS='hidamari-v1';
-function fresh(){return{v:1,updatedAt:0,onboarded:false,name:'',reason:'',letter:'',style:'gentle',hideWeight:false,wins:{},weights:[],visits:[],lastVisit:null,returns:0,recoveries:0,sosUsed:0,early:false,night:false,mission:null,stepDone:null,badges:{},level:null};}
-function normalize(o){const s=Object.assign(fresh(),o||{});if(!STYLES[s.style])s.style='gentle';return s;}
+function fresh(){return{v:1,updatedAt:0,onboarded:false,name:'',reason:'',letter:'',style:'gentle',hideWeight:false,wins:{},weights:[],visits:[],lastVisit:null,returns:0,recoveries:0,sosUsed:0,early:false,night:false,mission:null,stepDone:null,badges:{},level:null,custom:[],goal:null};}
+function normalize(o){const s=Object.assign(fresh(),o||{});if(!STYLES[s.style])s.style='gentle';if(!Array.isArray(s.custom))s.custom=[];if(!Array.isArray(s.weights))s.weights=[];return s;}
 let S=fresh();
 try{const raw=localStorage.getItem(LS);if(raw)S=normalize(JSON.parse(raw));}catch(e){}
 function save(){
@@ -736,20 +876,49 @@ function renderStep(){
 }
 function winBtn(k,n,icon,isNew){
   const v=k.v||1;
-  return '<button type="button" class="win" data-k="'+k.k+'" aria-label="'+k.t+'（本日'+n+'回）">'+(isNew?'<span class="new-tag">NEW</span>':'<i class="dot" style="background:'+k.c+'"></i>')+(n?'<span class="cnt num">×'+n+'</span>':'')+
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+icon+'</svg><span class="lbl">'+k.t+'</span>'+(v>1?'<span class="val">'+'★'.repeat(v-1)+' 葉'+v+'枚</span>':'')+'</button>';
+  return '<button type="button" class="win" data-k="'+k.k+'" aria-label="'+esc(k.t)+'（本日'+n+'回）">'+(isNew?'<span class="new-tag">NEW</span>':'<i class="dot" style="background:'+k.c+'"></i>')+(n?'<span class="cnt num">×'+n+'</span>':'')+
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+icon+'</svg><span class="lbl">'+esc(k.t)+'</span>'+(v>1?'<span class="val">'+'★'.repeat(v-1)+' 葉'+v+'枚</span>':'')+'</button>';
 }
+const addBtn=()=>'<button type="button" class="win add" data-add="1" aria-label="じぶんの項目を加える"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+I.add+'</svg><span class="lbl">じぶんの項目を<br>加える</span></button>';
+/* しぼりこみ：よく使う／すべて／カテゴリ。選んだものはこの端末だけに覚えておく */
+let winCat=null;try{winCat=localStorage.getItem('hidamari-wincat');}catch(e){}
+function openItems(){const L=levelInfo().lv;return KINDS.concat(CH.filter(c=>c.lv<=L),mine().map(c=>Object.assign({cat:'mine'},c)));}
+function frequent(){
+  const t=today(),cnt={};
+  for(let i=1;i<=30;i++){const w=S.wins[addDays(t,-i)];if(w)for(const k in w)cnt[k]=(cnt[k]||0)+w[k];}
+  return openItems().filter(k=>cnt[k.k]).sort((a,b)=>cnt[b.k]-cnt[a.k]).slice(0,9);
+}
+const iconOf=k=>k.i||I[k.k]||I.mine;
+let undoStack=[];
 function renderWins(){
-  const tw=S.wins[today()]||{},L=levelInfo();
-  $('wins').innerHTML=KINDS.map(k=>winBtn(k,tw[k.k]||0,I[k.k],false)).join('');
-  const open=CH.filter(c=>c.lv<=L.lv);
-  $('chWrap').hidden=!open.length;
-  $('winsCh').innerHTML=open.map(c=>winBtn(c,tw[c.k]||0,c.i,c.lv===L.lv&&!kc(S,c.k))).join('');
+  const tw=S.wins[today()]||{},L=levelInfo(),freq=frequent();
+  const valid=['freq','all'].concat(CATS.map(c=>c.k));
+  if(!valid.includes(winCat)||(winCat==='freq'&&!freq.length))winCat=freq.length?'freq':'all';
+  const catCount=c=>openItems().filter(k=>k.cat===c).reduce((a,k)=>a+(tw[k.k]||0),0);
+  const chips=(freq.length?[['freq','よく使う']]:[]).concat([['all','すべて']],CATS.map(c=>[c.k,c.t]));
+  $('winCats').innerHTML=chips.map(([k,t])=>{const n=k==='freq'||k==='all'?0:catCount(k);return '<button type="button" class="chip" data-cat="'+k+'" aria-pressed="'+(winCat===k)+'">'+t+(n?'<span class="n">'+n+'</span>':'')+'</button>';}).join('');
+  const isNew=c=>c.lv===L.lv&&!kc(S,c.k);
+  let main,showCh=false;
+  if(winCat==='freq')main=freq;
+  else if(winCat==='all'){main=KINDS.concat(mine());showCh=true;}
+  else if(winCat==='mine')main=mine();
+  else{main=KINDS.filter(k=>k.cat===winCat);showCh=true;}
+  const open=CH.filter(c=>c.lv<=L.lv&&(winCat==='all'||c.cat===winCat));
+  let html=main.map(k=>winBtn(k,tw[k.k]||0,iconOf(k),k.lv?isNew(k):false)).join('');
+  if(winCat==='all'||winCat==='mine')html+=addBtn();
+  if(winCat==='mine'&&!mine().length)html='<p class="cat-hint">毎日の小さな習慣を、ご自由に加えられます</p>'+html;
+  if(winCat==='mine'&&mine().length)html+='<p class="cat-hint"><button class="linkish" type="button" data-manage="1" style="align-self:center">加えた項目を整える</button></p>';
+  if(winCat==='freq')html+='<p class="cat-hint">この30日でよく押された項目です</p>';
+  $('wins').innerHTML=html;
+  $('chWrap').hidden=!(showCh&&open.length);
+  $('winsCh').innerHTML=open.map(c=>winBtn(c,tw[c.k]||0,c.i,isNew(c))).join('');
   const nx=CH.filter(c=>c.lv>L.lv);
-  if(nx.length){const nl=nx[0].lv,need=LV[nl-1]-L.total;$('winTeaser').hidden=false;$('winTeaser').innerHTML='あと <b class="num">'+need+'</b> 枚でLv.'+nl+'。「'+nx.filter(c=>c.lv===nl).map(c=>esc(c.t)).join('」「')+'」が加わります';}
+  if(nx.length&&winCat!=='mine'&&winCat!=='freq'){const nl=nx[0].lv,need=LV[nl-1]-L.total;$('winTeaser').hidden=false;$('winTeaser').innerHTML='あと <b class="num">'+need+'</b> 枚でLv.'+nl+'。「'+nx.filter(c=>c.lv===nl).map(c=>esc(c.t)).join('」「')+'」が加わります';}
   else $('winTeaser').hidden=true;
   const sum=Object.keys(tw).reduce((a,k)=>a+tw[k]*VALUE(k),0);
   $('todaySum').innerHTML=sum?'本日は <b class="num">'+sum+'</b> 枚の葉が育ちました':'どれかおひとつ押せましたら、本日は満点でございます';
+  undoStack=undoStack.filter(u=>u.d===today()&&(tw[u.k]||0)>0);
+  $('undoWin').hidden=!undoStack.length;
 }
 function addWin(kind,ev){
   const t=today();S.wins[t]=S.wins[t]||{};S.wins[t][kind]=(S.wins[t][kind]||0)+1;save();
@@ -761,8 +930,51 @@ function addWin(kind,ev){
   const b=document.querySelector('.win[data-k="'+kind+'"]');if(b)b.classList.add('pop');
   afterGain();
 }
-$('wins').addEventListener('click',e=>{const b=e.target.closest('.win');if(b)addWin(b.dataset.k,e);});
-$('winsCh').addEventListener('click',e=>{const b=e.target.closest('.win');if(b)addWin(b.dataset.k,e);});
+function onWinClick(e){
+  const b=e.target.closest('.win');
+  if(e.target.closest('[data-manage]')){openMyItems();return;}
+  if(!b)return;
+  if(b.dataset.add){openMyItems();return;}
+  undoStack.push({d:today(),k:b.dataset.k});if(undoStack.length>20)undoStack.shift();
+  addWin(b.dataset.k,e);
+}
+$('wins').addEventListener('click',onWinClick);
+$('winsCh').addEventListener('click',onWinClick);
+$('winCats').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;winCat=b.dataset.cat;try{localStorage.setItem('hidamari-wincat',winCat);}catch(err){}renderWins();});
+$('undoWin').onclick=()=>{
+  const u=undoStack.pop(),t=today();if(!u||u.d!==t)return renderWins();
+  const w=S.wins[t]||{};if(!w[u.k])return renderWins();
+  w[u.k]--;if(!w[u.k])delete w[u.k];save();
+  const it=openItems().find(k=>k.k===u.k);
+  toast('取り消しました','「'+(it?it.t:'できたこと')+'」をひとつ戻しました');
+  renderHome();
+};
+/* ----- じぶんの項目 ----- */
+function openMyItems(){
+  const act=mine();
+  openSheet(BH()+'<p class="eyebrow">MY ITEMS</p><h2>'+esc(sama())+'だけの<br>「できたこと」</h2>'+
+    '<p class="body">毎日の小さな習慣を、なんでもお書きください。「じぶん」の欄と「すべて」に並びます。</p>'+
+    '<div class="field" style="margin-top:14px"><label for="myIn">項目の名前（14文字まで）</label><input id="myIn" maxlength="14" placeholder="例：お弁当を作った"></div>'+
+    '<div class="suggest">'+MY_SUGGEST.filter(t=>!act.some(c=>c.t===t)).slice(0,8).map(t=>'<button type="button" class="chip" data-sg="'+esc(t)+'">'+esc(t)+'</button>').join('')+'</div>'+
+    '<div class="actions"><button class="btn wide" type="button" id="myAdd">加える</button></div>'+
+    (act.length?'<div class="sub-head"><h3>加えた項目</h3><p>消しても、育った葉は残ります</p></div><ul class="my-list">'+act.map(c=>'<li><span><i style="background:'+c.c+'"></i>'+esc(c.t)+'</span><button class="linkish" type="button" data-del="'+c.k+'">消す</button></li>').join('')+'</ul>':'')+
+    '<div class="actions"><button class="btn soft wide" type="button" id="myClose">閉じる</button></div>','じぶんの項目');
+  $('sheet').querySelectorAll('[data-sg]').forEach(b=>b.onclick=()=>{$('myIn').value=b.dataset.sg;$('myIn').focus();});
+  $('sheet').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
+    if(b.dataset.armed){const c=S.custom.find(x=>x.k===b.dataset.del);if(c)c.off=true;save();openMyItems();renderWins();toast('項目を消しました','育った葉は、そのまま残ります');return;}
+    b.dataset.armed='1';b.textContent='本当に消す';});
+  const add=()=>{
+    const t=$('myIn').value.trim().replace(/\s+/g,' ');
+    if(!t){toast('項目の名前をお書きください');$('myIn').focus();return;}
+    if(openItems().some(k=>k.t===t)){toast('同じ名前の項目がございます');return;}
+    if(act.length>=20){toast('じぶんの項目は20個まででございます');return;}
+    S.custom.push({k:'u'+Date.now().toString(36),t,c:MY_COLORS[S.custom.length%MY_COLORS.length]});
+    save();winCat='mine';try{localStorage.setItem('hidamari-wincat','mine');}catch(e){}
+    closeSheet();renderHome();toast('かしこまりました','「'+t+'」を加えました');
+  };
+  $('myAdd').onclick=add;$('myIn').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing)add();});
+  $('myClose').onclick=closeSheet;
+}
 $('nextMsg').onclick=()=>{msgOffset++;renderHome();};
 
 /* ================= 木 ================= */
@@ -779,8 +991,8 @@ function renderTree(animate){
   const nt=[3,5,7,9,10].find(x=>x>L.lv);
   $('rankLine').textContent='しば田の位：'+titleOf(L.lv)+(nt?'（Lv.'+nt+'で「'+titleOf(nt)+'」に昇格）':'');
   const used=new Set(leafSeq());
-  const items=KINDS.concat(CH).filter(k=>used.has(k.k)).map(k=>({t:k.t,c:k.c})).concat(Object.keys(EXTRA).filter(k=>used.has(k)).map(k=>EXTRA[k]));
-  $('legend').innerHTML=items.map(k=>'<span><i style="background:'+k.c+'"></i>'+k.t+'</span>').join('')||'<span>「できたこと」を押すと、その色の葉が芽吹きます</span>';
+  const items=KINDS.concat(CH,S.custom).filter(k=>used.has(k.k)).map(k=>({t:k.t,c:k.c})).concat(Object.keys(EXTRA).filter(k=>used.has(k)).map(k=>EXTRA[k]));
+  $('legend').innerHTML=items.map(k=>'<span><i style="background:'+k.c+'"></i>'+esc(k.t)+'</span>').join('')||'<span>「できたこと」を押すと、その色の葉が芽吹きます</span>';
   cancelAnimationFrame(treeAnim);
   const c=$('treeCanvas');
   if(!animate||reduced()){drawTree(c,1);return;}
@@ -848,60 +1060,244 @@ function renderBadges(){
 }
 
 /* ================= 体重 ================= */
+const W_MAX=3000,WDN=['日','月','火','水','木','金','土'];
+const dOf=k=>{const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d);};
+const md=k=>{const [,m,d]=k.split('-');return(+m)+'/'+(+d);};
+const wdOf=k=>WDN[dOf(k).getDay()];
+const dayLbl=k=>k===today()?'今日':k===addDays(today(),-1)?'昨日':md(k)+'（'+wdOf(k)+'）';
+const r1=v=>Math.round(v*10)/10;
+const f1=v=>r1(v).toFixed(1);
+const signed=v=>{const r=r1(v);return(r>0?'+':r<0?'−':'±')+Math.abs(r).toFixed(1);};
+const trendCls=v=>v!=null&&r1(v)<0?'down':'';
+const arrow=v=>{const r=r1(v);return r<0?'↓':r>0?'↑':'→';};
 function lastWeight(){return S.weights.length?S.weights[S.weights.length-1]:null;}
+function wAt(d){return S.weights.find(x=>x.d===d)||null;}
+function wBefore(d){for(let i=S.weights.length-1;i>=0;i--)if(S.weights[i].d<d)return S.weights[i];return null;}
+function avgIn(a,b){const l=S.weights.filter(x=>x.d>=a&&x.d<=b);return l.length?l.reduce((s,x)=>s+x.v,0)/l.length:null;}
+const ma7=d=>avgIn(addDays(d,-6),d);
+let wDate=null,histShown=14,wRange=30;
+try{const r=localStorage.getItem('hidamari-wrange');if(r!=null&&['7','30','90','365','0'].includes(r))wRange=+r;}catch(e){}
+
 function renderWeight(){
-  const lw=lastWeight();
-  if(document.activeElement!==$('wInput'))$('wInput').value=(lw?lw.v:60).toFixed(1);
-  $('hideSwitch').setAttribute('aria-checked',String(S.hideWeight));
-  drawChart();
-}
-function nudge(d){const v=parseFloat($('wInput').value)||60;$('wInput').value=Math.max(20,Math.min(250,v+d)).toFixed(1);}
-$('wMinus').onclick=()=>nudge(-.1);$('wPlus').onclick=()=>nudge(.1);
-$('hideSwitch').onclick=()=>{S.hideWeight=!S.hideWeight;save();renderWeight();};
-$('wSave').onclick=()=>{
-  const v=Math.round((parseFloat($('wInput').value)||0)*10)/10;
-  if(!(v>=20&&v<=250)){toast('20〜250の数字でご入力ください');return;}
   const t=today();
-  const prev=[...S.weights].reverse().find(x=>x.d!==t);
-  S.weights=S.weights.filter(x=>x.d!==t);S.weights.push({d:t,v});S.weights.sort((a,b)=>a.d<b.d?-1:1);
-  if(S.weights.length>400)S.weights=S.weights.slice(-400);
-  const already=(S.wins[t]||{}).scale;
-  if(!already){S.wins[t]=S.wins[t]||{};S.wins[t].scale=1;}
-  save();renderWeight();
-  if(prev&&v-prev.v>=.1){openRecovery(Math.round((v-prev.v)*10)/10);return;}
+  if(!wDate||wDate>t)wDate=t;
+  const dEl=$('wDate');dEl.max=t;if(document.activeElement!==dEl)dEl.value=wDate;
+  document.querySelectorAll('[data-wd]').forEach(b=>b.setAttribute('aria-pressed',String(addDays(t,+b.dataset.wd)===wDate)));
+  fillWeightForm();
+  $('hideSwitch').setAttribute('aria-checked',String(S.hideWeight));
+  $('wRange').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.r===wRange)));
+  renderWSummary();drawChart();renderHist();
+}
+function fillWeightForm(){
+  const ex=wAt(wDate),ref=ex||wBefore(wDate)||lastWeight(),act=document.activeElement;
+  if(act!==$('wInput'))$('wInput').value=(ref?ref.v:60).toFixed(1);
+  if(act!==$('wFat'))$('wFat').value=ex&&ex.f!=null?ex.f.toFixed(1):'';
+  if(act!==$('wMemo'))$('wMemo').value=ex&&ex.m||'';
+  if(ex&&(ex.f!=null||ex.m))$('wMore').open=true;
+  const lbl=dayLbl(wDate);
+  $('wExist').hidden=!ex;
+  $('wExist').textContent=ex?lbl+'は'+(S.hideWeight?'':f1(ex.v)+'kgで')+'記録済みです。記録すると書きかえます':'';
+  $('wSave').textContent=ex?lbl+'の記録を書きかえる':wDate===today()?'記録する':lbl+'の分を記録する';
+}
+function nudge(id,d){const el=$(id),v=parseFloat(el.value)||60;el.value=Math.max(20,Math.min(250,v+d)).toFixed(1);}
+$('wMinus').onclick=()=>nudge('wInput',-.1);$('wPlus').onclick=()=>nudge('wInput',.1);
+$('hideSwitch').onclick=()=>{S.hideWeight=!S.hideWeight;save();renderWeight();};
+document.querySelectorAll('[data-wd]').forEach(b=>b.onclick=()=>{wDate=addDays(today(),+b.dataset.wd);renderWeight();});
+$('wDate').addEventListener('change',()=>{const v=$('wDate').value;if(!/^\d{4}-\d{2}-\d{2}$/.test(v))return;wDate=v>today()?today():v;$('wDate').blur();renderWeight();});
+$('wRange').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;wRange=+b.dataset.r;try{localStorage.setItem('hidamari-wrange',String(wRange));}catch(err){}renderWeight();});
+function readExtras(fatId,memoId){
+  const fs=$(fatId).value.trim(),f=fs===''?null:r1(parseFloat(fs));
+  if(f!=null&&!(f>=3&&f<=75)){toast('体脂肪率は3〜75の数字でご入力ください');return false;}
+  return{f,m:$(memoId).value.trim().slice(0,40)};
+}
+function putWeight(e){
+  const o={d:e.d,v:e.v};if(e.f!=null)o.f=e.f;if(e.m)o.m=e.m;
+  S.weights=S.weights.filter(x=>x.d!==e.d);S.weights.push(o);S.weights.sort((a,b)=>a.d<b.d?-1:1);
+  if(S.weights.length>W_MAX)S.weights=S.weights.slice(-W_MAX);
+}
+$('wSave').onclick=()=>{
+  const v=r1(parseFloat($('wInput').value)||0);
+  if(!(v>=20&&v<=250)){toast('20〜250の数字でご入力ください');return;}
+  const ext=readExtras('wFat','wMemo');if(!ext)return;
+  const t=today(),d=wDate||t,isToday=d===t,prev=wBefore(d),old=wAt(d);
+  putWeight({d,v,f:ext.f,m:ext.m});
+  let leaf=false;
+  if(isToday&&!(S.wins[t]||{}).scale){S.wins[t]=S.wins[t]||{};S.wins[t].scale=1;leaf=true;}
+  save();document.activeElement&&document.activeElement.blur&&document.activeElement.blur();renderWeight();
+  const upAlready=old&&prev&&old.v-prev.v>=.1;
+  if(isToday&&prev&&v-prev.v>=.1&&!upAlready){openRecovery(r1(v-prev.v));return;}
   sparkle(undefined,undefined,30);bow();
   let sub;
-  if(!prev)sub='はじめての記録でございます。ここからご一緒いたします';
+  if(!isToday)sub=dayLbl(d)+'の分として残しました';
+  else if(!prev)sub='はじめての記録でございます。ここからご一緒いたします';
   else if(S.hideWeight)sub='良い流れでございます';
-  else if(prev.v-v>=.1)sub='前回より '+(Math.round((prev.v-v)*10)/10).toFixed(1)+'kg 軽くなられました';
+  else if(prev.v-v>=.1)sub='前回より '+f1(prev.v-v)+'kg 軽くなられました';
   else sub='しっかりとキープなさっています';
-  toast('記録いたしました',sub+(already?'':'（葉が一枚増えました）'));
+  toast(old?'記録を書きかえました':'記録いたしました',sub+(leaf?'（葉が一枚増えました）':''));
   afterGain();renderHome();
 };
+
+/* ----- いまの様子 ----- */
+function renderWSummary(){
+  const box=$('wSummary'),lw=lastWeight();
+  if(!lw){box.hidden=true;box.innerHTML='';return;}
+  box.hidden=false;
+  const h=S.hideWeight,first=S.weights[0],prev=wBefore(lw.d),t=today();
+  const a1=avgIn(addDays(t,-6),t),a0=avgIn(addDays(t,-13),addDays(t,-7));
+  const stat=(lbl,v,sub)=>'<div class="w-stat"><span class="lbl">'+lbl+'</span><span class="v '+trendCls(v)+'">'+(v==null?'—':h?arrow(v):signed(v))+'</span><span class="sub">'+sub+'</span></div>';
+  let html='<div class="sec-head" style="padding:0"><h2>いまの様子</h2><p>'+dayLbl(lw.d)+'の記録</p></div>';
+  html+='<div class="w-now">'+(h?'<span class="big">· · ·</span><small>数字は隠しております</small>':'<span class="big">'+f1(lw.v)+'</span><small>kg'+(lw.f!=null?'　体脂肪率 '+f1(lw.f)+'%':'')+'</small>')+'</div>';
+  html+='<div class="w-stats">'+
+    stat('前回から',prev?lw.v-prev.v:null,prev?md(prev.d)+'との差':'次の記録から')+
+    stat('1週間の平均',a1!=null&&a0!=null?a1-a0:null,a1!=null&&a0!=null?'先週の平均との差':'2週間ぶん記録で表示')+
+    stat('はじめから',S.weights.length>1?lw.v-first.v:null,md(first.d)+'から')+'</div>';
+  if(S.goal){
+    const g=S.goal,span=g.v-g.from,pct=span===0?1:Math.max(0,Math.min(1,(lw.v-g.from)/span));
+    const reached=span<=0?lw.v<=g.v:lw.v>=g.v,left=Math.abs(lw.v-g.v);
+    html+='<div class="goal"><div class="goal-row"><span>'+(h?'目標まで':'目標 <b class="num">'+f1(g.v)+'</b> kg')+'</span><span>'+
+      (reached?'<b>到達なさいました ✓</b>':h?'<b class="num">'+Math.round(pct*100)+'</b> %':'あと <b class="num">'+f1(left)+'</b> kg')+'</span></div>'+
+      '<div class="goal-bar"><i style="width:'+Math.round(pct*100)+'%"></i></div><button class="linkish" type="button" id="goalSet">目標を変える</button></div>';
+  }else html+='<div class="goal"><button class="linkish" type="button" id="goalSet">目標体重を決める（任意）</button></div>';
+  const ym=t.slice(0,7);
+  html+='<p class="w-count">これまで <b>'+S.weights.length+'</b> 回 ・ 今月 <b>'+S.weights.filter(x=>x.d.startsWith(ym)).length+'</b> 日 記録なさいました</p>';
+  box.innerHTML=html;
+  $('goalSet').onclick=openGoal;
+}
+function openGoal(){
+  const lw=lastWeight(),init=S.goal?S.goal.v:(lw?r1(lw.v-2):60);
+  openSheet(BH()+'<p class="eyebrow">GOAL</p><h2>目指す体重を、<br>お聞かせください</h2>'+
+    '<p class="body">ひと月に体重の5%以内の、ゆるやかな歩みがおすすめでございます。数字に縛られる必要はございません。</p>'+
+    '<div class="w-input"><button class="round" type="button" id="gMinus" aria-label="0.1kg減らす">−</button><div class="w-field"><input class="w-num" id="gInput" type="number" inputmode="decimal" step="0.1" min="20" max="250" aria-label="目標体重（kg）"><span>kg</span></div><button class="round" type="button" id="gPlus" aria-label="0.1kg増やす">＋</button></div>'+
+    '<div class="actions"><button class="btn wide" type="button" id="gOk">この目標にする</button>'+(S.goal?'<button class="btn soft wide" type="button" id="gDel">目標をなくす</button>':'')+'<button class="btn soft wide" type="button" id="gClose">閉じる</button></div>','目標体重');
+  $('gInput').value=init.toFixed(1);
+  $('gMinus').onclick=()=>nudge('gInput',-.1);$('gPlus').onclick=()=>nudge('gInput',.1);
+  $('gOk').onclick=()=>{const v=r1(parseFloat($('gInput').value)||0);if(!(v>=20&&v<=250)){toast('20〜250の数字でご入力ください');return;}
+    S.goal={v,from:lw?lw.v:v,d:today()};save();closeSheet();renderWeight();toast('かしこまりました','ゆっくり、ご一緒にまいりましょう');};
+  if($('gDel'))$('gDel').onclick=()=>{S.goal=null;save();closeSheet();renderWeight();toast('目標をなくしました','記録は、そのまま残っております');};
+  $('gClose').onclick=closeSheet;
+}
+
+/* ----- グラフ ----- */
+const CW=400,CH_=220,CT=16,CB=28,CR=14;
+let chartPts=[],chartL=42;
+function niceStep(raw){for(const s of [.1,.2,.5,1,2,5,10,20])if(s>=raw)return s;return 50;}
 function drawChart(){
-  const svg=$('wChart'),W=400,H=190,L=S.hideWeight?14:44,R=16,T=18,B=30;
-  const data=S.weights.slice(-60);
-  if(data.length<2){svg.innerHTML='';svg.style.display='none';$('chartEmpty').hidden=false;return;}
-  svg.style.display='';$('chartEmpty').hidden=true;
-  const avg=data.map((p,i)=>{const s=data.slice(Math.max(0,i-6),i+1);return{d:p.d,v:s.reduce((a,b)=>a+b.v,0)/s.length};}).slice(-30);
-  let mn=Math.min(...avg.map(p=>p.v)),mx=Math.max(...avg.map(p=>p.v));
-  const padv=Math.max(.6,(mx-mn)*.35);mn-=padv;mx+=padv;
-  const x=i=>L+(W-L-R)*(avg.length===1?.5:i/(avg.length-1)),y=v=>T+(H-T-B)*(1-(v-mn)/(mx-mn));
-  const pts=avg.map((p,i)=>[x(i),y(p.v)]);
-  let d='M'+pts[0][0]+' '+pts[0][1];
+  const svg=$('wChart'),h=S.hideWeight,L=chartL=h?14:42,t=today(),all=S.weights;
+  const empty=msg=>{svg.innerHTML='';svg.style.display='none';$('chartNote').hidden=true;$('chartEmpty').hidden=false;$('chartEmpty').textContent=msg;chartPts=[];};
+  if(!all.length)return empty('記録なさると、ここにゆるやかな流れを表示いたします。');
+  const x0=wRange?addDays(t,-(wRange-1)):all[0].d;
+  const data=all.filter(p=>p.d>=x0&&p.d<=t);
+  if(!data.length)return empty('この期間の記録はございません。期間を広げてご覧ください。');
+  svg.style.display='';$('chartNote').hidden=false;$('chartEmpty').hidden=true;
+  const span=daysBetween(x0,t),X=d=>span?L+(CW-L-CR)*daysBetween(x0,d)/span:(L+CW-CR)/2;
+  const ma=data.map(p=>ma7(p.d));
+  const vals=data.map(p=>p.v).concat(ma);
+  let mn=Math.min(...vals),mx=Math.max(...vals);
+  const g=S.goal&&S.goal.v,showGoal=!!g&&g>=mn-3&&g<=mx+3;
+  if(showGoal){mn=Math.min(mn,g);mx=Math.max(mx,g);}
+  const pv=Math.max(.4,(mx-mn)*.12);mn-=pv;mx+=pv;
+  const Y=v=>CT+(CH_-CT-CB)*(1-(v-mn)/(mx-mn));
+  let grid='';
+  if(!h){const st=niceStep((mx-mn)/4);for(let v=Math.ceil(mn/st)*st;v<=mx+1e-9;v+=st){const y=Y(v).toFixed(1);
+    grid+='<line x1="'+L+'" x2="'+(CW-CR)+'" y1="'+y+'" y2="'+y+'" stroke="var(--line)" stroke-dasharray="2 5"/><text x="'+(L-7)+'" y="'+(+y+4)+'" text-anchor="end" font-size="11.5" fill="var(--muted)" font-family="Cormorant Garamond, Georgia, serif" font-style="italic">'+v.toFixed(st<1?1:0)+'</text>';}}
+  let xt='';const used=new Set(),n=span?4:0;
+  for(let i=0;i<=n;i++){const d=addDays(x0,Math.round(span*i/(n||1)));if(used.has(d))continue;used.add(d);
+    const [yy,mm]=d.split('-'),lbl=span>200?(i===0||mm==='01'?yy.slice(2)+'年':'')+(+mm)+'月':md(d);
+    xt+='<line x1="'+X(d).toFixed(1)+'" x2="'+X(d).toFixed(1)+'" y1="'+(CH_-CB)+'" y2="'+(CH_-CB+4)+'" stroke="var(--line)"/><text x="'+X(d).toFixed(1)+'" y="'+(CH_-8)+'" text-anchor="'+(i===0?'start':i===n?'end':'middle')+'" font-size="11" fill="var(--muted)">'+lbl+'</text>';}
+  const pts=data.map((p,i)=>[X(p.d),Y(ma[i])]);
+  let d='M'+pts[0][0].toFixed(1)+' '+pts[0][1].toFixed(1);
   for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;
     d+=' C'+(p1[0]+(p2[0]-p0[0])/6).toFixed(1)+' '+(p1[1]+(p2[1]-p0[1])/6).toFixed(1)+','+(p2[0]-(p3[0]-p1[0])/6).toFixed(1)+' '+(p2[1]-(p3[1]-p1[1])/6).toFixed(1)+','+p2[0].toFixed(1)+' '+p2[1].toFixed(1);}
-  const area=d+' L'+pts[pts.length-1][0]+' '+(H-B)+' L'+pts[0][0]+' '+(H-B)+' Z';
-  const md=s=>{const [,m,dd]=s.split('-');return(+m)+'/'+(+dd);};
-  let grid='';
-  if(!S.hideWeight){[mn+padv*.5,(mn+mx)/2,mx-padv*.5].forEach(v=>{grid+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(v).toFixed(1)+'" y2="'+y(v).toFixed(1)+'" stroke="var(--line)" stroke-dasharray="2 5"/><text x="'+(L-8)+'" y="'+(y(v)+4).toFixed(1)+'" text-anchor="end" font-size="12" fill="var(--muted)" font-family="Cormorant Garamond, Georgia, serif" font-style="italic">'+v.toFixed(1)+'</text>';});}
-  const last=pts[pts.length-1],lv=avg[avg.length-1].v;
-  svg.innerHTML='<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sage)" stop-opacity=".35"/><stop offset="1" stop-color="var(--sage)" stop-opacity="0"/></linearGradient></defs>'+grid+
-    '<path d="'+area+'" fill="url(#wg)"/><path d="'+d+'" fill="none" stroke="var(--sage)" stroke-width="2.5" stroke-linecap="round"/>'+
-    '<circle cx="'+last[0]+'" cy="'+last[1]+'" r="8" fill="var(--sage)" fill-opacity=".22"/><circle cx="'+last[0]+'" cy="'+last[1]+'" r="4.5" fill="var(--sage)" stroke="var(--surface)" stroke-width="2"/>'+
-    (S.hideWeight?'':'<text x="'+Math.min(last[0],W-R-2)+'" y="'+(last[1]-14)+'" text-anchor="end" font-size="15" font-weight="600" fill="var(--ink)" font-family="Cormorant Garamond, Georgia, serif" font-style="italic">'+lv.toFixed(1)+' kg</text>')+
-    '<text x="'+L+'" y="'+(H-8)+'" font-size="11" fill="var(--muted)">'+md(avg[0].d)+'</text><text x="'+(W-R)+'" y="'+(H-8)+'" text-anchor="end" font-size="11" fill="var(--muted)">'+md(avg[avg.length-1].d)+'</text>';
+  const area=pts.length>1?'<path d="'+d+' L'+pts[pts.length-1][0].toFixed(1)+' '+(CH_-CB)+' L'+pts[0][0].toFixed(1)+' '+(CH_-CB)+' Z" fill="url(#wg)"/>':'';
+  const r=data.length>120?1.6:2.6;
+  const dots=data.map(p=>'<circle cx="'+X(p.d).toFixed(1)+'" cy="'+Y(p.v).toFixed(1)+'" r="'+r+'" fill="var(--sage)" fill-opacity=".45"/>').join('');
+  const goal=showGoal?'<line x1="'+L+'" x2="'+(CW-CR)+'" y1="'+Y(g).toFixed(1)+'" y2="'+Y(g).toFixed(1)+'" stroke="var(--brass)" stroke-width="1.5" stroke-dasharray="6 5"/>'+(h?'':'<text x="'+(CW-CR)+'" y="'+(Y(g)-5).toFixed(1)+'" text-anchor="end" font-size="11" font-weight="700" fill="var(--brass)">目標 '+f1(g)+'</text>'):'';
+  $('noteGoal').hidden=!showGoal;
+  const last=pts[pts.length-1];
+  svg.innerHTML='<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sage)" stop-opacity=".3"/><stop offset="1" stop-color="var(--sage)" stop-opacity="0"/></linearGradient></defs>'+grid+xt+goal+area+dots+
+    (pts.length>1?'<path d="'+d+'" fill="none" stroke="var(--sage)" stroke-width="2.5" stroke-linecap="round"/>':'')+
+    '<circle cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="8" fill="var(--sage)" fill-opacity=".2"/><circle cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="4.5" fill="var(--sage)" stroke="var(--surface)" stroke-width="2"/>'+
+    '<g id="wTip"></g>';
+  chartPts=data.map((p,i)=>({x:X(p.d),y:Y(p.v),p,ma:ma[i]}));
+  const fa=data[0],la=data[data.length-1];
+  svg.setAttribute('aria-label','体重のグラフ。'+md(fa.d)+'から'+md(la.d)+'まで'+data.length+'件の記録'+(h?'':'。直近の7日平均は'+f1(ma[ma.length-1])+'kg'));
 }
+function showTip(i){
+  const g=$('wTip');if(!g)return;
+  if(i==null){g.innerHTML='';return;}
+  const c=chartPts[i],p=c.p,h=S.hideWeight;
+  const lines=[dayLbl(p.d)];
+  if(!h){lines.push(f1(p.v)+' kg');lines.push('7日平均 '+f1(c.ma));}
+  if(p.m)lines.push(p.m.length>9?p.m.slice(0,9)+'…':p.m);
+  const bw=118,bh=12+lines.length*17;
+  let bx=c.x+12;if(bx+bw>CW-2)bx=c.x-12-bw;
+  const by=Math.max(2,Math.min(c.y-bh/2,CH_-CB-bh));
+  g.innerHTML='<line x1="'+c.x.toFixed(1)+'" x2="'+c.x.toFixed(1)+'" y1="'+CT+'" y2="'+(CH_-CB)+'" stroke="var(--muted)" stroke-dasharray="3 4" opacity=".7"/>'+
+    '<circle cx="'+c.x.toFixed(1)+'" cy="'+c.y.toFixed(1)+'" r="5.5" fill="var(--sage)" stroke="var(--surface)" stroke-width="2"/>'+
+    '<rect x="'+bx.toFixed(1)+'" y="'+by.toFixed(1)+'" width="'+bw+'" height="'+bh+'" rx="9" fill="var(--btn)"/>'+
+    lines.map((l,k)=>'<text x="'+(bx+11).toFixed(1)+'" y="'+(by+21+k*17).toFixed(1)+'" font-size="'+(k===1&&!h?15:11.5)+'" font-weight="700" fill="var(--on-btn)">'+esc(l)+'</text>').join('');
+}
+function tipAt(e){
+  if(!chartPts.length)return;
+  const r=$('wChart').getBoundingClientRect(),sx=(e.clientX-r.left)/r.width*CW;
+  let best=0,bd=1e9;chartPts.forEach((c,i)=>{const dd=Math.abs(c.x-sx);if(dd<bd){bd=dd;best=i;}});
+  showTip(best);
+}
+$('wChart').addEventListener('pointerdown',tipAt);
+$('wChart').addEventListener('pointermove',e=>{if(e.pointerType==='mouse'||e.buttons)tipAt(e);});
+$('wChart').addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')showTip(null);});
+
+/* ----- これまでの記録 ----- */
+function renderHist(){
+  const box=$('hist'),list=[...S.weights].reverse(),h=S.hideWeight;
+  $('histCount').textContent=list.length?'全 '+list.length+' 件 ・ 押すと直せます':'';
+  $('wCsv').hidden=!list.length;
+  if(!list.length){box.innerHTML='<p class="chart-empty">まだ記録はございません。最初の一回を、お待ちしております。</p>';$('histMore').hidden=true;return;}
+  const shown=list.slice(0,histShown),months={};
+  list.forEach(p=>{const ym=p.d.slice(0,7);(months[ym]=months[ym]||[]).push(p.v);});
+  let html='',cur=null;
+  shown.forEach((p,i)=>{
+    const ym=p.d.slice(0,7);
+    if(ym!==cur){
+      if(cur)html+='</ul>';cur=ym;const mv=months[ym],[yy,mm]=ym.split('-');
+      html+='<div class="hist-month"><b>'+yy+'年'+(+mm)+'月</b><span>'+mv.length+'日'+(h?'':' ・ 平均 '+f1(mv.reduce((a,b)=>a+b,0)/mv.length)+'kg')+'</span></div><ul class="hist">';
+    }
+    const older=list[i+1],df=older?p.v-older.v:null,[,,dd]=p.d.split('-');
+    const sub=[p.f!=null&&!h?'体脂肪率 '+f1(p.f)+'%':'',p.m?esc(p.m):''].filter(Boolean).join(' ・ ');
+    html+='<li><button type="button" class="hrow" data-d="'+p.d+'" aria-label="'+md(p.d)+'の記録を直す">'+
+      '<span class="dt">'+(+dd)+'日<small>'+(p.d===today()?'今日':wdOf(p.d)+'曜日')+'</small></span>'+
+      '<span class="mid">'+(h?'<span class="hv plain">記録 ✓</span>':'<span class="hv">'+f1(p.v)+'<small>kg</small></span>')+(sub?'<span class="memo">'+sub+'</span>':'')+'</span>'+
+      '<span class="df '+trendCls(df)+'">'+(df==null?'':h?arrow(df):signed(df))+'</span></button></li>';
+  });
+  box.innerHTML=html+'</ul>';
+  $('histMore').hidden=list.length<=histShown;
+  $('histMore').textContent='もっと前の記録を見る（残り '+(list.length-histShown)+' 件）';
+}
+$('histMore').onclick=()=>{histShown+=60;renderHist();};
+$('hist').addEventListener('click',e=>{const b=e.target.closest('.hrow');if(b)openEditW(b.dataset.d);});
+function openEditW(d){
+  const e=wAt(d);if(!e)return;
+  const [y,m,dd]=d.split('-');
+  openSheet('<p class="eyebrow">EDIT</p><h2>'+(+y)+'年'+(+m)+'月'+(+dd)+'日（'+wdOf(d)+'）の記録</h2>'+
+    '<div class="w-input"><button class="round" type="button" id="eMinus" aria-label="0.1kg減らす">−</button><div class="w-field"><input class="w-num" id="eInput" type="number" inputmode="decimal" step="0.1" min="20" max="250" aria-label="体重（kg）"><span>kg</span></div><button class="round" type="button" id="ePlus" aria-label="0.1kg増やす">＋</button></div>'+
+    '<div class="w-extra"><label class="mini-field">体脂肪率（%）<input id="eFat" type="number" inputmode="decimal" step="0.1" min="3" max="75" placeholder="任意"></label><label class="mini-field">ひとことメモ<input id="eMemo" maxlength="40" placeholder="任意"></label></div>'+
+    '<div class="actions"><button class="btn wide" type="button" id="eSave">この内容で保存する</button><button class="btn soft wide" type="button" id="eClose">閉じる</button><button class="linkish" type="button" id="eDel" style="align-self:center">この記録を消す</button></div>','記録を直す');
+  $('eInput').value=e.v.toFixed(1);$('eFat').value=e.f!=null?e.f.toFixed(1):'';$('eMemo').value=e.m||'';
+  $('eMinus').onclick=()=>nudge('eInput',-.1);$('ePlus').onclick=()=>nudge('eInput',.1);
+  $('eSave').onclick=()=>{const v=r1(parseFloat($('eInput').value)||0);if(!(v>=20&&v<=250)){toast('20〜250の数字でご入力ください');return;}
+    const ext=readExtras('eFat','eMemo');if(!ext)return;putWeight({d,v,f:ext.f,m:ext.m});save();closeSheet();renderWeight();toast('記録を直しました',dayLbl(d)+'の記録');};
+  $('eClose').onclick=closeSheet;
+  $('eDel').onclick=()=>{const b=$('eDel');if(!b.dataset.armed){b.dataset.armed='1';b.textContent='本当に消す（元には戻せません）';b.style.color='var(--ink)';return;}
+    S.weights=S.weights.filter(x=>x.d!==d);save();closeSheet();renderWeight();toast('記録を消しました',dayLbl(d)+'の記録');};
+}
+$('wCsv').onclick=()=>{
+  const q=c=>/[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;
+  const rows=[['日付','体重(kg)','体脂肪率(%)','メモ']].concat(S.weights.map(x=>[x.d,f1(x.v),x.f!=null?f1(x.f):'',x.m||'']));
+  const blob=new Blob(['﻿'+rows.map(r=>r.map(q).join(',')).join('\r\n')],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hidamari-weight-'+today()+'.csv';
+  document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);
+  toast('CSVを書き出しました','表計算アプリで開けます');
+};
 
 /* ================= シート ================= */
 let onSheetClose=null,breathTimer=null;
@@ -1051,7 +1447,7 @@ function go(tab){
   document.querySelectorAll('.tabbar button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===tab)));
   if(tab==='home')renderHome();
   if(tab==='tree'){renderTree(true);renderBadges();}
-  if(tab==='weight')renderWeight();
+  if(tab==='weight'){wDate=today();histShown=14;showTip(null);renderWeight();}
   if(tab==='me')renderMe();
   window.scrollTo({top:0,behavior:reduced()?'auto':'smooth'});
 }
