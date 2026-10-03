@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ひだまり</title>
-<meta name="description" content="柴犬の執事「しば田」が、できたことだけを数えて支えてくれる、責めないダイエット応援アプリ。">
+<meta name="description" content="柴犬の執事「しば田」が、毎日の「できた」を数えてほめてくれる、責めない応援アプリ。">
 <meta name="theme-color" content="#E9ECE9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0E1318" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -286,6 +286,8 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
 .win.add svg{color:var(--muted)}
 .wins-tools{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:12px}
 .undo{border:0;background:none;color:var(--brass);font-weight:700;font-size:12.5px;padding:6px 8px;letter-spacing:.04em}
+.cat-title{grid-column:1/-1;margin:8px 2px -2px;font-family:var(--f-serif);font-size:13.5px;font-weight:700;color:var(--brass);letter-spacing:.08em}
+.cat-title:first-child{margin-top:0}
 .cat-hint{grid-column:1/-1;margin:0;font-size:12.5px;color:var(--muted);text-align:center;padding:4px 0}
 .suggest{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .my-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
@@ -491,7 +493,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
       <div class="card form">
         <div><p class="eyebrow">PROFILE</p><h2>ここにお書きいただいた言葉を、つらい日にお届けいたします</h2></div>
         <div class="field"><label for="fName">お呼びする名前</label><input id="fName" maxlength="20" placeholder="例：たけし、ゆか"></div>
-        <div class="field"><label for="fReason">頑張る理由</label><small>体が軽くなったら、何をなさりたいですか？</small><textarea id="fReason" maxlength="200" placeholder="例：休みの日に、子どもと全力で遊ぶ"></textarea></div>
+        <div class="field"><label for="fReason">頑張る理由</label><small>なりたいご自分になれたら、何をなさりたいですか？</small><textarea id="fReason" maxlength="200" placeholder="例：休みの日に、子どもと全力で遊ぶ"></textarea></div>
         <div class="field"><label for="fLetter">未来のご自分から、今のご自分へ</label><small>目標をかなえたご自分になったつもりで</small><textarea id="fLetter" maxlength="400" placeholder="例：あの時やめないでくれて、ありがとう。今、毎日が本当に楽しい。"></textarea></div>
       </div>
       <div class="card form">
@@ -515,7 +517,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
         <button class="btn soft wide" type="button" id="openInstall">ホーム画面への追加方法</button>
         <div class="danger-zone" id="resetZone"></div>
       </div>
-      <p class="app-foot">ひだまり ・ ver 1.2</p>
+      <p class="app-foot">ひだまり ・ ver 1.3</p>
     </section>
   </main>
 </div>
@@ -614,10 +616,28 @@ const I={
   breath:'<path d="M3.5 9h10a2.5 2.5 0 1 0-2.5-2.5"/><path d="M3.5 13h14a2.5 2.5 0 1 1-2.5 2.5"/><path d="M3.5 17h6"/>',
   smile:'<circle cx="12" cy="12" r="8.5"/><path d="M8.5 14a4 4 0 0 0 7 0"/><path d="M9.2 9.5v.6M14.8 9.5v.6"/>',
   journal:'<path d="M6 3.5h9.5L19 7v13.5H6z"/><path d="M9 10h7M9 13.5h7M9 17h4"/>',
+  workhard:'<rect x="3.5" y="7.5" width="17" height="12" rx="2"/><path d="M9 7.5V5.5a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 5.5v2M3.5 12.5h17"/>',
+  study:'<path d="M4 18.5V6a2 2 0 0 1 2-2h12.5v12H6a2 2 0 0 0-2 2.5 2 2 0 0 0 2 2h12.5"/><path d="M9 8h6"/>',
+  read:'<path d="M12 6.5c-2-1.5-5-2-8.5-1.5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5c-3.5-.5-6.5 0-8.5 1.5z"/><path d="M12 6.5v13"/>',
+  learn:'<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>',
+  task:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+  focus:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/>',
+  practice:'<path d="M9 18.5V5.5l10-2v13"/><circle cx="6.5" cy="18.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/>',
+  earlyrise:'<circle cx="12" cy="13" r="7"/><path d="M12 9.5V13l2.5 1.5M5 4.5L3 6.5M19 4.5l2 2M7.5 20l-1.5 1.5M16.5 20l1.5 1.5"/>',
+  clean:'<path d="M14.5 3.5l-4 8"/><path d="M7 11.5h7.5l2 9H5z"/><path d="M8.5 15.5v5M12 15.5v5"/>',
+  laundry:'<rect x="4" y="3" width="16" height="18" rx="2.5"/><circle cx="12" cy="13" r="4.5"/><path d="M7.5 6.5h2"/>',
+  tidy:'<path d="M3.5 8.5h17v11a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5z"/><path d="M5 8.5l2-4.5h10l2 4.5M10 12.5h4"/>',
+  dishes:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><path d="M17 4l2.5-1.5M19 6.5l2-1"/>',
+  ontime:'<path d="M5.5 20.5h13M7 3.5h10M8 3.5c0 4 8 4.5 8 8.5s-8 4.5-8 8.5M16 3.5c0 4-8 4.5-8 8.5s8 4.5 8 8.5"/>',
+  errand:'<path d="M4 4h2.5l2 11h10l2-7.5H7.5"/><circle cx="10" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/>',
+  kind:'<path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/>',
+  thanksay:'<path d="M4 5.5h16v10H9.5L5 19.5v-4H4z"/><path d="M12 13s-3-1.8-3-3.8a1.6 1.6 0 0 1 3-.7 1.6 1.6 0 0 1 3 .7c0 2-3 3.8-3 3.8z"/>',
+  contact:'<path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16.5 16.5 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/>',
+  relax:'<path d="M5 11h12v3a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 12h1.5a2 2 0 0 1 0 4H17M9 4.5c0 1.5 1 1.5 1 3M13 4.5c0 1.5 1 1.5 1 3"/>',
   mine:'<path d="M12 20.5v-8"/><path d="M12 12.5C12 8.6 9.2 6 4.5 6c0 4 3 6.5 7.5 6.5zM12 10.5c0-3.6 2.6-6 7-6 0 3.8-2.6 6-7 6z"/>',
   add:'<circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/>'
 };
-const CATS=[{k:'meal',t:'食事'},{k:'move',t:'運動'},{k:'life',t:'生活'},{k:'mind',t:'こころ'},{k:'mine',t:'じぶん'}];
+const CATS=[{k:'home',t:'暮らし'},{k:'work',t:'仕事・学び'},{k:'mind',t:'こころ'},{k:'meal',t:'食事'},{k:'move',t:'運動'},{k:'life',t:'休息'},{k:'mine',t:'じぶん'}];
 const KINDS=[
   {k:'water',t:'お水を飲んだ',c:'#6E9FB8',cat:'meal'},
   {k:'walk',t:'歩いた',c:'#6FA287',cat:'move'},
@@ -637,16 +657,34 @@ const KINDS=[
   {k:'squat',t:'スクワットした',c:'#A8705A',cat:'move'},
   {k:'standup',t:'こまめに立ち上がった',c:'#7BA39A',cat:'move'},
   {k:'housework',t:'家事で体を動かした',c:'#9C8C6A',cat:'move'},
-  {k:'sunlight',t:'朝日を浴びた',c:'#E0B25C',cat:'life'},
-  {k:'posture',t:'姿勢を意識した',c:'#7E93A8',cat:'life'},
+  {k:'sunlight',t:'朝日を浴びた',c:'#E0B25C',cat:'home'},
+  {k:'posture',t:'姿勢を意識した',c:'#7E93A8',cat:'move'},
   {k:'nophone',t:'寝る前スマホを控えた',c:'#5E6E8C',cat:'life'},
   {k:'breath',t:'深呼吸した',c:'#8DB4C2',cat:'mind'},
   {k:'smile',t:'楽しいことをした',c:'#D69A7C',cat:'mind'},
-  {k:'journal',t:'よかったことを書いた',c:'#B79A6E',cat:'mind'}
+  {k:'journal',t:'よかったことを書いた',c:'#B79A6E',cat:'mind'},
+  {k:'earlyrise',t:'早起きできた',c:'#E3A857',cat:'home'},
+  {k:'clean',t:'掃除した',c:'#8BAFB0',cat:'home'},
+  {k:'laundry',t:'洗濯した',c:'#86A6C8',cat:'home'},
+  {k:'tidy',t:'片づけた',c:'#A99572',cat:'home'},
+  {k:'dishes',t:'洗い物をした',c:'#7FB1C0',cat:'home'},
+  {k:'ontime',t:'時間どおりに動けた',c:'#9A8BB5',cat:'home'},
+  {k:'errand',t:'用事をすませた',c:'#B48C6E',cat:'home'},
+  {k:'workhard',t:'仕事をがんばった',c:'#5F7896',cat:'work'},
+  {k:'study',t:'ちょっと勉強した',c:'#6C88B8',cat:'work'},
+  {k:'read',t:'本を読んだ',c:'#8C7AA6',cat:'work'},
+  {k:'learn',t:'新しいことを知った',c:'#D0A84E',cat:'work'},
+  {k:'task',t:'やることを1つ片づけた',c:'#6E9A86',cat:'work'},
+  {k:'focus',t:'集中できた',c:'#B5675A',cat:'work'},
+  {k:'practice',t:'練習を続けた',c:'#A07AA0',cat:'work'},
+  {k:'kind',t:'誰かに親切にした',c:'#D98A8A',cat:'mind'},
+  {k:'thanksay',t:'ありがとうを伝えた',c:'#E0A07A',cat:'mind'},
+  {k:'contact',t:'家族や友人に連絡した',c:'#7FA3A0',cat:'mind'},
+  {k:'relax',t:'ちゃんと休憩した',c:'#A3B4A0',cat:'life'}
 ];
 const ORIG_KINDS=['water','walk','veg','slow','eight','stretch','gym','sleep','self'];
 const MY_COLORS=['#C08A7A','#8A9FC2','#9DB07A','#C2A06E','#A08AB8','#7FB0A6','#C7946A','#8FA08A'];
-const MY_SUGGEST=['お弁当を作った','ペットと散歩した','ヨガをした','白湯を飲んだ','エレベーターを使わなかった','夜食をがまんした','プロテインを飲んだ','早起きした','よく噛んだ','湯船で半身浴'];
+const MY_SUGGEST=['お弁当を作った','ペットと散歩した','日記を書いた','英語を5分やった','ニュースを読んだ','花に水をやった','子どもと遊んだ','ヨガをした','資格の勉強をした','ゴミを出した','家計簿をつけた','ブログを書いた'];
 const EXTRA={scale:{t:'体重計に乗った',c:'#8FB3BF'},mission:{t:'小さな一歩',c:'#D9B96E'},care:{t:'自分をいたわった',c:'#BFA07A'}};
 const CH=[
   {k:'snack',cat:'meal',t:'間食をがまんした',c:'#B98B5E',lv:2,v:1,i:'<circle cx="12" cy="12" r="8"/><circle cx="9" cy="10" r=".9"/><circle cx="14.5" cy="9.5" r=".9"/><circle cx="13" cy="14.5" r=".9"/><path d="M5 19L19 5"/>'},
@@ -682,11 +720,11 @@ const MSG={
 };
 const RETURN_MSG={gentle:'お帰りなさいませ、{様}。……失礼、しっぽが勝手に。またお会いできて、心より嬉しく存じます。',hot:'お帰りなさいませ！戻ってこられた{様}は、誰よりもお強い。',trainer:'お帰りなさいませ。再開できる方こそ、最後に結果を出されます。'};
 const PRAISE={
-  gentle:['お見事でございます。しかと拝見いたしました。','素晴らしい。葉が一枚、増えましたよ。','お身体が喜んでおります。','本日の{様}、実に良い調子でございます。'],
+  gentle:['お見事でございます。しかと拝見いたしました。','素晴らしい。葉が一枚、増えましたよ。','ご自分を誇ってよろしいのですよ。','本日の{様}、実に良い調子でございます。'],
   hot:['お見事！その調子でございます！','さすが{様}。また一枚、葉が増えました！','積み重ねこそ力。実に頼もしい！','本日の{様}は、ひと味違いますね！'],
-  trainer:['結構です。その積み重ねがお身体を変えます。','良い習慣は、小さな1回から育ちます。','確かに記録いたしました。無理なく参りましょう。','理想的なご選択でございます。']
+  trainer:['結構です。その積み重ねが、{様}を変えてまいります。','良い習慣は、小さな1回から育ちます。','確かに記録いたしました。無理なく参りましょう。','理想的なご選択でございます。']
 };
-const STEPS=['コップ1杯のお水を飲む','10分だけ歩く','ひと口20回、ゆっくり噛む','寝る前に3分ストレッチ','いつもより30分早く床につく','野菜をひと皿プラスする','鏡のご自分に「よくやっている」と言う'];
+const STEPS=['机の上をひとつ片づける','本を1ページだけ読む','5分だけ勉強してみる','誰かに「ありがとう」を伝える','いつもより10分早く起きる','コップ1杯のお水を飲む','10分だけ歩く','ひと口20回、ゆっくり噛む','寝る前に3分ストレッチ','いつもより30分早く床につく','野菜をひと皿プラスする','鏡のご自分に「よくやっている」と言う'];
 const RECOVER_STEPS=['お水をこまめに飲む（むくみをリセット）','10分だけ散歩する','いつもどおりに3食とる（抜かない）','早めに湯船につかり、ぐっすり眠る'];
 const SOS_MSG={
   gentle:'つらい日があるのは、真剣に向き合っておられる証でございます。本日は、ご自分を責めるのはお休みにいたしましょう。',
@@ -709,6 +747,9 @@ const BADGES=[
   {id:'early',lv:1,m:'朝',t:'早朝の紳士淑女',d:'朝7時前に開いた',ok:s=>!!s.early},
   {id:'night',lv:1,m:'夜',t:'夜更けのご来訪',d:'夜22時すぎに開いた',ok:s=>!!s.night},
   {id:'water20',lv:2,m:'水',t:'水の達人',d:'「お水を飲んだ」が20回',ok:s=>kc(s,'water')>=20},
+  {id:'learn10',lv:2,m:'学',t:'学びの人',d:'「仕事・学び」の項目を合計10回',ok:s=>kc(s,'workhard','study','read','learn','task','focus','practice')>=10},
+  {id:'home10',lv:2,m:'暮',t:'暮らし上手',d:'「暮らし」の項目を合計10回',ok:s=>kc(s,'earlyrise','clean','laundry','tidy','dishes','ontime','errand','sunlight')>=10},
+  {id:'kind10',lv:3,m:'和',t:'やさしさの人',d:'親切・ありがとう・連絡を合計10回',ok:s=>kc(s,'kind','thanksay','contact')>=10},
   {id:'letter',lv:2,m:'文',t:'未来からの手紙',d:'未来のご自分へ手紙を書いた',ok:s=>!!(s.letter&&s.letter.trim())},
   {id:'veg20',lv:3,m:'菜',t:'野菜の友',d:'「野菜を食べた」が20回',ok:s=>kc(s,'veg')>=20},
   {id:'days14',lv:3,m:'週',t:'二週の努力',d:'がんばった日が累計14日',ok:s=>winDays(s)>=14},
@@ -904,8 +945,10 @@ function renderWins(){
   else if(winCat==='mine')main=mine();
   else{main=KINDS.filter(k=>k.cat===winCat);showCh=true;}
   const open=CH.filter(c=>c.lv<=L.lv&&(winCat==='all'||c.cat===winCat));
-  let html=main.map(k=>winBtn(k,tw[k.k]||0,iconOf(k),k.lv?isNew(k):false)).join('');
-  if(winCat==='all'||winCat==='mine')html+=addBtn();
+  const tiles=l=>l.map(k=>winBtn(k,tw[k.k]||0,iconOf(k),k.lv?isNew(k):false)).join('');
+  let html;
+  if(winCat==='all')html=CATS.map(c=>{const l=c.k==='mine'?mine():KINDS.filter(k=>k.cat===c.k);return '<p class="cat-title">'+c.t+'</p>'+tiles(l)+(c.k==='mine'?addBtn():'');}).join('');
+  else html=tiles(main)+(winCat==='mine'?addBtn():'');
   if(winCat==='mine'&&!mine().length)html='<p class="cat-hint">毎日の小さな習慣を、ご自由に加えられます</p>'+html;
   if(winCat==='mine'&&mine().length)html+='<p class="cat-hint"><button class="linkish" type="button" data-manage="1" style="align-self:center">加えた項目を整える</button></p>';
   if(winCat==='freq')html+='<p class="cat-hint">この30日でよく押された項目です</p>';
@@ -1403,7 +1446,7 @@ function openOnboarding(){
     '<div class="actions"><button class="btn wide" type="button" id="o1">次へ</button><button class="linkish" type="button" id="oSkip">あとで設定する</button></div>','はじめに');
     $('oName').value=tmp.name;$('o1').onclick=()=>{tmp.name=$('oName').value;s2();};$('oSkip').onclick=()=>{tmp.name=$('oName').value;done();};};
   const s2=()=>{openSheet(prog(2,3)+BH()+
-    '<h2>体が軽くなったら、<br>何をなさりたいですか？</h2>'+
+    '<h2>なりたいご自分になれたら、<br>何をなさりたいですか？</h2>'+
     '<p class="body">落ち込まれた日に、このお言葉をお届けいたします。</p>'+
     '<div class="field" style="margin-top:8px"><label for="oReason">頑張る理由</label><textarea id="oReason" maxlength="200" placeholder="例：休みの日に、子どもと全力で遊ぶ"></textarea></div>'+
     '<div class="actions"><button class="btn wide" type="button" id="o2">次へ</button></div>','はじめに');
