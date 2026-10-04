@@ -53,7 +53,7 @@ body{margin:0;font-family:var(--f-sans);font-size:15px;line-height:1.75;-webkit-
 button,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:10px}
-.app{max-width:460px;margin:0 auto;padding-block:calc(14px + env(safe-area-inset-top,0px)) calc(150px + env(safe-area-inset-bottom,0px))}
+.app{max-width:460px;margin:0 auto;padding-block:calc(14px + env(safe-area-inset-top,0px)) calc(180px + env(safe-area-inset-bottom,0px))}
 .tab{display:flex;flex-direction:column;gap:20px}
 h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-height:1.5;text-wrap:balance}
 .eyebrow{font-size:11px;letter-spacing:.22em;color:var(--brass);font-weight:700;margin:0}
@@ -353,7 +353,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
 /* ---------- ついてくるしば田 ---------- */
 .buddy{position:fixed;z-index:29;left:max(8px,calc(50% - 228px));bottom:calc(84px + env(safe-area-inset-bottom,0px));pointer-events:none}
 .buddy-btn{pointer-events:auto;border:0;background:none;padding:0;display:block;border-radius:50%}
-.buddy .bt-wrap{display:block;width:64px;filter:drop-shadow(0 8px 8px rgba(10,20,30,.22))}
+.buddy .bt-wrap{display:block;width:92px;filter:drop-shadow(0 8px 8px rgba(10,20,30,.22))}
 .buddy-enter,.buddy-run{display:block;will-change:transform}
 .buddy.in .buddy-enter{animation:buddyIn .75s cubic-bezier(.2,1.25,.4,1)}
 @keyframes buddyIn{0%{opacity:0;transform:translate(-80px,14px) rotate(-10deg)}60%{opacity:1}100%{opacity:1;transform:none}}
@@ -531,7 +531,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
         <button class="btn soft wide" type="button" id="openInstall">ホーム画面への追加方法</button>
         <div class="danger-zone" id="resetZone"></div>
       </div>
-      <p class="app-foot">ひだまり ・ ver 1.4</p>
+      <p class="app-foot">ひだまり ・ ver 1.4.1</p>
     </section>
   </main>
 </div>
