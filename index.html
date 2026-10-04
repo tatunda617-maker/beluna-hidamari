@@ -391,6 +391,16 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
 .food.lock .em{filter:grayscale(1);opacity:.5}
 .flying{position:fixed;z-index:90;font-size:30px;pointer-events:none;left:0;top:0}
 .say-feed{display:block;margin-top:8px;border:0;border-radius:10px;background:var(--on-btn);color:var(--btn);font-weight:700;font-size:12.5px;padding:7px 12px;font-family:var(--f-sans)}
+.bt-puppy,.bt-blush{display:none}
+.puppy .bt-puppy,.shy .bt-blush{display:inline}
+.puppy .bt-eyes{display:none}
+.feed-dog.puppy .bt-body{animation:puphop .3s ease-in-out infinite}
+.feed-dog.puppy .bt-tail{animation:wagfast .35s ease infinite}
+@keyframes puphop{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-9px) rotate(3deg)}}
+.feed-dog.shy .bt-body{animation:shy 1.6s ease forwards}
+@keyframes shy{0%{transform:none}25%{transform:rotate(-7deg) translateX(-3px)}55%{transform:rotate(-7deg) translateX(-3px) translateY(2px)}100%{transform:none}}
+.feed-say.puppy-say{font-family:var(--f-sans);font-weight:700;font-size:17px;color:#D9748A;letter-spacing:.02em}
+.feed-say.shy-say{color:var(--muted)}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 @media (max-width:360px){.hero-greet{font-size:20px}.hero-msg{font-size:15px}.bt-wrap{width:78px}.stat .num{font-size:26px}}
 </style>
@@ -560,7 +570,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
         <button class="btn soft wide" type="button" id="openInstall">ホーム画面への追加方法</button>
         <div class="danger-zone" id="resetZone"></div>
       </div>
-      <p class="app-foot">ひだまり ・ ver 1.5</p>
+      <p class="app-foot">ひだまり ・ ver 1.5.1</p>
     </section>
   </main>
 </div>
@@ -627,11 +637,17 @@ function butlerSVG(){
   '<path d="M29 50 Q33 75 60 77 Q87 75 91 50 Q78 60 60 58 Q42 60 29 50 Z" fill="#F6EBD9"/>'+
   '<ellipse cx="60" cy="61" rx="14" ry="10" fill="#F6EBD9"/>'+
   '<ellipse cx="46" cy="35" rx="4" ry="2.4" fill="#F6EBD9"/><ellipse cx="74" cy="35" rx="4" ry="2.4" fill="#F6EBD9"/>'+
-  eyes+
+  '<g class="bt-eyes">'+eyes+'</g>'+
   '<ellipse cx="37" cy="55" rx="4.5" ry="2.6" fill="#E9A27A" opacity=".45"/><ellipse cx="83" cy="55" rx="4.5" ry="2.6" fill="#E9A27A" opacity=".45"/>'+
   '<ellipse cx="60" cy="55.5" rx="4.4" ry="3.2" fill="#231A15"/>'+
   '<path d="M60 58.5 v3.2 M60 61.7 Q56.5 65.5 53 62.5 M60 61.7 Q63.5 65.5 67 62.5" stroke="#231A15" stroke-width="1.5" stroke-linecap="round" fill="none"/>'+
   (a.face===2?'<ellipse cx="60" cy="65.2" rx="2.4" ry="2" fill="#D9786A"/>':'')+
+  '<g class="bt-puppy"><path d="M40.5 47.5 Q46 39.5 51.5 47.5 M68.5 47.5 Q74 39.5 79.5 47.5" stroke="#231A15" stroke-width="2.8" fill="none" stroke-linecap="round"/>'+
+    '<path d="M52.5 62 Q60 74 67.5 62 Z" fill="#6E2A26"/><ellipse cx="60" cy="68" rx="4" ry="3" fill="#EE8A93"/>'+
+    '<path d="M17 28 l1.6 3.4 3.4 1.6 -3.4 1.6 -1.6 3.4 -1.6-3.4 -3.4-1.6 3.4-1.6z M101 20 l1.3 2.8 2.8 1.3 -2.8 1.3 -1.3 2.8 -1.3-2.8 -2.8-1.3 2.8-1.3z" fill="#F2C14E"/></g>'+
+  '<g class="bt-blush"><ellipse cx="38" cy="56" rx="7.5" ry="4.2" fill="#E8646A" opacity=".6"/><ellipse cx="82" cy="56" rx="7.5" ry="4.2" fill="#E8646A" opacity=".6"/>'+
+    '<path d="M34 53.5 l-2 4.5 M38 53.5 l-2 4.5 M42 53.5 l-2 4.5 M78 53.5 l-2 4.5 M82 53.5 l-2 4.5 M86 53.5 l-2 4.5" stroke="#C94A52" stroke-width="1.1" stroke-linecap="round"/>'+
+    '<path d="M95 22 q5 7 0 9.5 q-5 -2.5 0 -9.5z" fill="#A9D4EE" stroke="#7FB5D9" stroke-width=".8"/></g>'+
   (lv>=4?'<circle cx="74" cy="45.5" r="8.5" fill="rgba(255,255,255,.08)" stroke="'+gold+'" stroke-width="1.8"/><path d="M82.3 48 Q90 62 83 76" stroke="'+gold+'" stroke-width="1" fill="none"/>':'')+
   '</g></g></svg>';
 }
@@ -1585,6 +1601,9 @@ const FOODS=[
   {k:'steak',e:'🥩',t:'ステーキ',c:6,m:50,lv:4,say:'な、なんと立派な……！ 一生お仕えいたします。'},
   {k:'cake',e:'🍰',t:'ケーキ',c:8,m:60,lv:6,say:'ケーキでございますか！？ 本日は記念日にいたしましょう。'}
 ];
+const PUPPY_LINES=['わんっ！ わんわんっ！ おいしいワン！！','はふはふ……うまうま……しあわせだワン〜！','くぅ〜ん♡ もっと、もっとほしいワン！','わふっ！ わふわふっ！ これだいすきワン！'];
+const PUPPY_FAV='だいこうぶつだワン！！ ごしゅじん、だいすきワン〜！！';
+const SHY_LINES=['……こほん。わ、わたくしとしたことが……。大変お見苦しいところを。','……はっ！ い、今のはお忘れくださいませ。（耳まで真っ赤）','……失礼いたしました。今のは、その……執事の務めとは関係ございません。','……し、尻尾が勝手に。執事たるもの、修行が足りませんでした。','……コホン。な、何もございませんでした。よろしいですね？'];
 const BONDS=[[0,'はじめまして'],[3,'顔なじみ'],[10,'なかよし'],[30,'相棒'],[60,'家族同然'],[100,'一心同体']];
 const treats=()=>Math.max(0,totalWins(S)-(S.treatsUsed||0));
 const fullness=()=>S.feed&&S.feed.d===today()?S.feed.full:0;
@@ -1608,6 +1627,7 @@ function openFeed(){
     '<div class="foods" id="foods"></div>'+
     '<p class="small-note" style="margin-top:14px">おやつ袋には、葉が1枚育つたびに1粒たまります。まんぷくは毎日リセットされます。あげない日があっても、しば田は元気でございます。</p>'+
     '<div class="actions"><button class="btn soft wide" type="button" id="feedClose">閉じる</button></div>','おやつ');
+  feedSeq++;feedTimers.forEach(clearTimeout);feedTimers=[];
   $('feedSay').textContent=feedLine();
   renderFeed();
   $('feedClose').onclick=closeSheet;
@@ -1624,6 +1644,7 @@ function renderFeed(){
       (isFav?'<span class="tag">本日の好物</span>':'')+'<span class="em" aria-hidden="true">'+x.e+'</span><span class="nm">'+x.t+'</span><span class="cost">'+(lock?'Lv.'+x.lv+'で':'🦴 '+x.c)+'</span></button>';
   }).join('');
 }
+let feedSeq=0,feedTimers=[];
 function giveFood(k,btn){
   const x=FOODS.find(f=>f.k===k),L=levelInfo().lv,t=treats(),f=fullness();
   if(!x)return;
@@ -1635,14 +1656,23 @@ function giveFood(k,btn){
   S.feed={d:today(),full:Math.min(100,f+gain)};
   S.feedCount=(S.feedCount||0)+1;S.foodCount[k]=(S.foodCount[k]||0)+1;
   save();buzz();
+  const seq=++feedSeq;feedTimers.forEach(clearTimeout);feedTimers=[];
+  const later=(fn,ms)=>feedTimers.push(setTimeout(()=>{if(seq===feedSeq&&$('feedDog'))fn();},ms));
+  const sayEl=(t,cls)=>{const el=$('feedSay');el.className='feed-say'+(cls?' '+cls:'');el.textContent=t;};
   const done=()=>{
     const dog=$('feedDog');if(!dog)return;
-    dog.classList.remove('munch');void dog.offsetWidth;dog.classList.add('munch');bow();
-    const h=$('hearts');if(h&&!reduced()){for(let i=0;i<(fav?6:3);i++){const el=document.createElement('i');el.textContent='♥';el.style.setProperty('--dx',((i-(fav?2.5:1))*22)+'px');el.style.animationDelay=(i*.12)+'s';h.appendChild(el);setTimeout(()=>el.remove(),1800);}}
     const full=S.feed.full>=100;
-    $('feedSay').textContent=(fav?'本日の好物でございます！ ':'')+x.say+(full?' ……もう、お腹いっぱいでございます。':'');
     renderFeed();$('treatPill').textContent=treats();
-    if(full)sparkle(undefined,innerHeight*.3,40);
+    /* 1. 一瞬だけ、素の子犬に戻る */
+    dog.classList.remove('shy','munch');void dog.offsetWidth;dog.classList.add('puppy','munch');
+    sayEl(fav?PUPPY_FAV:PUPPY_LINES[Math.floor(Math.random()*PUPPY_LINES.length)],'puppy-say');
+    const h=$('hearts');if(h&&!reduced()){for(let i=0;i<(fav?7:4);i++){const el=document.createElement('i');el.textContent='♥';el.style.setProperty('--dx',((i-(fav?3:1.5))*20)+'px');el.style.animationDelay=(i*.14)+'s';h.appendChild(el);setTimeout(()=>el.remove(),2000);}}
+    if(fav||full)sparkle(undefined,innerHeight*.3,fav?30:40);
+    /* 2. 食べ終わって、我に返る */
+    later(()=>{dog.classList.remove('puppy','munch');void dog.offsetWidth;dog.classList.add('shy');sayEl('……はっ。','shy-say');},1900);
+    later(()=>{sayEl(SHY_LINES[Math.floor(Math.random()*SHY_LINES.length)],'shy-say');},2600);
+    /* 3. 執事の顔に戻って、ひと言 */
+    later(()=>{dog.classList.remove('shy');bow();sayEl((fav?'本日の好物でございました。':'')+x.say+(full?' ……もう、お腹いっぱいでございます。':''));},5400);
     afterGain();
   };
   if(reduced()||!btn||!$('feedDog'))return done();
