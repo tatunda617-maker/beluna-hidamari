@@ -401,6 +401,64 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
 @keyframes shy{0%{transform:none}25%{transform:rotate(-7deg) translateX(-3px)}55%{transform:rotate(-7deg) translateX(-3px) translateY(2px)}100%{transform:none}}
 .feed-say.puppy-say{font-family:var(--f-sans);font-weight:700;font-size:17px;color:#D9748A;letter-spacing:.02em}
 .feed-say.shy-say{color:var(--muted)}
+/* ---------- v1.6 毎日のたのしみ ---------- */
+.hero-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.hero-pills .feed-pill{margin-top:0;padding:5px 10px;font-size:11.5px}
+.feed-pill.mail{position:relative}
+.feed-pill.mail.new::after{content:"";position:absolute;top:2px;right:2px;width:8px;height:8px;border-radius:50%;background:#E0646A}
+.win .lucky-tag{position:absolute;left:7px;top:6px;font-size:9px;font-weight:700;letter-spacing:.06em;color:#4A3510;background:linear-gradient(135deg,#F6DA8B,#E3B23C);padding:1px 6px;border-radius:6px}
+.win.lucky{border-color:#E3B23C;box-shadow:0 0 0 1px #E3B23C inset}
+.today-list{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:10px}
+.tl{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 6px 4px 10px;font-size:12px;font-weight:700;color:var(--ink)}
+.tl i{width:7px;height:7px;border-radius:50%;flex:none}
+.tl .x{border:0;background:var(--surface-2);color:var(--muted);border-radius:999px;font-size:11px;font-weight:700;padding:1px 7px;line-height:1.6}
+.tl .x.armed{background:var(--btn);color:var(--on-btn)}
+.tl.fixed{padding-right:10px;color:var(--muted)}
+/* diary */
+.moods{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:12px}
+.mood{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:8px 0 6px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;font-weight:700;color:var(--muted)}
+.mood span{font-size:24px;line-height:1.2}
+.mood[aria-checked="true"]{border-color:var(--brass);background:var(--brass-soft);color:var(--ink)}
+.diary textarea{width:100%;margin-top:10px;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px 14px;font-family:var(--f-serif);font-size:15px;line-height:1.8;min-height:64px;resize:vertical;color:var(--ink)}
+.diary .btn{margin-top:10px}
+.diary-done{display:flex;gap:12px;align-items:flex-start;margin-top:12px}
+.diary-done .face{font-size:34px;line-height:1}
+.diary-done p{margin:0;font-family:var(--f-serif);font-size:15.5px;line-height:1.8;white-space:pre-wrap;word-break:break-word}
+.diary-reply{margin:12px 0 0;padding:12px 14px;border-radius:14px;background:var(--surface-2);font-family:var(--f-serif);font-size:14px;line-height:1.8}
+.diary-reply small{display:block;font-family:var(--f-sans);font-size:10.5px;font-weight:700;letter-spacing:.16em;color:var(--brass)}
+/* calendar */
+.cal-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.cal-head h2{font-size:17px}
+.cal-nav{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:18px;line-height:1;color:var(--ink)}
+.cal-nav:disabled{opacity:.3}
+.cal-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.cal-stats div{background:var(--surface-2);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;min-width:0}
+.cal-stats .lbl{font-size:10.5px;color:var(--muted);font-weight:700}
+.cal-stats .v{font-family:var(--f-num);font-style:italic;font-weight:600;font-size:22px;line-height:1.2}
+.cal-stats .v.txt{font-family:var(--f-sans);font-style:normal;font-size:12.5px;font-weight:700;line-height:1.5;padding-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:12px}
+.cal-wd{text-align:center;font-size:10.5px;font-weight:700;color:var(--muted);padding-bottom:2px}
+.cal-wd:first-child{color:#C26A62}.cal-wd:last-child{color:#5F86B0}
+.cal-d{position:relative;aspect-ratio:1;border:0;border-radius:10px;background:var(--surface-2);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink);padding:0;line-height:1.1}
+.cal-d.l1{background:color-mix(in srgb,var(--sage) 22%,var(--surface-2))}
+.cal-d.l2{background:color-mix(in srgb,var(--sage) 45%,var(--surface-2))}
+.cal-d.l3{background:color-mix(in srgb,var(--sage) 72%,var(--surface-2));color:#fff}
+.cal-d.today{box-shadow:0 0 0 2px var(--brass) inset}
+.cal-d.future{opacity:.35}
+.cal-d .mo{font-size:12px;line-height:1;margin-top:1px}
+.cal-legend{display:flex;justify-content:flex-end;align-items:center;gap:4px;margin-top:8px;font-size:10.5px;color:var(--muted)}
+.cal-legend i{width:12px;height:12px;border-radius:3px;background:var(--surface-2)}
+.cal-legend i.l1{background:color-mix(in srgb,var(--sage) 22%,var(--surface-2))}.cal-legend i.l2{background:color-mix(in srgb,var(--sage) 45%,var(--surface-2))}.cal-legend i.l3{background:color-mix(in srgb,var(--sage) 72%,var(--surface-2))}
+.day-list{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px}
+.day-list li{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--surface-2);border-radius:12px;padding:9px 14px;font-size:14px}
+.day-list li span{display:flex;align-items:center;gap:8px;min-width:0}
+.day-list i{width:8px;height:8px;border-radius:50%;flex:none}
+.day-list b{font-family:var(--f-num);font-style:italic;font-size:17px;color:var(--brass)}
+/* letter */
+.mail-card{margin-top:14px;padding:16px 18px;border-radius:16px;background:var(--surface-2);font-family:var(--f-serif);font-size:15px;line-height:1.9}
+.mail-card small{display:block;font-family:var(--f-sans);font-size:10.5px;font-weight:700;letter-spacing:.16em;color:var(--brass);margin-bottom:2px}
+.mail-gift{display:flex;align-items:center;gap:12px;margin-top:10px;padding:12px 16px;border-radius:16px;border:1px dashed var(--brass);font-size:13.5px;line-height:1.6}
+.mail-gift .em{font-size:30px}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 @media (max-width:360px){.hero-greet{font-size:20px}.hero-msg{font-size:15px}.bt-wrap{width:78px}.stat .num{font-size:26px}}
 </style>
@@ -423,7 +481,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
             <p class="hero-msg show" id="heroMsg">本日もお越しくださり、光栄でございます。</p>
             <button class="more" type="button" id="nextMsg">ほかのお言葉を →</button>
             <span class="attire" id="attire"></span>
-            <button class="feed-pill" type="button" id="feedBtn">🦴 おやつをあげる <b id="treatPill">0</b></button>
+            <div class="hero-pills"><button class="feed-pill" type="button" id="feedBtn">🦴 おやつ <b id="treatPill">0</b></button><button class="feed-pill mail" type="button" id="mailBtn" aria-label="本日のお便り">📮 お便り</button></div>
           </div>
         </div>
         <div class="hero-stats">
@@ -457,7 +515,12 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
         <div class="wins" id="wins" style="margin-top:10px"></div>
         <div id="chWrap" hidden><div class="sub-head"><h3>レベルで増えた項目</h3><p>★は葉が多めに増えます</p></div><div class="wins" id="winsCh"></div></div>
         <p class="teaser" id="winTeaser" hidden></p>
-        <div class="wins-tools"><p class="today-sum" id="todaySum"></p><button class="undo" type="button" id="undoWin" hidden>↶ いま押したものを取り消す</button></div>
+        <div class="wins-tools"><p class="today-sum" id="todaySum"></p><div class="today-list" id="todayList" aria-label="本日の記録"></div></div>
+      </div>
+
+      <div class="card diary" id="diaryCard">
+        <div class="sec-head" style="padding:0"><h2>今日のひとこと日記</h2><p id="diaryNote">書くと葉が一枚</p></div>
+        <div id="diaryBody"></div>
       </div>
 
       <div class="card reason" id="reasonCard" hidden>
@@ -481,6 +544,13 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
         </div>
       </div>
       <div>
+        <div class="card" style="margin-bottom:20px">
+          <div class="cal-head"><button class="cal-nav" type="button" id="calPrev" aria-label="前の月">‹</button><h2 id="calTitle"></h2><button class="cal-nav" type="button" id="calNext" aria-label="次の月">›</button></div>
+          <div class="cal-stats" id="calStats"></div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="cal-legend"><span>少</span><i></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><span>多</span></div>
+          <p class="small-note" style="margin-top:8px">日付を押すと、その日の「できた」と日記をご覧いただけます。</p>
+        </div>
         <div class="sec-head"><h2>授与された称号</h2><p id="badgeCount"></p></div>
         <div class="badges" id="badges" style="margin-top:12px"></div>
         <p class="teaser" id="badgeTeaser" hidden></p>
@@ -570,7 +640,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
         <button class="btn soft wide" type="button" id="openInstall">ホーム画面への追加方法</button>
         <div class="danger-zone" id="resetZone"></div>
       </div>
-      <p class="app-foot">ひだまり ・ ver 1.5.1</p>
+      <p class="app-foot">ひだまり ・ ver 1.6</p>
     </section>
   </main>
 </div>
@@ -749,7 +819,7 @@ const KINDS=[
 const ORIG_KINDS=['water','walk','veg','slow','eight','stretch','gym','sleep','self'];
 const MY_COLORS=['#C08A7A','#8A9FC2','#9DB07A','#C2A06E','#A08AB8','#7FB0A6','#C7946A','#8FA08A'];
 const MY_SUGGEST=['お弁当を作った','ペットと散歩した','日記を書いた','英語を5分やった','ニュースを読んだ','花に水をやった','子どもと遊んだ','ヨガをした','資格の勉強をした','ゴミを出した','家計簿をつけた','ブログを書いた'];
-const EXTRA={scale:{t:'体重計に乗った',c:'#8FB3BF'},mission:{t:'小さな一歩',c:'#D9B96E'},care:{t:'自分をいたわった',c:'#BFA07A'}};
+const EXTRA={lucky:{t:'ラッキーボーナス',c:'#E3B23C'},diary:{t:'ひとこと日記',c:'#C9A0B8'},scale:{t:'体重計に乗った',c:'#8FB3BF'},mission:{t:'小さな一歩',c:'#D9B96E'},care:{t:'自分をいたわった',c:'#BFA07A'}};
 const CH=[
   {k:'snack',cat:'meal',t:'間食をがまんした',c:'#B98B5E',lv:2,v:1,i:'<circle cx="12" cy="12" r="8"/><circle cx="9" cy="10" r=".9"/><circle cx="14.5" cy="9.5" r=".9"/><circle cx="13" cy="14.5" r=".9"/><path d="M5 19L19 5"/>'},
   {k:'bath',cat:'life',t:'湯船につかった',c:'#7FA7B5',lv:2,v:1,i:'<path d="M3 12h18v2a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path d="M6 12V6.5a2 2 0 0 1 4 0"/><path d="M7 19l-1 2M17 19l1 2"/>'},
@@ -816,6 +886,9 @@ const BADGES=[
   {id:'kind10',lv:3,m:'和',t:'やさしさの人',d:'親切・ありがとう・連絡を合計10回',ok:s=>kc(s,'kind','thanksay','contact')>=10},
   {id:'feed1',lv:1,m:'餌',t:'はじめてのおやつ',d:'しば田におやつをあげた',ok:s=>s.feedCount>=1},
   {id:'feed30',lv:3,m:'絆',t:'しば田の相棒',d:'おやつを30回あげた',ok:s=>s.feedCount>=30},
+  {id:'diary7',lv:2,m:'記',t:'日記の人',d:'ひとこと日記を7日書いた',ok:s=>Object.keys(s.diary||{}).length>=7},
+  {id:'lucky10',lv:3,m:'幸',t:'幸運の人',d:'ラッキー項目を10回押した',ok:s=>kc(s,'lucky')>=10},
+  {id:'mail30',lv:5,m:'便',t:'お便りの常連',d:'お便りを30日受け取った',ok:s=>(s.letters||0)>=30},
   {id:'letter',lv:2,m:'文',t:'未来からの手紙',d:'未来のご自分へ手紙を書いた',ok:s=>!!(s.letter&&s.letter.trim())},
   {id:'veg20',lv:3,m:'菜',t:'野菜の友',d:'「野菜を食べた」が20回',ok:s=>kc(s,'veg')>=20},
   {id:'days14',lv:3,m:'週',t:'二週の努力',d:'がんばった日が累計14日',ok:s=>winDays(s)>=14},
@@ -856,8 +929,8 @@ function winDays(s){return Object.keys(s.wins).filter(d=>Object.values(s.wins[d]
 
 /* ================= 保存 ================= */
 const LS='hidamari-v1';
-function fresh(){return{v:1,updatedAt:0,onboarded:false,name:'',reason:'',letter:'',style:'gentle',hideWeight:false,wins:{},weights:[],visits:[],lastVisit:null,returns:0,recoveries:0,sosUsed:0,early:false,night:false,mission:null,stepDone:null,badges:{},level:null,custom:[],goal:null,follow:true,treatsUsed:0,feed:null,feedCount:0,foodCount:{}};}
-function normalize(o){const s=Object.assign(fresh(),o||{});if(!STYLES[s.style])s.style='gentle';if(!Array.isArray(s.custom))s.custom=[];if(!Array.isArray(s.weights))s.weights=[];if(!s.foodCount||typeof s.foodCount!=='object')s.foodCount={};return s;}
+function fresh(){return{v:1,updatedAt:0,onboarded:false,name:'',reason:'',letter:'',style:'gentle',hideWeight:false,wins:{},weights:[],visits:[],lastVisit:null,returns:0,recoveries:0,sosUsed:0,early:false,night:false,mission:null,stepDone:null,badges:{},level:null,custom:[],goal:null,follow:true,treatsUsed:0,feed:null,feedCount:0,foodCount:{},diary:{},bonusTreats:0,letterSeen:null,letters:0};}
+function normalize(o){const s=Object.assign(fresh(),o||{});if(!STYLES[s.style])s.style='gentle';if(!Array.isArray(s.custom))s.custom=[];if(!Array.isArray(s.weights))s.weights=[];if(!s.foodCount||typeof s.foodCount!=='object')s.foodCount={};if(!s.diary||typeof s.diary!=='object')s.diary={};return s;}
 let S=fresh();
 try{const raw=localStorage.getItem(LS);if(raw)S=normalize(JSON.parse(raw));}catch(e){}
 function save(){
@@ -964,8 +1037,8 @@ function renderHome(){
   $('butlerTitle').textContent=titleOf(L.lv)+' しば田';
   const at=attire();$('attire').textContent='本日の装い：'+(L.lv>=10?'金':at.tie[1])+'の蝶ネクタイ'+(at.flower?'と'+at.flower[1]:'');
   placeButler();
-  $('treatPill').textContent=treats();
-  renderStep();renderWins();
+  $('treatPill').textContent=treats();$('mailBtn').classList.toggle('new',S.letterSeen!==today());
+  renderStep();renderWins();renderDiary();
   $('reasonCard').hidden=!S.reason;$('reasonText').textContent=S.reason;
 }
 function currentStep(){
@@ -983,8 +1056,8 @@ function renderStep(){
   if(!done)$('stepDo').onclick=e=>{S.stepDone=today();if(st.special&&S.mission)S.mission.done=true;addWin('mission',e);};
 }
 function winBtn(k,n,icon,isNew){
-  const v=k.v||1;
-  return '<button type="button" class="win" data-k="'+k.k+'" aria-label="'+esc(k.t)+'（本日'+n+'回）">'+(isNew?'<span class="new-tag">NEW</span>':'<i class="dot" style="background:'+k.c+'"></i>')+(n?'<span class="cnt num">×'+n+'</span>':'')+
+  const v=k.v||1,lk=k.k===luckyKey();
+  return '<button type="button" class="win'+(lk?' lucky':'')+'" data-k="'+k.k+'" aria-label="'+esc(k.t)+(lk?'（本日のラッキー）':'')+'（本日'+n+'回）">'+(lk?'<span class="lucky-tag">ラッキー</span>':isNew?'<span class="new-tag">NEW</span>':'<i class="dot" style="background:'+k.c+'"></i>')+(n?'<span class="cnt num">×'+n+'</span>':'')+
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+icon+'</svg><span class="lbl">'+esc(k.t)+'</span>'+(v>1?'<span class="val">'+'★'.repeat(v-1)+' 葉'+v+'枚</span>':'')+'</button>';
 }
 const addBtn=()=>'<button type="button" class="win add" data-add="1" aria-label="じぶんの項目を加える"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+I.add+'</svg><span class="lbl">じぶんの項目を<br>加える</span></button>';
@@ -1027,15 +1100,18 @@ function renderWins(){
   else $('winTeaser').hidden=true;
   const sum=Object.keys(tw).reduce((a,k)=>a+tw[k]*VALUE(k),0);
   $('todaySum').innerHTML=sum?'本日は <b class="num">'+sum+'</b> 枚の葉が育ちました':'どれかおひとつ押せましたら、本日は満点でございます';
-  undoStack=undoStack.filter(u=>u.d===today()&&(tw[u.k]||0)>0);
-  $('undoWin').hidden=!undoStack.length;
+  renderTodayList();
 }
 function addWin(kind,ev){
-  const t=today();S.wins[t]=S.wins[t]||{};S.wins[t][kind]=(S.wins[t][kind]||0)+1;save();
+  const t=today();S.wins[t]=S.wins[t]||{};S.wins[t][kind]=(S.wins[t][kind]||0)+1;
+  let lucky=false;if(kind===luckyKey()&&!S.wins[t].lucky){S.wins[t].lucky=1;lucky=true;}
+  save();
   buzz();bow();
   sparkle(ev&&ev.clientX?ev.clientX:undefined,ev&&ev.clientY?ev.clientY:undefined,22);
   const p=PRAISE[S.style];
-  toast(say(p[Math.floor(Math.random()*p.length)]),(VALUE(kind)>1?'葉が'+VALUE(kind)+'枚':'葉が一枚')+'増えました（合計 '+totalWins(S)+' 枚）');
+  if(lucky)toast('本日のラッキーでございます！','葉が'+(VALUE(kind)+1)+'枚増えました（合計 '+totalWins(S)+' 枚）');
+  else toast(say(p[Math.floor(Math.random()*p.length)]),(VALUE(kind)>1?'葉が'+VALUE(kind)+'枚':'葉が一枚')+'増えました（合計 '+totalWins(S)+' 枚）');
+  if(lucky)sparkle(ev&&ev.clientX?ev.clientX:undefined,ev&&ev.clientY?ev.clientY:undefined,40);
   renderHome();
   const b=document.querySelector('.win[data-k="'+kind+'"]');if(b)b.classList.add('pop');
   afterGain();
@@ -1051,14 +1127,24 @@ function onWinClick(e){
 $('wins').addEventListener('click',onWinClick);
 $('winsCh').addEventListener('click',onWinClick);
 $('winCats').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;winCat=b.dataset.cat;try{localStorage.setItem('hidamari-wincat',winCat);}catch(err){}renderWins();});
-$('undoWin').onclick=()=>{
-  const u=undoStack.pop(),t=today();if(!u||u.d!==t)return renderWins();
-  const w=S.wins[t]||{};if(!w[u.k])return renderWins();
-  w[u.k]--;if(!w[u.k])delete w[u.k];save();
-  const it=openItems().find(k=>k.k===u.k);
-  toast('取り消しました','「'+(it?it.t:'できたこと')+'」をひとつ戻しました');
-  renderHome();
-};
+/* ----- 本日の記録（開き直しても取り消せる） ----- */
+const labelOf=k=>{const it=KINDS.find(x=>x.k===k)||CH.find(x=>x.k===k)||S.custom.find(x=>x.k===k)||EXTRA[k];return it?it.t:'できたこと';};
+function luckyKey(){const L=levelInfo().lv,pool=KINDS.concat(CH.filter(c=>c.lv<=L));return pool[hash('lucky'+today())%pool.length].k;}
+let armedTl=null;
+function renderTodayList(){
+  const tw=S.wins[today()]||{},ks=Object.keys(tw).filter(k=>tw[k]>0);
+  const fixed=k=>EXTRA[k]!==undefined;
+  $('todayList').innerHTML=ks.map(k=>'<span class="tl'+(fixed(k)?' fixed':'')+'"><i style="background:'+COLOR(k)+'"></i>'+esc(labelOf(k))+(tw[k]>1?' ×'+tw[k]:'')+
+    (fixed(k)?'':'<button type="button" class="x'+(armedTl===k?' armed':'')+'" data-x="'+k+'" aria-label="「'+esc(labelOf(k))+'」をひとつ取り消す">'+(armedTl===k?'取り消す':'✕')+'</button>')+'</span>').join('');
+}
+$('todayList').addEventListener('click',e=>{
+  const b=e.target.closest('[data-x]');if(!b)return;const k=b.dataset.x;
+  if(armedTl!==k){armedTl=k;renderTodayList();setTimeout(()=>{if(armedTl===k){armedTl=null;renderTodayList();}},3000);return;}
+  armedTl=null;const t=today(),w=S.wins[t]||{};if(!w[k])return renderWins();
+  w[k]--;if(!w[k])delete w[k];
+  if(k===luckyKey()&&!w[k]&&w.lucky)delete w.lucky;
+  save();toast('取り消しました','「'+labelOf(k)+'」をひとつ戻しました');renderHome();
+});
 /* ----- じぶんの項目 ----- */
 function openMyItems(){
   const act=mine();
@@ -1419,6 +1505,7 @@ function openSheet(html,label){
 function closeSheet(){
   $('sheetWrap').hidden=true;clearInterval(breathTimer);const cb=onSheetClose;onSheetClose=null;cb&&cb();
   if(pendingLv&&$('sheetWrap').hidden){const p=pendingLv;pendingLv=null;setTimeout(()=>openLevelUp(p[0],p[1]),500);}
+  else if(pendingLetter&&$('sheetWrap').hidden){pendingLetter=false;setTimeout(maybeLetter,500);}
 }
 $('sheetWrap').addEventListener('click',e=>{if(e.target===$('sheetWrap'))closeSheet();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('sheetWrap').hidden)closeSheet();});
@@ -1605,7 +1692,7 @@ const PUPPY_LINES=['わんっ！ わんわんっ！ おいしいワン！！','�
 const PUPPY_FAV='だいこうぶつだワン！！ ごしゅじん、だいすきワン〜！！';
 const SHY_LINES=['……こほん。わ、わたくしとしたことが……。大変お見苦しいところを。','……はっ！ い、今のはお忘れくださいませ。（耳まで真っ赤）','……失礼いたしました。今のは、その……執事の務めとは関係ございません。','……し、尻尾が勝手に。執事たるもの、修行が足りませんでした。','……コホン。な、何もございませんでした。よろしいですね？'];
 const BONDS=[[0,'はじめまして'],[3,'顔なじみ'],[10,'なかよし'],[30,'相棒'],[60,'家族同然'],[100,'一心同体']];
-const treats=()=>Math.max(0,totalWins(S)-(S.treatsUsed||0));
+const treats=()=>Math.max(0,totalWins(S)+(S.bonusTreats||0)-(S.treatsUsed||0));
 const fullness=()=>S.feed&&S.feed.d===today()?S.feed.full:0;
 const favFood=()=>{const L=levelInfo().lv,ok=FOODS.filter(f=>f.lv<=L);return ok[hash('fav'+today())%ok.length];};
 function bondInfo(){const n=S.feedCount||0;let i=0;BONDS.forEach((b,j)=>{if(n>=b[0])i=j;});const nx=BONDS[i+1];return{name:BONDS[i][1],next:nx&&nx[1],left:nx?nx[0]-n:0};}
@@ -1684,6 +1771,114 @@ function giveFood(k,btn){
 }
 $('feedBtn').onclick=openFeed;
 
+/* ================= ひとこと日記 ================= */
+const MOODS=[['😊','最高'],['🙂','よい'],['😌','ふつう'],['😮‍💨','おつかれ'],['😢','しょんぼり']];
+const MOOD_REPLY=['なんと素晴らしい一日。わたくしまで、しっぽが揺れてしまいます。','良い一日でございましたね。この調子で、ゆるりとまいりましょう。','ふつうの一日を無事に終える。それがいちばん尊いのでございます。','本当にお疲れさまでございました。今夜はどうか、ゆっくりお休みくださいませ。','そんな日もございます。ここに書けた{様}は、ちゃんと前を向いておられますよ。'];
+let diaryEdit=false,diaryMood=null;
+function renderDiary(){
+  const t=today(),d=S.diary[t],body=$('diaryBody');
+  $('diaryNote').textContent=d?'本日のぶんは書けました':'書くと葉が一枚';
+  if(d&&!diaryEdit){
+    body.innerHTML='<div class="diary-done"><span class="face" aria-label="'+MOODS[d.m][1]+'">'+MOODS[d.m][0]+'</span><p>'+(d.t?esc(d.t):'<span style="color:var(--muted)">（気分だけ残しました）</span>')+'</p></div>'+
+      '<p class="diary-reply"><small>しば田より</small>'+esc(say(MOOD_REPLY[d.m]))+'</p>'+
+      '<div style="display:flex;gap:14px;justify-content:center;margin-top:8px"><button class="linkish" type="button" id="diaryEditBtn" style="align-self:center">書きなおす</button>'+(d.m===4?'<button class="linkish" type="button" id="diarySos" style="align-self:center">執事を呼ぶ</button>':'')+'</div>';
+    $('diaryEditBtn').onclick=()=>{diaryEdit=true;diaryMood=d.m;renderDiary();};
+    if($('diarySos'))$('diarySos').onclick=openSos;
+    return;
+  }
+  if(diaryMood==null&&d)diaryMood=d.m;
+  body.innerHTML='<div class="moods" role="radiogroup" aria-label="今日の気分">'+MOODS.map((m,i)=>'<button type="button" class="mood" role="radio" aria-checked="'+(diaryMood===i)+'" data-m="'+i+'"><span aria-hidden="true">'+m[0]+'</span>'+m[1]+'</button>').join('')+'</div>'+
+    '<textarea id="diaryText" maxlength="80" placeholder="例：会議でちゃんと意見を言えた（空欄でも結構です）" aria-label="ひとこと日記"></textarea>'+
+    '<button class="btn wide" type="button" id="diarySave">日記を残す</button>';
+  $('diaryText').value=d&&diaryEdit?d.t||'':'';
+  body.querySelectorAll('.mood').forEach(b=>b.onclick=()=>{diaryMood=+b.dataset.m;body.querySelectorAll('.mood').forEach(x=>x.setAttribute('aria-checked',String(x===b)));});
+  $('diarySave').onclick=e=>{
+    if(diaryMood==null){toast('今日の気分をおひとつお選びください');return;}
+    const first=!S.diary[t];
+    S.diary[t]={m:diaryMood,t:$('diaryText').value.trim().slice(0,80)};
+    diaryEdit=false;
+    if(first){S.wins[t]=S.wins[t]||{};S.wins[t].diary=1;}
+    save();buzz();bow();
+    if(first){sparkle(e.clientX,e.clientY,26);toast('日記をお預かりいたしました','葉が一枚増えました（合計 '+totalWins(S)+' 枚）');}
+    else toast('書きなおしました');
+    renderHome();afterGain();
+  };
+}
+
+/* ================= あしあとカレンダー ================= */
+let calMonth=null;
+function dayLeaves(d){const w=S.wins[d]||{};return Object.keys(w).reduce((a,k)=>a+w[k]*VALUE(k),0);}
+function renderCal(){
+  const t=today();calMonth=calMonth||t.slice(0,7);
+  const [y,m]=calMonth.split('-').map(Number),first=new Date(y,m-1,1),days=new Date(y,m,0).getDate();
+  $('calTitle').textContent=y+'年'+m+'月のあしあと';
+  $('calNext').disabled=calMonth>=t.slice(0,7);
+  const allDays=[...new Set(Object.keys(S.wins).concat(Object.keys(S.diary),S.visits))].sort();
+  $('calPrev').disabled=!allDays.length||calMonth<=allDays[0].slice(0,7);
+  let cells=WDN.map(w=>'<span class="cal-wd">'+w+'</span>').join('');
+  for(let i=0;i<first.getDay();i++)cells+='<span></span>';
+  let active=0,leaves=0,diaries=0;const cnt={};
+  for(let dd=1;dd<=days;dd++){
+    const d=calMonth+'-'+String(dd).padStart(2,'0'),n=dayLeaves(d),di=S.diary[d],fut=d>t;
+    if(n>0)active++;leaves+=n;if(di)diaries++;
+    const w=S.wins[d]||{};for(const k in w)if(!EXTRA[k])cnt[k]=(cnt[k]||0)+w[k];
+    const lv=n===0?'':n<=2?' l1':n<=5?' l2':' l3';
+    cells+='<button type="button" class="cal-d'+lv+(d===t?' today':'')+(fut?' future':'')+'" data-d="'+d+'"'+(fut?' disabled':'')+' aria-label="'+m+'月'+dd+'日 葉'+n+'枚'+(di?' 気分'+MOODS[di.m][1]:'')+'">'+dd+(di?'<span class="mo" aria-hidden="true">'+MOODS[di.m][0]+'</span>':'')+'</button>';
+  }
+  $('calGrid').innerHTML=cells;
+  const top=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0];
+  $('calStats').innerHTML='<div><span class="lbl">がんばった日</span><span class="v">'+active+'</span></div><div><span class="lbl">育った葉</span><span class="v">'+leaves+'</span></div><div><span class="lbl">よく押した</span><span class="v txt">'+(top?esc(labelOf(top)):'—')+'</span></div>';
+}
+$('calPrev').onclick=()=>{const [y,m]=calMonth.split('-').map(Number),d=new Date(y,m-2,1);calMonth=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderCal();};
+$('calNext').onclick=()=>{const [y,m]=calMonth.split('-').map(Number),d=new Date(y,m,1);calMonth=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderCal();};
+$('calGrid').addEventListener('click',e=>{const b=e.target.closest('.cal-d');if(b&&!b.disabled)openDay(b.dataset.d);});
+function openDay(d){
+  const w=S.wins[d]||{},ks=Object.keys(w).filter(k=>w[k]>0).sort((a,b)=>w[b]-w[a]),di=S.diary[d],wt=S.weights.find(x=>x.d===d),n=dayLeaves(d);
+  const [y,m,dd]=d.split('-').map(Number);
+  let html='<p class="eyebrow">FOOTPRINTS</p><h2>'+y+'年'+m+'月'+dd+'日（'+wdOf(d)+'）</h2>';
+  html+='<p class="body">'+(n?'この日は <b class="num">'+n+'</b> 枚の葉が育ちました。':'この日はお休みの日でございました。休むのも、大切なお務めでございます。')+'</p>';
+  if(ks.length)html+='<ul class="day-list">'+ks.map(k=>'<li><span><i style="background:'+COLOR(k)+'"></i>'+esc(labelOf(k))+'</span><b>×'+w[k]+'</b></li>').join('')+'</ul>';
+  if(di)html+='<div class="mail-card"><small>ひとこと日記</small>'+MOODS[di.m][0]+' '+(di.t?esc(di.t):'（気分だけ）')+'</div>';
+  if(wt&&!S.hideWeight)html+='<p class="small-note" style="margin-top:12px">体重の記録：'+f1(wt.v)+' kg'+(wt.m?'（'+esc(wt.m)+'）':'')+'</p>';
+  else if(wt)html+='<p class="small-note" style="margin-top:12px">この日は体重も記録なさいました ✓</p>';
+  html+='<div class="actions"><button class="btn soft wide" type="button" id="dayClose">閉じる</button></div>';
+  openSheet(html,'その日の記録');$('dayClose').onclick=closeSheet;
+}
+
+/* ================= 本日のお便り ================= */
+function weekReview(){
+  const t=today(),end=addDays(t,-1),start=addDays(t,-7);let active=0,leaves=0;const cnt={};
+  for(let i=0;i<7;i++){const d=addDays(start,i),n=dayLeaves(d);if(n)active++;leaves+=n;const w=S.wins[d]||{};for(const k in w)if(!EXTRA[k])cnt[k]=(cnt[k]||0)+w[k];}
+  const top=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0];
+  return{active,leaves,top:top?labelOf(top):null,range:md(start)+'〜'+md(end)};
+}
+let pendingLetter=false;
+function openLetter(auto){
+  const t=today(),y=addDays(t,-1),yw=S.wins[y]||{},yn=dayLeaves(y),yd=S.diary[y];
+  let gift=0;
+  if(auto&&S.letterSeen!==t){gift=1+hash('gift'+t)%3;S.bonusTreats=(S.bonusTreats||0)+gift;S.letterSeen=t;S.letters=(S.letters||0)+1;save();}
+  const slot=timeSlot(),head={morning:'おはようございます',day:'ごきげんよう',evening:'こんばんは',night:'夜分に失礼いたします'}[slot];
+  const ytop=Object.keys(yw).filter(k=>!EXTRA[k]&&yw[k]>0).sort((a,b)=>yw[b]-yw[a]).slice(0,2).map(k=>'「'+esc(labelOf(k))+'」');
+  let recap=yn?'昨日は'+(ytop.length?ytop.join('')+'など、':'')+'<b class="num">'+yn+'</b> 枚の葉を育てられました。しかと拝見しておりましたよ。':'昨日はお休みの日でございましたね。休むのも、立派なお務めでございます。';
+  if(yd)recap+='<br>日記には「'+MOODS[yd.m][0]+' '+esc(yd.t||MOODS[yd.m][1])+'」と。';
+  if(returnedNow&&auto)recap=esc(say(RETURN_MSG[S.style]));
+  const lk=luckyKey();
+  let html='<p class="eyebrow">LETTER ・ 本日のお便り</p>'+BH()+'<h2>'+esc(sama())+'、'+head+'</h2>'+
+    '<div class="mail-card"><small>きのうのこと</small>'+recap+'</div>';
+  if(new Date().getDay()===1){const wr=weekReview();html+='<div class="mail-card"><small>先週のふりかえり（'+wr.range+'）</small>がんばった日は <b class="num">'+wr.active+'</b> 日、育った葉は <b class="num">'+wr.leaves+'</b> 枚'+(wr.top?'。いちばん多かったのは「'+esc(wr.top)+'」でございました。':'。今週も、ご一緒にまいりましょう。')+'</div>';}
+  html+='<div class="mail-card"><small>本日のラッキー</small>「'+esc(labelOf(lk))+'」<br><span style="font-size:13px;color:var(--muted)">本日はじめて押すと、葉がもう一枚ふえます。</span></div>';
+  if(gift)html+='<div class="mail-gift"><span class="em" aria-hidden="true">🦴</span><span>ささやかながら、おやつを <b class="num">'+gift+'</b> 粒、袋に入れておきました。</span></div>';
+  html+='<div class="actions"><button class="btn wide" type="button" id="mailOk">'+(gift?'ありがとう、しば田':'閉じる')+'</button></div>';
+  openSheet(html,'本日のお便り');
+  $('mailOk').onclick=()=>{closeSheet();renderHome();};
+  if(gift){bow();onSheetClose=()=>{afterGain();renderHome();};}
+}
+function maybeLetter(){
+  if(!S.onboarded||S.letterSeen===today())return;
+  if($('sheetWrap').hidden)openLetter(true);else pendingLetter=true;
+}
+$('mailBtn').onclick=()=>openLetter(true);
+
 /* ================= タブ ================= */
 let current='home';
 function go(tab){
@@ -1691,7 +1886,7 @@ function go(tab){
   ['home','tree','weight','me'].forEach(t=>{$('tab-'+t).hidden=t!==tab;});
   document.querySelectorAll('.tabbar button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===tab)));
   if(tab==='home')renderHome();
-  if(tab==='tree'){renderTree(true);renderBadges();}
+  if(tab==='tree'){calMonth=today().slice(0,7);renderTree(true);renderCal();renderBadges();}
   if(tab==='weight'){wDate=today();histShown=14;showTip(null);renderWeight();}
   if(tab==='me')renderMe();
   window.scrollTo({top:0,behavior:reduced()?'auto':'smooth'});
@@ -1700,7 +1895,7 @@ function go(tab){
 document.querySelectorAll('.tabbar button').forEach(b=>b.onclick=()=>go(b.dataset.tab));
 document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g)go(g.dataset.go);});
 window.addEventListener('resize',()=>{if(current==='tree')renderTree(false);});
-function renderAll(){updateBuddy(false);renderInstallCard();renderHome();if(current==='tree'){renderTree(false);renderBadges();}renderWeight();renderMe();}
+function renderAll(){updateBuddy(false);renderInstallCard();renderHome();if(current==='tree'){renderTree(false);renderCal();renderBadges();}renderWeight();renderMe();}
 
 /* ================= 引き継ぎ ================= */
 function encodeBackup(){return 'HIDAMARI1:'+btoa(unescape(encodeURIComponent(JSON.stringify(S))));}
@@ -1765,8 +1960,10 @@ resetIdle();
 renderAll();
 checkLevel();checkBadges();
 if(!S.onboarded)setTimeout(openOnboarding,450);
-else if(returnedNow)setTimeout(()=>{sparkle(undefined,innerHeight*.25,40);bow();},500);
+else{if(returnedNow)setTimeout(()=>{sparkle(undefined,innerHeight*.25,40);bow();},500);setTimeout(maybeLetter,returnedNow?1300:700);}
 
+let shownDay=today();
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&today()!==shownDay){shownDay=today();processVisit();renderAll();setTimeout(maybeLetter,400);}});
 if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
 })();
 </script>
