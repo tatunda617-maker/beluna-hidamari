@@ -363,6 +363,34 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
 .buddy-say{position:absolute;left:10px;bottom:100%;margin:0 0 4px;width:max-content;max-width:min(250px,calc(100vw - 40px));background:var(--btn);color:var(--on-btn);padding:10px 14px;border-radius:14px 14px 14px 4px;font-family:var(--f-serif);font-weight:500;font-size:13.5px;line-height:1.7;box-shadow:0 14px 26px -12px rgba(0,0,0,.5);pointer-events:auto}
 .buddy-say.pop{animation:sayIn .35s cubic-bezier(.2,1.3,.4,1)}
 @keyframes sayIn{0%{opacity:0;transform:translateY(8px) scale(.92)}100%{opacity:1;transform:none}}
+/* ---------- おやつ ---------- */
+.feed-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid color-mix(in srgb,var(--hero-ink) 35%,transparent);background:color-mix(in srgb,var(--hero-ink) 10%,transparent);color:inherit;border-radius:999px;padding:5px 12px;margin-top:6px;font-size:12px;font-weight:700;letter-spacing:.04em}
+.feed-pill b{font-family:var(--f-num);font-style:italic;font-size:15px}
+.feed-stage{position:relative;display:flex;justify-content:center;margin:6px 0 2px}
+.feed-dog{width:150px}
+.feed-dog.munch .bt-body{animation:munch .32s ease-in-out 3}
+@keyframes munch{0%,100%{transform:scale(1,1)}50%{transform:scale(1.05,.93)}}
+.hearts{position:absolute;inset:0;pointer-events:none}
+.hearts i{position:absolute;left:50%;top:42%;font-style:normal;font-size:20px;color:#D9748A;animation:heart 1.3s ease-out forwards}
+@keyframes heart{0%{opacity:0;transform:translate(-50%,0) scale(.5)}20%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),-90px) scale(1.15)}}
+.feed-say{margin:6px 0 0;text-align:center;font-family:var(--f-serif);font-weight:500;font-size:15.5px;line-height:1.8;min-height:3.6em}
+.feed-meter{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:12px;font-weight:700;color:var(--muted)}
+.feed-meter .bar{flex:1;height:8px;border-radius:9px;background:var(--line);overflow:hidden}
+.feed-meter .bar i{display:block;height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,#E3B46A,#D98C45);transition:width .6s cubic-bezier(.2,1.2,.4,1)}
+.feed-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--muted)}
+.feed-meta b{color:var(--ink)}
+.foods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:14px}
+.food{position:relative;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 2px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;transition:transform .15s}
+.food:active{transform:scale(.94)}
+.food .em{font-size:28px;line-height:1.15}
+.food .nm{font-size:11px;font-weight:700;line-height:1.3;text-align:center}
+.food .cost{font-size:10.5px;color:var(--brass);font-weight:700}
+.food.fav{border-color:var(--brass);box-shadow:0 0 0 1px var(--brass) inset}
+.food .tag{position:absolute;top:-8px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:9px;font-weight:700;letter-spacing:.06em;background:var(--brass);color:var(--on-btn);padding:1px 7px;border-radius:6px}
+.food.off{opacity:.45}
+.food.lock .em{filter:grayscale(1);opacity:.5}
+.flying{position:fixed;z-index:90;font-size:30px;pointer-events:none;left:0;top:0}
+.say-feed{display:block;margin-top:8px;border:0;border-radius:10px;background:var(--on-btn);color:var(--btn);font-weight:700;font-size:12.5px;padding:7px 12px;font-family:var(--f-sans)}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 @media (max-width:360px){.hero-greet{font-size:20px}.hero-msg{font-size:15px}.bt-wrap{width:78px}.stat .num{font-size:26px}}
 </style>
@@ -385,6 +413,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
             <p class="hero-msg show" id="heroMsg">本日もお越しくださり、光栄でございます。</p>
             <button class="more" type="button" id="nextMsg">ほかのお言葉を →</button>
             <span class="attire" id="attire"></span>
+            <button class="feed-pill" type="button" id="feedBtn">🦴 おやつをあげる <b id="treatPill">0</b></button>
           </div>
         </div>
         <div class="hero-stats">
@@ -531,7 +560,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
         <button class="btn soft wide" type="button" id="openInstall">ホーム画面への追加方法</button>
         <div class="danger-zone" id="resetZone"></div>
       </div>
-      <p class="app-foot">ひだまり ・ ver 1.4.1</p>
+      <p class="app-foot">ひだまり ・ ver 1.5</p>
     </section>
   </main>
 </div>
@@ -769,6 +798,8 @@ const BADGES=[
   {id:'learn10',lv:2,m:'学',t:'学びの人',d:'「仕事・学び」の項目を合計10回',ok:s=>kc(s,'workhard','study','read','learn','task','focus','practice')>=10},
   {id:'home10',lv:2,m:'暮',t:'暮らし上手',d:'「暮らし」の項目を合計10回',ok:s=>kc(s,'earlyrise','clean','laundry','tidy','dishes','ontime','errand','sunlight')>=10},
   {id:'kind10',lv:3,m:'和',t:'やさしさの人',d:'親切・ありがとう・連絡を合計10回',ok:s=>kc(s,'kind','thanksay','contact')>=10},
+  {id:'feed1',lv:1,m:'餌',t:'はじめてのおやつ',d:'しば田におやつをあげた',ok:s=>s.feedCount>=1},
+  {id:'feed30',lv:3,m:'絆',t:'しば田の相棒',d:'おやつを30回あげた',ok:s=>s.feedCount>=30},
   {id:'letter',lv:2,m:'文',t:'未来からの手紙',d:'未来のご自分へ手紙を書いた',ok:s=>!!(s.letter&&s.letter.trim())},
   {id:'veg20',lv:3,m:'菜',t:'野菜の友',d:'「野菜を食べた」が20回',ok:s=>kc(s,'veg')>=20},
   {id:'days14',lv:3,m:'週',t:'二週の努力',d:'がんばった日が累計14日',ok:s=>winDays(s)>=14},
@@ -809,8 +840,8 @@ function winDays(s){return Object.keys(s.wins).filter(d=>Object.values(s.wins[d]
 
 /* ================= 保存 ================= */
 const LS='hidamari-v1';
-function fresh(){return{v:1,updatedAt:0,onboarded:false,name:'',reason:'',letter:'',style:'gentle',hideWeight:false,wins:{},weights:[],visits:[],lastVisit:null,returns:0,recoveries:0,sosUsed:0,early:false,night:false,mission:null,stepDone:null,badges:{},level:null,custom:[],goal:null,follow:true};}
-function normalize(o){const s=Object.assign(fresh(),o||{});if(!STYLES[s.style])s.style='gentle';if(!Array.isArray(s.custom))s.custom=[];if(!Array.isArray(s.weights))s.weights=[];return s;}
+function fresh(){return{v:1,updatedAt:0,onboarded:false,name:'',reason:'',letter:'',style:'gentle',hideWeight:false,wins:{},weights:[],visits:[],lastVisit:null,returns:0,recoveries:0,sosUsed:0,early:false,night:false,mission:null,stepDone:null,badges:{},level:null,custom:[],goal:null,follow:true,treatsUsed:0,feed:null,feedCount:0,foodCount:{}};}
+function normalize(o){const s=Object.assign(fresh(),o||{});if(!STYLES[s.style])s.style='gentle';if(!Array.isArray(s.custom))s.custom=[];if(!Array.isArray(s.weights))s.weights=[];if(!s.foodCount||typeof s.foodCount!=='object')s.foodCount={};return s;}
 let S=fresh();
 try{const raw=localStorage.getItem(LS);if(raw)S=normalize(JSON.parse(raw));}catch(e){}
 function save(){
@@ -917,6 +948,7 @@ function renderHome(){
   $('butlerTitle').textContent=titleOf(L.lv)+' しば田';
   const at=attire();$('attire').textContent='本日の装い：'+(L.lv>=10?'金':at.tie[1])+'の蝶ネクタイ'+(at.flower?'と'+at.flower[1]:'');
   placeButler();
+  $('treatPill').textContent=treats();
   renderStep();renderWins();
   $('reasonCard').hidden=!S.reason;$('reasonText').textContent=S.reason;
 }
@@ -1535,11 +1567,92 @@ window.addEventListener('scroll',()=>{
 if('IntersectionObserver' in window)new IntersectionObserver(es=>{heroSeen=es[0].isIntersecting;updateBuddy(false);},{threshold:.12}).observe($('hero'));
 else heroSeen=false;
 function hideSay(){clearTimeout(sayTimer);$('buddySay').hidden=true;}
-function buddyTalk(text){const el=$('buddySay');el.textContent=text;el.hidden=false;el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');clearTimeout(sayTimer);sayTimer=setTimeout(hideSay,4200);}
+function buddyTalk(text,withFeed){const el=$('buddySay');el.innerHTML=esc(text)+(withFeed?'<button type="button" class="say-feed" data-feed="1">🦴 おやつをあげる（'+treats()+'粒）</button>':'');el.hidden=false;el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');clearTimeout(sayTimer);sayTimer=setTimeout(hideSay,4200);}
 let lineIdx=0;
-$('buddyBtn').onclick=()=>{const pool=(BUDDY_LINES[current]||[]).concat(MSG[S.style]);buddyTalk(say(pool[(hash(today()+current)+lineIdx++)%pool.length]));bow();buzz();};
-$('buddySay').onclick=hideSay;
+$('buddyBtn').onclick=()=>{const canFeed=treats()>0&&fullness()<100;let pool=(BUDDY_LINES[current]||[]).concat(MSG[S.style]);if(canFeed&&fullness()===0)pool=['本日はまだ、おやつを頂いておりません……。（しっぽを振りながら）'].concat(pool);buddyTalk(say(pool[(hash(today()+current)+lineIdx++)%pool.length]),canFeed);bow();buzz();};
+$('buddySay').onclick=e=>{if(e.target.closest('[data-feed]'))openFeed();else hideSay();};
 $('followSwitch').onclick=()=>{S.follow=S.follow===false;save();renderMe();updateBuddy(true);toast(S.follow?'お供いたします':'かしこまりました',S.follow?'どのページでも、おそばにおります':'ホームでお待ちしております');};
+
+/* ================= おやつ ================= */
+/* 葉が1枚育つたびに、おやつ袋に1粒たまる。あげなくても、しば田が弱ったり悲しんだりはしない */
+const FOODS=[
+  {k:'bone',e:'🦴',t:'骨ガム',c:1,m:12,lv:1,say:'かりかり……。歯ごたえがたまりません。'},
+  {k:'apple',e:'🍎',t:'りんご',c:1,m:10,lv:1,say:'しゃりっ。みずみずしくて、目が覚めました。'},
+  {k:'sasami',e:'🍗',t:'ささみ',c:2,m:22,lv:1,say:'ささみ……！ しっぽが勝手に動いてしまいます。'},
+  {k:'cheese',e:'🧀',t:'チーズ',c:2,m:18,lv:2,say:'まろやかでございます。執事の心もとろけそうです。'},
+  {k:'imo',e:'🍠',t:'さつまいも',c:3,m:28,lv:2,say:'ほくほく……。秋の幸せが、口いっぱいに。'},
+  {k:'dango',e:'🍡',t:'おだんご',c:4,m:30,lv:3,say:'もちもち。お茶が欲しくなりますね。'},
+  {k:'steak',e:'🥩',t:'ステーキ',c:6,m:50,lv:4,say:'な、なんと立派な……！ 一生お仕えいたします。'},
+  {k:'cake',e:'🍰',t:'ケーキ',c:8,m:60,lv:6,say:'ケーキでございますか！？ 本日は記念日にいたしましょう。'}
+];
+const BONDS=[[0,'はじめまして'],[3,'顔なじみ'],[10,'なかよし'],[30,'相棒'],[60,'家族同然'],[100,'一心同体']];
+const treats=()=>Math.max(0,totalWins(S)-(S.treatsUsed||0));
+const fullness=()=>S.feed&&S.feed.d===today()?S.feed.full:0;
+const favFood=()=>{const L=levelInfo().lv,ok=FOODS.filter(f=>f.lv<=L);return ok[hash('fav'+today())%ok.length];};
+function bondInfo(){const n=S.feedCount||0;let i=0;BONDS.forEach((b,j)=>{if(n>=b[0])i=j;});const nx=BONDS[i+1];return{name:BONDS[i][1],next:nx&&nx[1],left:nx?nx[0]-n:0};}
+function feedLine(){
+  const f=fullness(),t=treats();
+  if(f>=100)return'もうお腹いっぱいでございます。また明日、楽しみにしております。';
+  if(!t)return'おやつ袋が空でございます。「できた」を押して葉が育つと、また1粒たまりますよ。';
+  if(f===0)return'おや、おやつでございますか？（しっぽが、ぶんぶん揺れている）';
+  if(f<50)return'まだ少し入りそうでございます……。';
+  return'だいぶ満たされてまいりました。ありがとうございます。';
+}
+function openFeed(){
+  hideSay();
+  openSheet('<p class="eyebrow">SNACK TIME</p><h2>しば田に、おやつを</h2>'+
+    '<div class="feed-stage"><div class="feed-dog bt-wrap bt-slot" id="feedDog" aria-hidden="true"></div><div class="hearts" id="hearts"></div></div>'+
+    '<p class="feed-say" id="feedSay" aria-live="polite"></p>'+
+    '<div class="feed-meter"><span>まんぷく</span><span class="bar"><i id="fullBar"></i></span><span id="fullPct">0%</span></div>'+
+    '<div class="feed-meta"><span>おやつ袋 <b id="treatNum">0</b> 粒</span><span id="bondLine"></span></div>'+
+    '<div class="foods" id="foods"></div>'+
+    '<p class="small-note" style="margin-top:14px">おやつ袋には、葉が1枚育つたびに1粒たまります。まんぷくは毎日リセットされます。あげない日があっても、しば田は元気でございます。</p>'+
+    '<div class="actions"><button class="btn soft wide" type="button" id="feedClose">閉じる</button></div>','おやつ');
+  $('feedSay').textContent=feedLine();
+  renderFeed();
+  $('feedClose').onclick=closeSheet;
+  $('foods').addEventListener('click',e=>{const b=e.target.closest('.food');if(b)giveFood(b.dataset.f,b);});
+}
+function renderFeed(){
+  if(!$('foods'))return;
+  const L=levelInfo().lv,t=treats(),f=fullness(),fav=favFood(),bd=bondInfo();
+  $('treatNum').textContent=t;$('fullBar').style.width=Math.min(100,f)+'%';$('fullPct').textContent=Math.min(100,f)+'%';
+  $('bondLine').innerHTML='なかよし度：<b>'+bd.name+'</b>'+(bd.next?'（あと'+bd.left+'回で「'+bd.next+'」）':'');
+  $('foods').innerHTML=FOODS.map(x=>{
+    const lock=x.lv>L,isFav=!lock&&x.k===fav.k,off=lock||t<x.c||f>=100;
+    return '<button type="button" class="food'+(isFav?' fav':'')+(off?' off':'')+(lock?' lock':'')+'" data-f="'+x.k+'" aria-label="'+x.t+'（'+x.c+'粒）'+(lock?' Lv.'+x.lv+'で解放':'')+'">'+
+      (isFav?'<span class="tag">本日の好物</span>':'')+'<span class="em" aria-hidden="true">'+x.e+'</span><span class="nm">'+x.t+'</span><span class="cost">'+(lock?'Lv.'+x.lv+'で':'🦴 '+x.c)+'</span></button>';
+  }).join('');
+}
+function giveFood(k,btn){
+  const x=FOODS.find(f=>f.k===k),L=levelInfo().lv,t=treats(),f=fullness();
+  if(!x)return;
+  if(x.lv>L){toast('Lv.'+x.lv+'になると、お出しできます','「'+x.t+'」');return;}
+  if(f>=100){$('feedSay').textContent=feedLine();return;}
+  if(t<x.c){toast('おやつ袋が足りません','あと'+(x.c-t)+'粒。葉が育つと、たまります');return;}
+  const fav=favFood().k===k,gain=fav?x.m*2:x.m;
+  S.treatsUsed=(S.treatsUsed||0)+x.c;
+  S.feed={d:today(),full:Math.min(100,f+gain)};
+  S.feedCount=(S.feedCount||0)+1;S.foodCount[k]=(S.foodCount[k]||0)+1;
+  save();buzz();
+  const done=()=>{
+    const dog=$('feedDog');if(!dog)return;
+    dog.classList.remove('munch');void dog.offsetWidth;dog.classList.add('munch');bow();
+    const h=$('hearts');if(h&&!reduced()){for(let i=0;i<(fav?6:3);i++){const el=document.createElement('i');el.textContent='♥';el.style.setProperty('--dx',((i-(fav?2.5:1))*22)+'px');el.style.animationDelay=(i*.12)+'s';h.appendChild(el);setTimeout(()=>el.remove(),1800);}}
+    const full=S.feed.full>=100;
+    $('feedSay').textContent=(fav?'本日の好物でございます！ ':'')+x.say+(full?' ……もう、お腹いっぱいでございます。':'');
+    renderFeed();$('treatPill').textContent=treats();
+    if(full)sparkle(undefined,innerHeight*.3,40);
+    afterGain();
+  };
+  if(reduced()||!btn||!$('feedDog'))return done();
+  const a=btn.getBoundingClientRect(),d=$('feedDog').getBoundingClientRect();
+  const fly=document.createElement('span');fly.className='flying';fly.textContent=x.e;document.body.appendChild(fly);
+  const sx=a.left+a.width/2-15,sy=a.top+a.height/2-18,ex=d.left+d.width*.5-15,ey=d.top+d.height*.36-18;
+  const anim=fly.animate([{transform:'translate('+sx+'px,'+sy+'px) scale(1)'},{transform:'translate('+((sx+ex)/2)+'px,'+(Math.min(sy,ey)-70)+'px) scale(1.15) rotate(-20deg)',offset:.5},{transform:'translate('+ex+'px,'+ey+'px) scale(.35) rotate(10deg)',opacity:.6}],{duration:650,easing:'ease-in-out'});
+  anim.onfinish=()=>{fly.remove();done();};
+}
+$('feedBtn').onclick=openFeed;
 
 /* ================= タブ ================= */
 let current='home';
