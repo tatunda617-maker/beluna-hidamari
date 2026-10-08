@@ -1,5 +1,5 @@
 // ひだまり：オフラインでも開けるようにするための仕組み
-const CACHE = 'hidamari-v8';
+const CACHE = 'hidamari-v9';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
