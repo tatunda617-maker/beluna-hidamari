@@ -548,6 +548,39 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
 .crave-tip{min-height:3.6em;text-align:center;font-family:var(--f-serif);font-size:16px;line-height:1.8;margin:8px 0 0}
 .crave-tip.fade{animation:sayIn .5s ease}
 .sm-home .sm-count{font-size:32px}
+/* ---------- モンスターを減らす v1.9 ---------- */
+.quit-seg{display:flex;background:var(--surface-2);border-radius:14px;padding:4px}
+.quit-seg button{flex:1;border:0;background:none;border-radius:10px;padding:9px 0;font-size:13px;font-weight:700;color:var(--muted)}
+.quit-seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.14)}
+.dk-wrap,.sm-wrap{display:flex;flex-direction:column;gap:20px}
+.dk-today{display:flex;align-items:center;justify-content:center;gap:18px;margin:14px 0 4px}
+.dk-today .round{width:52px;height:52px;font-size:24px}
+.dk-num{text-align:center;min-width:5.5em}
+.dk-num b{display:block;font-family:var(--f-num);font-style:italic;font-weight:600;font-size:56px;line-height:1}
+.dk-num span{font-size:12px;color:var(--muted);font-weight:700}
+.dk-cans{display:flex;justify-content:center;gap:6px;margin-top:6px;font-size:22px;min-height:28px;flex-wrap:wrap}
+.dk-cans i{font-style:normal;filter:grayscale(1);opacity:.3}
+.dk-cans i.used{filter:none;opacity:1}
+.dk-cans i.over{filter:none;opacity:1;transform:rotate(-12deg)}
+.dk-msg{margin:10px 0 0;text-align:center;font-size:13px;font-weight:700}
+.dk-msg.ok{color:var(--sage)}
+.dk-msg.over{color:var(--brass)}
+.dk-steps{display:flex;gap:4px;margin-top:12px}
+.dk-steps div{flex:1;text-align:center;border-radius:10px;padding:8px 2px;background:var(--surface-2);font-size:11px;color:var(--muted);font-weight:700;line-height:1.35}
+.dk-steps div b{display:block;font-family:var(--f-num);font-style:italic;font-size:18px;color:var(--ink)}
+.dk-steps div.now{background:var(--btn);color:var(--on-btn)}
+.dk-steps div.now b{color:var(--on-btn)}
+.dk-steps div.done{opacity:.55}
+#dkChart{display:block;width:100%;height:auto;margin-top:8px}
+.dk-big{font-family:var(--f-num);font-style:italic;font-weight:600;font-size:42px;line-height:1.1;color:var(--sage)}
+.dk-proj{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px}
+.dk-proj li{display:flex;justify-content:space-between;align-items:baseline;gap:10px;background:var(--surface-2);border-radius:12px;padding:10px 14px;font-size:13px}
+.dk-proj li b{font-family:var(--f-num);font-style:italic;font-size:19px;white-space:nowrap}
+.dk-edit{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px}
+.dk-edit li{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--surface-2);border-radius:12px;padding:6px 8px 6px 14px;font-size:13.5px}
+.dk-edit .st{display:flex;align-items:center;gap:10px}
+.dk-edit .st button{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:16px;color:var(--ink)}
+.dk-edit .st b{font-family:var(--f-num);font-style:italic;font-size:20px;min-width:1.4em;text-align:center}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 @media (max-width:360px){.hero-greet{font-size:20px}.hero-msg{font-size:15px}.bt-wrap{width:78px}.stat .num{font-size:26px}}
 </style>
@@ -590,6 +623,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
       </div>
 
       <div class="card sm-home" id="smHome" hidden></div>
+      <div class="card sm-home" id="dkHome" hidden></div>
 
       <div class="card step">
         <div class="step-body">
@@ -702,7 +736,26 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
     </section>
 
     <!-- SMOKE -->
-    <section class="tab" id="tab-smoke" aria-label="禁煙" hidden>
+    <section class="tab" id="tab-smoke" aria-label="減らす" hidden>
+      <div class="quit-seg" id="quitSeg" role="group" aria-label="切りかえ" hidden><button type="button" data-qs="smoke">🚭 禁煙</button><button type="button" data-qs="drink">🥫 <span id="qsDrinkName">モンスター</span></button></div>
+      <div class="dk-wrap" id="dkWrap" hidden>
+        <div class="card" id="dkHero"></div>
+        <div class="card" id="dkPlan"></div>
+        <div class="card"><div class="sec-head" style="padding:0"><h2>この2週間</h2><button class="linkish" type="button" data-dk="editlog" style="align-self:center">記録を直す</button></div><svg id="dkChart" viewBox="0 0 400 170" role="img" aria-label="この2週間の本数"></svg><p class="chart-note"><span><i></i>目安</span><span><i class="pt" style="border-radius:2px"></i>飲んだ本数</span></p></div>
+        <div class="card" id="dkSave"></div>
+        <div class="card">
+          <p class="eyebrow">TIPS</p><h2>飲みたくなったときの、代わりの一手</h2>
+          <ul class="sm-list">
+            <li><span>🫧 <b>冷たい炭酸水</b><small>シュワっとした刺激で、気分を切りかえられます。</small></span></li>
+            <li><span>🍵 <b>お茶やコーヒーを少しだけ</b><small>カフェインを急にゼロにせず、量の少ないものに置きかえると楽です。</small></span></li>
+            <li><span>😴 <b>15分の仮眠</b><small>眠気には、カフェインより短い仮眠が効くこともあります。</small></span></li>
+            <li><span>🚶 <b>5分だけ外を歩く</b><small>日の光と体を動かすことで、頭がすっきりします。</small></span></li>
+          </ul>
+          <p class="small-note" style="margin-top:10px">カフェインを急にやめると、頭痛やだるさが出ることがあります。たいてい数日でおさまりますが、少しずつ減らすと楽になります。体調が気になるときは、お医者さまにご相談ください。</p>
+        </div>
+        <div class="card form" id="dkSettings"></div>
+      </div>
+      <div class="sm-wrap" id="smWrap">
       <div class="card" id="smHero"></div>
       <div class="card"><div class="sec-head" style="padding:0"><h2>からだの回復</h2><p>一般的な目安です</p></div><ol class="health" id="smHealth"></ol></div>
       <div class="card" id="smCrave"></div>
@@ -720,6 +773,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
         <p class="small-note" style="margin-top:10px">何度目の挑戦でも大丈夫です。挑戦するたびに、成功へ近づいています。</p>
       </div>
       <div class="card form" id="smSettings"></div>
+      </div>
     </section>
 
     <!-- ME -->
@@ -757,7 +811,12 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
         <p class="small-note">禁煙してからの時間、浮いたお金、からだの回復、吸いたくなったときのお助けボタンなどが使えるようになります。オンにすると「禁煙」タブが増えます。</p>
         <button class="btn soft wide" type="button" id="smMeBtn">禁煙サポートをはじめる</button>
       </div>
-      <p class="app-foot">ひだまり ・ ver 1.8</p>
+      <div class="card form">
+        <div><p class="eyebrow">LESS ENERGY DRINK</p><h2>モンスターを減らす</h2></div>
+        <p class="small-note">エナジードリンクを、少しずつ0本に近づけます。毎日の目安、節約できた金額、減らせたカフェインや砂糖がわかります。オンにすると「減らす」タブが増えます。</p>
+        <button class="btn soft wide" type="button" id="dkMeBtn">モンスターを減らしはじめる</button>
+      </div>
+      <p class="app-foot">ひだまり ・ ver 1.9</p>
     </section>
   </main>
 </div>
@@ -778,7 +837,7 @@ h2{font-family:var(--f-serif);font-size:18px;font-weight:700;margin:0;line-heigh
     <button type="button" role="tab" data-tab="weight" aria-selected="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="4"/><path d="M8.5 9.5a4 4 0 0 1 7 0"/><path d="M12 9.5l1.3-1.6"/></svg>体重</button>
     <button type="button" role="tab" data-tab="smoke" aria-selected="false" hidden>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="13" width="15" height="4" rx="1"/><path d="M14.5 13v4M20 13v4M20 10c0-2-2-2-2-4M17.5 10c0-1.5-1.3-1.7-1.3-3"/><path d="M3 21L21 3"/></svg>禁煙</button>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="13" width="15" height="4" rx="1"/><path d="M14.5 13v4M20 13v4M20 10c0-2-2-2-2-4M17.5 10c0-1.5-1.3-1.7-1.3-3"/><path d="M3 21L21 3"/></svg><span id="quitLbl">禁煙</span></button>
     <button type="button" role="tab" data-tab="me" aria-selected="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg>マイページ</button>
   </div>
@@ -938,7 +997,7 @@ const KINDS=[
 const ORIG_KINDS=['water','walk','veg','slow','eight','stretch','gym','sleep','self'];
 const MY_COLORS=['#C08A7A','#8A9FC2','#9DB07A','#C2A06E','#A08AB8','#7FB0A6','#C7946A','#8FA08A'];
 const MY_SUGGEST=['お弁当を作った','ペットと散歩した','日記を書いた','英語を5分やった','ニュースを読んだ','花に水をやった','子どもと遊んだ','ヨガをした','資格の勉強をした','ゴミを出した','家計簿をつけた','ブログを書いた'];
-const EXTRA={nosmoke:{t:'吸わずに過ごせた',c:'#7FA9B8'},craving:{t:'吸いたい気持ちに勝った',c:'#5C8FA3'},lucky:{t:'ラッキーボーナス',c:'#E3B23C'},diary:{t:'ひとこと日記',c:'#C9A0B8'},scale:{t:'体重計に乗った',c:'#8FB3BF'},mission:{t:'小さな一歩',c:'#D9B96E'},care:{t:'自分をいたわった',c:'#BFA07A'}};
+const EXTRA={dkok:{t:'目安どおりに過ごせた',c:'#5FA37B'},dkzero:{t:'モンスター0本の日',c:'#3E8E6A'},dkskip:{t:'飲みたいのをがまんした',c:'#88B07A'},nosmoke:{t:'吸わずに過ごせた',c:'#7FA9B8'},craving:{t:'吸いたい気持ちに勝った',c:'#5C8FA3'},lucky:{t:'ラッキーボーナス',c:'#E3B23C'},diary:{t:'ひとこと日記',c:'#C9A0B8'},scale:{t:'体重計に乗った',c:'#8FB3BF'},mission:{t:'小さな一歩',c:'#D9B96E'},care:{t:'自分をいたわった',c:'#BFA07A'}};
 const CH=[
   {k:'snack',cat:'meal',t:'間食をがまんした',c:'#B98B5E',lv:2,v:1,i:'<circle cx="12" cy="12" r="8"/><circle cx="9" cy="10" r=".9"/><circle cx="14.5" cy="9.5" r=".9"/><circle cx="13" cy="14.5" r=".9"/><path d="M5 19L19 5"/>'},
   {k:'bath',cat:'life',t:'湯船につかった',c:'#7FA7B5',lv:2,v:1,i:'<path d="M3 12h18v2a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path d="M6 12V6.5a2 2 0 0 1 4 0"/><path d="M7 19l-1 2M17 19l1 2"/>'},
@@ -1015,6 +1074,12 @@ const BADGES=[
   {id:'smoke100',lv:1,smoke:1,m:'誓',t:'百日の誓い',d:'禁煙して100日',ok:s=>smDays(s)>=100},
   {id:'smoke365',lv:1,smoke:1,m:'勲',t:'一年の勲章',d:'禁煙して1年',ok:s=>smDays(s)>=365},
   {id:'crave10',lv:1,smoke:1,m:'克',t:'誘惑に勝つ人',d:'吸いたい気持ちに10回勝った',ok:s=>!!s.smoke&&s.smoke.cravings.filter(c=>c.ok).length>=10},
+  {id:'dk_zero1',lv:1,drink:1,m:'零',t:'はじめての0本の日',d:'モンスターを1本も飲まずに過ごした',ok:s=>dkZeroDays(s)>=1},
+  {id:'dk_zero7',lv:1,drink:1,m:'七',t:'0本の日が7日',d:'モンスター0本の日が、通算7日',ok:s=>dkZeroDays(s)>=7},
+  {id:'dk_zero30',lv:1,drink:1,m:'晴',t:'エナドリ卒業',d:'モンスター0本の日が、通算30日',ok:s=>dkZeroDays(s)>=30},
+  {id:'dk_skip10',lv:1,drink:1,m:'忍',t:'がまんの達人',d:'飲みたいのを10回がまんした',ok:s=>!!s.drink&&(s.drink.skips||0)>=10},
+  {id:'dk_save5k',lv:1,drink:1,m:'貯',t:'5,000円の節約',d:'モンスターを減らして5,000円浮いた',ok:s=>!!s.drink&&dkStats(s).saved>=5000},
+  {id:'dk_save30k',lv:1,drink:1,m:'富',t:'30,000円の節約',d:'モンスターを減らして30,000円浮いた',ok:s=>!!s.drink&&dkStats(s).saved>=30000},
   {id:'letter',lv:2,m:'文',t:'未来からの手紙',d:'未来のご自分へ手紙を書いた',ok:s=>!!(s.letter&&s.letter.trim())},
   {id:'veg20',lv:3,m:'菜',t:'野菜の友',d:'「野菜を食べた」が20回',ok:s=>kc(s,'veg')>=20},
   {id:'days14',lv:3,m:'週',t:'二週の努力',d:'がんばった日が累計14日',ok:s=>winDays(s)>=14},
@@ -1055,8 +1120,8 @@ function winDays(s){return Object.keys(s.wins).filter(d=>Object.values(s.wins[d]
 
 /* ================= 保存 ================= */
 const LS='hidamari-v1';
-function fresh(){return{v:1,updatedAt:0,onboarded:false,name:'',reason:'',letter:'',style:'gentle',hideWeight:false,wins:{},weights:[],visits:[],lastVisit:null,returns:0,recoveries:0,sosUsed:0,early:false,night:false,mission:null,stepDone:null,badges:{},level:null,custom:[],goal:null,follow:true,treatsUsed:0,feed:null,feedCount:0,foodCount:{},bond:0,diary:{},bonusTreats:0,letterSeen:null,letters:0,smoke:null};}
-function normalize(o){const s=Object.assign(fresh(),o||{});if(!STYLES[s.style])s.style='gentle';if(!Array.isArray(s.custom))s.custom=[];if(!Array.isArray(s.weights))s.weights=[];if(!s.foodCount||typeof s.foodCount!=='object')s.foodCount={};if(!s.diary||typeof s.diary!=='object')s.diary={};if(s.feed&&s.feed.t==null)s.feed=null;if(!o||o.bond==null)s.bond=s.feedCount||0;if(s.smoke){if(typeof s.smoke!=='object'||!s.smoke.start)s.smoke=null;else{['reasons','plans','cravings','slips'].forEach(k=>{if(!Array.isArray(s.smoke[k]))s.smoke[k]=[];});if(!s.smoke.checks||typeof s.smoke.checks!=='object')s.smoke.checks={};}}return s;}
+function fresh(){return{v:1,updatedAt:0,onboarded:false,name:'',reason:'',letter:'',style:'gentle',hideWeight:false,wins:{},weights:[],visits:[],lastVisit:null,returns:0,recoveries:0,sosUsed:0,early:false,night:false,mission:null,stepDone:null,badges:{},level:null,custom:[],goal:null,follow:true,treatsUsed:0,feed:null,feedCount:0,foodCount:{},bond:0,diary:{},bonusTreats:0,letterSeen:null,letters:0,smoke:null,drink:null};}
+function normalize(o){const s=Object.assign(fresh(),o||{});if(!STYLES[s.style])s.style='gentle';if(!Array.isArray(s.custom))s.custom=[];if(!Array.isArray(s.weights))s.weights=[];if(!s.foodCount||typeof s.foodCount!=='object')s.foodCount={};if(!s.diary||typeof s.diary!=='object')s.diary={};if(s.feed&&s.feed.t==null)s.feed=null;if(!o||o.bond==null)s.bond=s.feedCount||0;if(s.smoke){if(typeof s.smoke!=='object'||!s.smoke.start)s.smoke=null;else{['reasons','plans','cravings','slips'].forEach(k=>{if(!Array.isArray(s.smoke[k]))s.smoke[k]=[];});if(!s.smoke.checks||typeof s.smoke.checks!=='object')s.smoke.checks={};}}if(s.drink){if(typeof s.drink!=='object'||!s.drink.start)s.drink=null;else{if(!s.drink.log||typeof s.drink.log!=='object')s.drink.log={};if(!s.drink.checks||typeof s.drink.checks!=='object')s.drink.checks={};}}return s;}
 let S=fresh();
 try{const raw=localStorage.getItem(LS);if(raw)S=normalize(JSON.parse(raw));}catch(e){}
 function save(){
@@ -1083,7 +1148,7 @@ function processVisit(){
 function checkBadges(){
   const got=[];
   const lvNow=levelInfo().lv;
-  for(const b of BADGES){if(!S.badges[b.id]&&b.lv<=lvNow&&(!b.smoke||S.smoke)&&b.ok(S)){S.badges[b.id]=today();got.push(b);}}
+  for(const b of BADGES){if(!S.badges[b.id]&&b.lv<=lvNow&&(!b.smoke||S.smoke)&&(!b.drink||S.drink)&&b.ok(S)){S.badges[b.id]=today();got.push(b);}}
   if(got.length){save();got.forEach((b,i)=>setTimeout(()=>toast('称号を授与いたします','「'+b.t+'」'),1700+i*2600));}
 }
 
@@ -1163,7 +1228,7 @@ function renderHome(){
   $('butlerTitle').textContent=titleOf(L.lv)+' しば田';
   const at=attire();$('attire').textContent='本日の装い：'+(L.lv>=10?'金':at.tie[1])+'の蝶ネクタイ'+(at.flower?'と'+at.flower[1]:'');
   placeButler();
-  renderSmHome();
+  renderSmHome();renderDkHome();
   $('treatPill').textContent=treats();$('mailBtn').classList.toggle('new',S.letterSeen!==today());
   renderStep();renderWins();renderDiary();
   $('reasonCard').hidden=!S.reason;$('reasonText').textContent=S.reason;
@@ -1373,7 +1438,7 @@ function drawFlower(g,x,y,s,i){
 }
 function renderBadges(){
   const L=levelInfo().lv;let n=0;
-  const vis=BADGES.filter(b=>(b.lv<=L&&(!b.smoke||S.smoke))||S.badges[b.id]);
+  const vis=BADGES.filter(b=>(b.lv<=L&&(!b.smoke||S.smoke)&&(!b.drink||S.drink))||S.badges[b.id]);
   $('badges').innerHTML=vis.map(b=>{const got=!!S.badges[b.id];if(got)n++;
     return '<div class="badge'+(got?'':' locked')+'"><div class="medal" aria-hidden="true">'+(got?b.m:'・')+'</div><div style="min-width:0"><h3>'+b.t+'</h3><p>'+b.d+'</p></div></div>';}).join('');
   $('badgeCount').textContent=n+' / '+vis.length;
@@ -1751,6 +1816,7 @@ function renderMe(){
   $('styles').innerHTML=styleButtons(S.style);
   $('followSwitch').setAttribute('aria-checked',String(S.follow!==false));
   $('smMeBtn').textContent=S.smoke?'禁煙のページを開く':'禁煙サポートをはじめる';
+  $('dkMeBtn').textContent=S.drink?'モンスターのページを開く':'モンスターを減らしはじめる';
 }
 let typeTimer;
 [['fName','name'],['fReason','reason'],['fLetter','letter']].forEach(([id,key])=>{
@@ -1773,6 +1839,7 @@ const BUDDY_LINES={
   home:['本日の「できた」、お待ちしております。','どれかおひとつ押せましたら、本日は満点でございます。','{様}のおそばに、ずっと控えておりますよ。','早起き、お仕事、ちょっとの勉強。どれも立派な「できた」でございます。'],
   tree:['{様}の木、立派に育っておりますね。','葉の一枚一枚が、{様}の積み重ねでございます。','お休みの日があっても、この木は枯れませんよ。'],
   weight:['体重計に乗られた日は、それだけで花丸でございます。','数字より、1週間の流れをご一緒に見てまいりましょう。','増えた日も、記録なさった{様}はご立派です。'],
+  drink:['飲みたい気持ちも、少し待てば落ち着いてまいります。','{様}のお財布が、静かに喜んでおりますよ。'],
   smoke:['吸いたい気持ちの波は、たいてい数分で引いてまいります。','{様}の肺が、今この瞬間も回復しておりますよ。','もし1本吸ってしまっても、そこで止めれば大丈夫でございます。'],
   me:['お書きいただいた言葉、大切にお預かりしております。','落ち込んだときは、右下の呼び鈴でいつでもお呼びください。','わたくしのお仕えの仕方、いつでもお好みにお変えください。']
 };
@@ -1802,7 +1869,7 @@ else heroSeen=false;
 function hideSay(){clearTimeout(sayTimer);$('buddySay').hidden=true;}
 function buddyTalk(text,withFeed){const el=$('buddySay');el.innerHTML=esc(text)+(withFeed?'<button type="button" class="say-feed" data-feed="1">🦴 おやつをあげる（'+treats()+'粒）</button>':'');el.hidden=false;el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');clearTimeout(sayTimer);sayTimer=setTimeout(hideSay,4200);}
 let lineIdx=0;
-$('buddyBtn').onclick=()=>{const canFeed=treats()>0&&fullness()<100;let pool=(BUDDY_LINES[current]||[]).concat(MSG[S.style]);if(canFeed&&fullness()===0)pool=['本日はまだ、おやつを頂いておりません……。（しっぽを振りながら）'].concat(pool);buddyTalk(say(pool[(hash(today()+current)+lineIdx++)%pool.length]),canFeed);bow();buzz();};
+$('buddyBtn').onclick=()=>{const canFeed=treats()>0&&fullness()<100;let pool=(BUDDY_LINES[current==='smoke'&&quitSeg==='drink'?'drink':current]||[]).concat(MSG[S.style]);if(canFeed&&fullness()===0)pool=['本日はまだ、おやつを頂いておりません……。（しっぽを振りながら）'].concat(pool);buddyTalk(say(pool[(hash(today()+current)+lineIdx++)%pool.length]),canFeed);bow();buzz();};
 $('buddySay').onclick=e=>{if(e.target.closest('[data-feed]'))openFeed();else hideSay();};
 $('followSwitch').onclick=()=>{S.follow=S.follow===false;save();renderMe();updateBuddy(true);toast(S.follow?'お供いたします':'かしこまりました',S.follow?'どのページでも、おそばにおります':'ホームでお待ちしております');};
 
@@ -2136,7 +2203,7 @@ function smStage(d){
   if(d<90)return['見事な歩みでございます','「もう大丈夫だから1本」が、いちばんの落とし穴。作戦を見直しておきましょう。'];
   return['もう立派な「吸わない人」でございます','ここまで来られた{様}を、心から誇りに思います。'];
 }
-function smTabbar(){const b=document.querySelector('.tabbar [data-tab="smoke"]');b.hidden=!S.smoke;document.querySelector('.tabbar-in').classList.toggle('five',!!S.smoke);}
+function smTabbar(){const on=!!(S.smoke||S.drink),b=document.querySelector('.tabbar [data-tab="smoke"]');b.hidden=!on;document.querySelector('.tabbar-in').classList.toggle('five',on);$('quitLbl').textContent=S.drink?'減らす':'禁煙';}
 function smCheckDone(){return !!(S.smoke&&S.smoke.checks[today()]);}
 function smActionBtns(){
   const st=smStats();if(st.future)return'';
@@ -2222,7 +2289,7 @@ function openSmokeSetup(edit){
       if(edit){Object.assign(S.smoke,{start,perDay:per,price,perPack:pack});save();closeSheet();renderAll();toast('設定を保存しました');return;}
       const rs=[...$('smRs').querySelectorAll('[aria-pressed="true"]')].map(b=>b.dataset.r);
       S.smoke={start,perDay:per,price,perPack:pack,reasons:rs,goal:null,plans:[],cravings:[],slips:[],checks:{},attempts:1};
-      save();closeSheet();smTabbar();go('smoke');sparkle(undefined,undefined,40);bow();
+      save();closeSheet();smTabbar();quitSeg='smoke';go('smoke');sparkle(undefined,undefined,40);bow();
       toast('心よりお供いたします',start>Date.now()?'禁煙開始の日まで、準備をととのえましょう':'今この瞬間から、体が回復しはじめます');
     };};
   if(edit)return form();
@@ -2306,9 +2373,9 @@ document.addEventListener('click',e=>{
   else if(a==='restart'){if(!b.dataset.armed){b.dataset.armed='1';b.textContent='本当に、今から数えなおす';return;}
     S.smoke.start=Date.now();S.smoke.attempts=(S.smoke.attempts||1)+1;S.smoke.slips=[];save();renderAll();toast('新しい一歩でございます',S.smoke.attempts+'回目の挑戦を、心から応援いたします');}
   else if(a==='off'){if(!b.dataset.armed){b.dataset.armed='1';b.textContent='本当にやめる（記録も消えます）';return;}
-    S.smoke=null;save();smTabbar();go('me');toast('禁煙サポートをやめました','またいつでも、お声がけくださいませ');}
+    S.smoke=null;save();smTabbar();if(S.drink){quitSeg='drink';go('smoke');}else go('me');toast('禁煙サポートをやめました','またいつでも、お声がけくださいませ');}
 });
-$('smMeBtn').onclick=()=>{if(S.smoke)go('smoke');else openSmokeSetup(false);};
+$('smMeBtn').onclick=()=>{if(S.smoke){quitSeg='smoke';go('smoke');}else openSmokeSetup(false);};
 setInterval(()=>{
   if(!S.smoke||document.hidden)return;
   const st=smStats();
@@ -2316,11 +2383,170 @@ setInterval(()=>{
   if(current==='home'&&$('smHomeCount'))$('smHomeCount').innerHTML=smDur(st.el);
 },1000);
 
+/* ================= モンスターを減らす ================= */
+/* 急にやめず、目安を少しずつ下げていく（カフェインの離脱をやわらげる）。飲みすぎた日も責めない。 */
+let quitSeg=null;try{quitSeg=localStorage.getItem('hidamari-quitseg');}catch(e){}
+const DK_WHY=['眠い','疲れた','集中したい','口さみしい','いつもの習慣','気分転換'];
+const DK_ALT={'眠い':'15分だけ目を閉じてみる','疲れた':'冷たいお水をコップ一杯','集中したい':'5分だけ外の空気を吸う','口さみしい':'炭酸水やガムにしてみる','いつもの習慣':'いつもの時間に、お茶を用意しておく','気分転換':'好きな曲を1曲だけ聴く'};
+const DK_PACE=[[14,'ゆっくり','2週間ごとに減らす'],[7,'ふつう','1週間ごとに減らす'],[3,'はやめ','3日ごとに減らす'],[0,'今日から0本','いきなりやめる']];
+function dkLevels(d){const out=[];if(!d.pace){out.push(0);return out;}for(let v=d.base-.5;v>0.001;v-=.5)out.push(Math.round(v*10)/10);out.push(0);return out;}
+function dkDayIdx(d,k){return Math.max(0,daysBetween(d.start,k||today()));}
+function dkStage(d,k){const L=dkLevels(d),i=d.pace?Math.min(L.length-1,Math.floor(dkDayIdx(d,k)/d.pace)):0;return{i,level:L[i],levels:L,next:d.pace&&i<L.length-1?(i+1)*d.pace-dkDayIdx(d,k):0};}
+function dkAllow(d,k){const st=dkStage(d,k),v=st.level;if(v%1===0)return v;return dkDayIdx(d,k)%2===0?Math.ceil(v):Math.floor(v);}
+function dkZeroDays(s){const d=(s||S).drink;if(!d)return 0;let n=0;for(const k in d.checks)if(k>=d.start&&!(d.log[k]>0))n++;return n;}
+function dkStats(s){
+  const d=(s||S).drink,t=today(),days=dkDayIdx(d,t)+1;let drunk=0;
+  for(const k in d.log)if(k>=d.start&&k<=t)drunk+=d.log[k]||0;
+  const base=d.base*days,red=Math.max(0,base-drunk);
+  return{days,drunk,red,saved:Math.round(red*d.price),caf:Math.round(red*d.caf),sugar:Math.round(red*d.sugar)};
+}
+const dkName=()=>S.drink&&S.drink.name||'モンスター';
+function dkTodayMsg(n,a){
+  if(n===0&&a===0)return['ok','0本の日でございます。お見事！'];
+  if(n===0)return['ok','まだ0本。このまま行けたら最高でございます'];
+  if(n<a)return['ok','目安まで、あと'+(a-n)+'本の余裕がございます'];
+  if(n===a)return['ok','ちょうど目安どおり。ここで止めれば満点です'];
+  return['over','目安より'+(n-a)+'本多めですが、大丈夫。明日またゆるやかに'];
+}
+function dkCheckBtn(){
+  const d=S.drink,t=today(),n=d.log[t]||0,a=dkAllow(d,t);
+  if(d.checks[t])return'<span class="sm-done">'+(n===0?'今日は0本で ✓':'今日は目安どおり ✓')+'</span>';
+  if(n>a)return'<button class="btn soft" type="button" data-dk="want">飲みたいとき</button>';
+  return'<button class="btn soft" type="button" data-dk="check">'+(n===0?'今日は0本で過ごせた':'今日はここまで（目安クリア）')+'</button>';
+}
+function renderDkHome(){
+  const el=$('dkHome');if(!S.drink){el.hidden=true;return;}
+  el.hidden=false;const d=S.drink,t=today(),n=d.log[t]||0,a=dkAllow(d,t),st=dkStats(),m=dkTodayMsg(n,a);
+  el.innerHTML='<div class="sec-head" style="padding:0"><p class="eyebrow">LESS '+esc(dkName())+' ・ 今日の目安 '+a+'本</p><button class="linkish" type="button" data-dkgo="1" style="align-self:center">くわしく →</button></div>'+
+    '<div class="dk-today"><button class="round" type="button" data-dk="minus" aria-label="1本へらす">−</button><div class="dk-num"><b>'+n+'</b><span>本 飲んだ</span></div><button class="round" type="button" data-dk="plus" aria-label="1本飲んだ">＋</button></div>'+
+    '<p class="dk-msg '+m[0]+'">'+esc(m[1])+'</p>'+
+    '<p class="sm-sub" style="text-align:center;margin-top:6px">これまでに <b>'+yen(st.saved)+'</b> 円 浮きました</p>'+
+    '<div class="sm-actions"><button class="btn" type="button" data-dk="want">飲みたいとき</button>'+dkCheckBtn().replace('data-dk="want">飲みたいとき','data-dkgo="1">くわしく見る')+'</div>';
+}
+function renderQuit(){
+  const both=!!(S.smoke&&S.drink);
+  if(!quitSeg||(quitSeg==='smoke'&&!S.smoke)||(quitSeg==='drink'&&!S.drink))quitSeg=S.smoke?'smoke':'drink';
+  $('quitSeg').hidden=!both;$('qsDrinkName').textContent=dkName();
+  $('quitSeg').querySelectorAll('[data-qs]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.qs===quitSeg)));
+  $('smWrap').hidden=quitSeg!=='smoke';$('dkWrap').hidden=quitSeg!=='drink';
+  $('tab-smoke').setAttribute('aria-label',quitSeg==='drink'?dkName()+'を減らす':'禁煙');
+  if(quitSeg==='smoke')renderSmoke();else renderDrink();
+}
+$('quitSeg').addEventListener('click',e=>{const b=e.target.closest('[data-qs]');if(!b)return;quitSeg=b.dataset.qs;try{localStorage.setItem('hidamari-quitseg',quitSeg);}catch(err){}renderQuit();});
+function renderDrink(){
+  if(!S.drink)return;
+  const d=S.drink,t=today(),n=d.log[t]||0,a=dkAllow(d,t),st=dkStats(),sg=dkStage(d,t),m=dkTodayMsg(n,a),nm=esc(dkName());
+  const cans=Math.max(a,n);
+  $('dkHero').innerHTML='<p class="eyebrow">LESS '+nm+' ・ '+(sg.level===0?'0本の段階':'今日の目安 '+a+'本')+'</p><h2>今日の'+nm+'</h2>'+
+    '<div class="dk-today"><button class="round" type="button" data-dk="minus" aria-label="1本へらす">−</button><div class="dk-num"><b>'+n+'</b><span>本 / 目安 '+a+'本</span></div><button class="round" type="button" data-dk="plus" aria-label="1本飲んだ">＋</button></div>'+
+    '<div class="dk-cans" aria-hidden="true">'+(cans?Array.from({length:cans},(_,i)=>'<i class="'+(i<n?(i>=a?'over':'used'):'')+'">🥫</i>').join(''):'<span style="font-size:13px;color:var(--sage);font-weight:700">今日は0本の日</span>')+'</div>'+
+    '<p class="dk-msg '+m[0]+'">'+esc(m[1])+'</p>'+
+    '<div class="sm-actions"><button class="btn" type="button" data-dk="want">飲みたいとき</button>'+dkCheckBtn().replace('data-dk="want">飲みたいとき','data-dk="want">飲みたいとき')+'</div>';
+  if(n>a)$('dkHero').querySelector('.sm-actions').innerHTML='<button class="btn" type="button" data-dk="want" style="grid-column:1/-1">飲みたいとき</button>';
+  /* 減らす計画 */
+  const L=sg.levels,base=d.base;
+  $('dkPlan').innerHTML='<p class="eyebrow">PLAN</p><h2>'+(sg.level===0?'0本の段階に到達しております':'少しずつ、0本へ')+'</h2>'+
+    '<p class="sm-sub" style="margin-top:8px">はじめは1日'+base+'本。'+(d.pace?d.pace+'日ごとに0.5本ずつ減らしていきます。':'今日から0本を目指します。')+(sg.next?'次の段階まで、あと<b>'+sg.next+'</b>日。':'')+'</p>'+
+    '<div class="dk-steps"><div class="done"><b>'+base+'</b>はじめ</div>'+L.map((v,i)=>'<div class="'+(i===sg.i?'now':i<sg.i?'done':'')+'"><b>'+v+'</b>'+(i===sg.i?'いま':v===0?'ゴール':'本/日')+'</div>').join('')+'</div>'+
+    (sg.level%1?'<p class="small-note" style="margin-top:8px">1日'+sg.level+'本の段階は、'+Math.ceil(sg.level)+'本の日と'+Math.floor(sg.level)+'本の日を交互に過ごします。</p>':'');
+  drawDkChart();
+  /* 節約 */
+  const yr=Math.round(base*d.price*365),now=Math.round((base-sg.level)*d.price*30);
+  $('dkSave').innerHTML='<p class="eyebrow">SAVINGS</p><h2>減らして、浮いたもの</h2>'+
+    '<div class="dk-big">'+yen(st.saved)+'<small style="font-size:15px;margin-left:4px;color:var(--muted)">円</small></div>'+
+    '<p class="sm-sub">はじめて'+st.days+'日 ・ 減らせた本数 <b>'+st.red+'</b> 本</p>'+
+    '<div class="sm-stats"><div><span class="lbl">減らせたカフェイン</span><span class="v">'+yen(st.caf)+'</span><span class="u">mg</span></div><div><span class="lbl">減らせた砂糖</span><span class="v">'+yen(st.sugar)+'</span><span class="u">g（角砂糖 約'+Math.round(st.sugar/4)+'個）</span></div><div><span class="lbl">0本の日</span><span class="v">'+dkZeroDays()+'</span><span class="u">日</span></div></div>'+
+    '<ul class="dk-proj"><li><span>いまの目安どおりなら、1か月で</span><b>'+yen(now)+' 円</b></li><li><span>0本になれば、1か月で</span><b>'+yen(Math.round(base*d.price*30))+' 円</b></li><li><span>0本になれば、1年で</span><b>'+yen(yr)+' 円</b></li></ul>'+
+    '<p class="small-note" style="margin-top:8px">1日'+base+'本 × '+yen(d.price)+'円 と比べた金額です。カフェイン・砂糖は1本あたり'+d.caf+'mg・'+d.sugar+'gとして計算しています。</p>';
+  /* 設定 */
+  $('dkSettings').innerHTML='<div><p class="eyebrow">SETTINGS</p><h2>'+nm+'の設定</h2></div><p class="small-note">はじめ1日'+base+'本 ・ 1本'+yen(d.price)+'円 ・ ペース：'+(DK_PACE.find(x=>x[0]===d.pace)||DK_PACE[1])[1]+'</p>'+
+    '<button class="btn soft wide" type="button" data-dk="edit">設定を変える</button><button class="btn soft wide" type="button" data-dk="restart">計画を今日から立てなおす</button><button class="linkish" type="button" data-dk="off">この機能をやめる</button>';
+}
+function drawDkChart(){
+  const svg=$('dkChart'),d=S.drink,t=today(),W=400,H=170,L=26,R=8,T=12,B=26,N=14;
+  const days=Array.from({length:N},(_,i)=>addDays(t,i-N+1));
+  const vals=days.map(k=>k<d.start?null:(d.log[k]||0)),al=days.map(k=>k<d.start?null:dkAllow(d,k));
+  const mx=Math.max(2,d.base,...vals.filter(v=>v!=null),...al.filter(v=>v!=null));
+  const bw=(W-L-R)/N,Y=v=>T+(H-T-B)*(1-v/mx);
+  let g='';for(let v=0;v<=mx;v++)g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(v).toFixed(1)+'" y2="'+Y(v).toFixed(1)+'" stroke="var(--line)" stroke-dasharray="2 5"/><text x="'+(L-6)+'" y="'+(Y(v)+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="var(--muted)">'+v+'</text>';
+  let bars='',line='';
+  days.forEach((k,i)=>{const x=L+i*bw,v=vals[i];
+    if(v!=null){const h=Math.max(v?0:2,(H-T-B)*v/mx),over=v>al[i];bars+='<rect x="'+(x+bw*.18).toFixed(1)+'" y="'+(H-B-h).toFixed(1)+'" width="'+(bw*.64).toFixed(1)+'" height="'+h.toFixed(1)+'" rx="3" fill="'+(over?'var(--brass)':v===0?'var(--sage)':'color-mix(in srgb,var(--sage) 55%,var(--surface-2))')+'"/>';}
+    if(al[i]!=null)line+=(line?' L':'M')+(x+2).toFixed(1)+' '+Y(al[i]).toFixed(1)+' L'+(x+bw-2).toFixed(1)+' '+Y(al[i]).toFixed(1);
+    if(i%2===1||i===N-1)bars+='<text x="'+(x+bw/2).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle" font-size="10.5" fill="var(--muted)">'+(k===t?'今日':md(k))+'</text>';});
+  svg.innerHTML=g+bars+(line?'<path d="'+line+'" fill="none" stroke="var(--sage)" stroke-width="2.5" stroke-linecap="round"/>':'');
+}
+/* ----- はじめる・設定 ----- */
+function openDrinkSetup(edit){
+  const d=S.drink||{name:'モンスター',base:2,price:230,caf:142,sugar:40,pace:7};
+  let pace=d.pace;
+  const inp=(id,lbl,v,attr)=>'<div class="field"><label for="'+id+'">'+lbl+'</label><input id="'+id+'" '+(attr||'type="number" inputmode="decimal"')+' value="'+esc(String(v))+'"></div>';
+  openSheet(BH()+'<p class="eyebrow">LESS ENERGY DRINK</p><h2>'+(edit?'設定を変える':'少しずつ、0本へ。<br>ご一緒いたします')+'</h2>'+
+    (edit?'':'<p class="body">急にやめると、頭痛やだるさが出やすいもの。目安を少しずつ下げて、体を慣らしながら0本を目指しましょう。飲みすぎた日も、責めはいたしません。</p>')+
+    '<div class="sm-form">'+inp('dkN','飲み物の名前',d.name,'maxlength="12"')+
+      '<div class="row">'+inp('dkB','いま1日に何本',d.base)+inp('dkP','1本の値段（円）',d.price)+'<div></div></div>'+
+      '<div class="row">'+inp('dkC','カフェイン（mg/本）',d.caf)+inp('dkS','砂糖（g/本）',d.sugar)+'<div></div></div>'+
+      '<div><p class="sm-sub" style="font-weight:700;color:var(--ink)">減らすペース</p><div class="sm-chips" id="dkPace">'+DK_PACE.map(x=>'<button type="button" class="chip" data-p="'+x[0]+'" aria-pressed="'+(x[0]===pace)+'">'+x[1]+'<span style="font-weight:500;margin-left:4px;opacity:.75">'+x[2]+'</span></button>').join('')+'</div></div>'+
+    '</div><p class="small-note" style="margin-top:10px">モンスターエナジー（355ml）は、カフェイン約142mg・砂糖約40gが目安です。ゼロシュガーの方は砂糖を0にしてください。</p>'+
+    '<div class="actions"><button class="btn wide" type="button" id="dkGo">'+(edit?'保存する':'はじめる')+'</button><button class="btn soft wide" type="button" id="dkCancel">閉じる</button></div>',edit?'設定':'モンスターを減らす');
+  $('dkPace').querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{pace=+b.dataset.p;$('dkPace').querySelectorAll('[data-p]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));});
+  $('dkCancel').onclick=closeSheet;
+  $('dkGo').onclick=()=>{
+    const name=$('dkN').value.trim()||'モンスター',base=Math.round(+$('dkB').value*2)/2,price=Math.round(+$('dkP').value),caf=Math.round(+$('dkC').value),sugar=Math.round(+$('dkS').value*10)/10;
+    if(!(base>=0.5&&base<=20)||!(price>=1)||!(caf>=0)||!(sugar>=0)){toast('数字をご確認ください','本数は0.5〜20でお入れください');return;}
+    if(edit){Object.assign(S.drink,{name,base,price,caf,sugar,pace});save();closeSheet();renderAll();toast('設定を保存しました');return;}
+    S.drink={name,base,price,caf,sugar,pace,start:today(),log:{},checks:{},skips:0,attempts:1};
+    save();closeSheet();smTabbar();quitSeg='drink';go('smoke');sparkle(undefined,undefined,40);bow();
+    toast('かしこまりました','今日の目安は'+dkAllow(S.drink,today())+'本でございます');
+  };
+}
+/* ----- 飲みたくなったら ----- */
+function openWant(){
+  const d=S.drink;if(!d)return;
+  const t=today(),n=d.log[t]||0,a=dkAllow(d,t);let why=null;
+  const draw=()=>{openSheet(BH()+'<p class="eyebrow">WAIT A MOMENT</p><h2>'+esc(dkName())+'の前に、<br>ひと呼吸を</h2>'+
+    '<p class="body">今日は '+n+' 本 ・ 目安は '+a+' 本。どうして飲みたくなりましたか？</p>'+
+    '<div class="sm-chips">'+DK_WHY.map(w=>'<button type="button" class="chip" data-w="'+w+'" aria-pressed="'+(w===why)+'">'+w+'</button>').join('')+'</div>'+
+    (why?'<div class="mail-card"><small>代わりの一手</small>'+esc(DK_ALT[why])+'</div>':'')+
+    '<div class="actions"><button class="btn wide" type="button" id="wtSkip">'+(why?'代わりにこれにする':'今回は飲まずにおく')+'</button><button class="btn soft wide" type="button" id="wtDrink">やっぱり飲む（1本記録）</button><button class="linkish" type="button" id="wtClose" style="align-self:center">閉じる</button></div>','飲みたくなったら');
+    $('sheet').querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{why=why===b.dataset.w?null:b.dataset.w;draw();});
+    $('wtSkip').onclick=()=>{d.skips=(d.skips||0)+1;S.wins[t]=S.wins[t]||{};S.wins[t].dkskip=(S.wins[t].dkskip||0)+1;save();
+      openSheet(BH()+'<h2>お見事でございます</h2><p class="lead">飲みたい気持ちに、ひとつ勝たれました（通算 <b class="num">'+d.skips+'</b> 回）。</p><p class="body">1本ぶん、約'+yen(d.price)+'円とカフェイン'+d.caf+'mgが浮きました。葉が一枚増えましたよ。</p><div class="actions"><button class="btn wide" type="button" id="wtOk">ありがとう、しば田</button></div>','がまんできた');
+      sparkle(undefined,innerHeight*.3,36);bow();buzz();$('wtOk').onclick=()=>{closeSheet();renderAll();};onSheetClose=()=>afterGain();};
+    $('wtDrink').onclick=()=>{dkAdd(1);closeSheet();const nn=d.log[t]||0;toast('記録いたしました',nn>a?'目安より多めでも大丈夫。明日またゆるやかに':'今日の目安まで、あと'+(a-nn)+'本');};
+    $('wtClose').onclick=closeSheet;};
+  draw();
+}
+function dkAdd(k){const d=S.drink,t=today();d.log[t]=Math.max(0,(d.log[t]||0)+k);if(k>0&&d.checks[t]){const a=dkAllow(d,t);if(d.log[t]>a||(d.log[t]>0&&S.wins[t]&&S.wins[t].dkzero)){/* 記録が変わったら、本日のチェックを外す */delete d.checks[t];if(S.wins[t]){delete S.wins[t].dkok;delete S.wins[t].dkzero;}}}save();renderAll();}
+function openDkEdit(){
+  const d=S.drink,t=today(),days=Array.from({length:7},(_,i)=>addDays(t,-i)).filter(k=>k>=d.start);
+  const draw=()=>{openSheet('<p class="eyebrow">EDIT</p><h2>記録を直す</h2><p class="body">押し忘れや押しまちがいは、ここで直せます。</p><ul class="dk-edit">'+days.map(k=>'<li><span>'+dayLbl(k)+'<small style="display:block;font-size:11px;color:var(--muted)">目安 '+dkAllow(d,k)+'本</small></span><span class="st"><button type="button" data-e="'+k+'" data-v="-1" aria-label="へらす">−</button><b>'+(d.log[k]||0)+'</b><button type="button" data-e="'+k+'" data-v="1" aria-label="ふやす">＋</button></span></li>').join('')+'</ul><div class="actions"><button class="btn soft wide" type="button" id="deClose">閉じる</button></div>','記録を直す');
+    $('sheet').querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>{const k=b.dataset.e;d.log[k]=Math.max(0,(d.log[k]||0)+(+b.dataset.v));save();draw();});
+    $('deClose').onclick=()=>{closeSheet();renderAll();};};
+  draw();
+}
+document.addEventListener('click',e=>{
+  if(e.target.closest('[data-dkgo]')){quitSeg='drink';go('smoke');return;}
+  const b=e.target.closest('[data-dk]');if(!b||!S.drink)return;const a=b.dataset.dk,d=S.drink,t=today();
+  if(a==='plus'){dkAdd(1);const n=d.log[t],al=dkAllow(d,t);if(n>al)toast('記録いたしました','目安より多めでも大丈夫。明日またゆるやかに');}
+  else if(a==='minus')dkAdd(-1);
+  else if(a==='want')openWant();
+  else if(a==='editlog')openDkEdit();
+  else if(a==='edit')openDrinkSetup(true);
+  else if(a==='check'){if(d.checks[t])return;const n=d.log[t]||0;d.checks[t]=1;S.wins[t]=S.wins[t]||{};if(n===0)S.wins[t].dkzero=1;else S.wins[t].dkok=1;save();buzz();bow();sparkle(e.clientX,e.clientY,30);
+    toast(n===0?'0本の日、お見事でございます':'目安どおり、お見事でございます','葉が一枚増えました（合計 '+totalWins(S)+' 枚）');renderAll();afterGain();}
+  else if(a==='restart'){if(!b.dataset.armed){b.dataset.armed='1';b.textContent='本当に、今日から立てなおす';return;}
+    const cur=dkStage(d,t).level;d.base=Math.max(.5,cur||d.base);d.start=t;d.attempts=(d.attempts||1)+1;save();renderAll();toast('新しい計画でございます','1日'+d.base+'本から、また少しずつ');}
+  else if(a==='off'){if(!b.dataset.armed){b.dataset.armed='1';b.textContent='本当にやめる（記録も消えます）';return;}
+    S.drink=null;save();smTabbar();if(S.smoke){quitSeg='smoke';go('smoke');}else go('me');toast('この機能をやめました','またいつでも、お声がけくださいませ');}
+});
+$('dkMeBtn').onclick=()=>{if(S.drink){quitSeg='drink';go('smoke');}else openDrinkSetup(false);};
+
 /* ================= タブ ================= */
 let current='home';
 function go(tab){
   current=tab;
-  if(tab==='smoke'&&!S.smoke)tab='home';
+  if(tab==='smoke'&&!S.smoke&&!S.drink)tab='home';
   current=tab;
   ['home','tree','weight','smoke','me'].forEach(t=>{$('tab-'+t).hidden=t!==tab;});
   document.querySelectorAll('.tabbar button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===tab)));
@@ -2328,14 +2554,14 @@ function go(tab){
   if(tab==='tree'){calMonth=today().slice(0,7);renderTree(true);renderCal();renderBadges();}
   if(tab==='weight'){wDate=today();histShown=14;showTip(null);renderWeight();}
   if(tab==='me')renderMe();
-  if(tab==='smoke')renderSmoke();
+  if(tab==='smoke')renderQuit();
   window.scrollTo({top:0,behavior:reduced()?'auto':'smooth'});
   hideSay();updateBuddy(true);
 }
 document.querySelectorAll('.tabbar button').forEach(b=>b.onclick=()=>go(b.dataset.tab));
 document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g)go(g.dataset.go);});
 window.addEventListener('resize',()=>{if(current==='tree')renderTree(false);});
-function renderAll(){updateBuddy(false);renderInstallCard();smTabbar();renderHome();if(current==='smoke')renderSmoke();if(current==='tree'){renderTree(false);renderCal();renderBadges();}renderWeight();renderMe();}
+function renderAll(){updateBuddy(false);renderInstallCard();smTabbar();renderHome();if(current==='smoke')renderQuit();if(current==='tree'){renderTree(false);renderCal();renderBadges();}renderWeight();renderMe();}
 
 /* ================= 引き継ぎ ================= */
 function encodeBackup(){return 'HIDAMARI1:'+btoa(unescape(encodeURIComponent(JSON.stringify(S))));}
